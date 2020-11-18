@@ -44,11 +44,11 @@ export default ({item, valid}) => {
                     />
                     {checked ?
                         <TouchableHighlight onPress={() => manage('suppr')} style={styles.select_validation} >
-                            {texter('Supprimer  ', name)}
+                            {texter('Supprimer', name)}
                         </TouchableHighlight>
                         :
                         <TouchableHighlight onPress={() => manage('accept')} style={styles.select_validation} >
-                            {texter('Valider  ', name)}
+                            {texter('Valider', name)}
                         </TouchableHighlight>
                     }
                     
@@ -61,7 +61,7 @@ export default ({item, valid}) => {
         return(
             <View style={styles.texter}>
                 <TextCustom text={label} size= {15} />
-                <TextCustom text={name} size= {18} />
+                <TextCustom text={` - ${name} - `} size= {18} />
             </View>
         )
     }
@@ -96,7 +96,6 @@ export default ({item, valid}) => {
     
     return (
         <View>
-            
             <CheckBox 
                 containerStyle={styles.checkBox}
                 title={item.type}

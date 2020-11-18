@@ -1,80 +1,57 @@
   
-import { VALIDATION_CHOICE } from '../Actions/InGameActions';
+import { VALIDATION_CHOICE, RESET_STATE } from '../Actions/InGameActions';
 
-import {baseCarac} from '../../Helpers/Data'
+import {database} from '../../Helpers/Data'
 
 const initialState = {
   team: [],
   book : '',
-  Chevalier: {
-    'id': '',
-    'type': '',
-    'name': '',
-    'level': '',
-    'caracFirst': {
-      'force': '',
-      'pouvoir': '',
-      'habilete': '',
-      'endurance': '',
-    },
-    'caracSecond': {
-      'xp': '',
-      'protection': '',
-      'arme': '',
-      'dommage': 
-      { 
-        'base': '', 
-        'bonus': '' 
-      }
-    },
-    'equipement' : {
-      '1': '',
-      '2': '',
-      '3': '',
-      '4': '',
-      '5': '',
-      '6': '',
-      '7': '',
-      '8': '',
-      '9': '',
-      '10': '',
-    }
-  }
+  finalTeam: []
 };
 
 function inGameRedux(state = initialState, action) {
   let nextState
+  let temporaryTeam = [];
+
   switch (action.type) {
     case VALIDATION_CHOICE: {
 
-      //   action.team.forEach(perso => {
-      //       //console.log(perso.name)
-      //       return nextState = {
-      //           ...state,
-      //           perso: {
-      //               'name': perso.name,
-      //               'type': perso.type,
-      //               'id': perso.id
-      //           }
-      //       }
-      //   });
-
-      // indice 0 : Chevalier, indice 1 : pretre, indice 2 : magos, indice 3 : voleur
-      //console.log('baseCarac dans reducer : ',baseCarac.Chevalier);
-      baseCarac.Chevalier.forEach(baseCarac => {
-        console.log('baseCarac : ', baseCarac.level);
-      });
       action.team.forEach(perso => {
-        console.log('perso : ', perso);
+        const persoType = perso.type.toString();
+        const persoName = perso.name
+        const persoLvl = action.level;
+
+        database.forEach(persoData => {
+          if (persoData.classe === persoType) {
+            persoData.data.forEach(dataByLvl => {
+              if (dataByLvl.level === persoLvl) {
+                console.log('dataByLvl => ', dataByLvl);
+                dataByLvl.name = persoName;
+                temporaryTeam = [...temporaryTeam, dataByLvl]
+              }
+            });
+          }
+        });
       });
-      
+
       return nextState = {
         ...state,
         team: action.team,
-        book: action.book
+        finalTeam: temporaryTeam,
+        book: action.book,
       };
 
     };
+
+    case RESET_STATE: {
+      return nextState = {
+        ...state,
+        team: [],
+        book : '',
+        finalTeam: []
+      };
+    };
+
     default: {
       return state
     };

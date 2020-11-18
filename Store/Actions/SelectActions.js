@@ -7,7 +7,7 @@ export const manageHero = (act, charac) => {
   return { type: MANAGE_HERO, act, charac };
 };
 
-export const reset = () => {
+export const resetSelection = () => {
   return { type: RESET};
 };
 

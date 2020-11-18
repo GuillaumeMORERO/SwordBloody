@@ -14,9 +14,6 @@ export default ({ navigation }) => {
     const inGameState = useSelector((state) => state.InGameRedux);
     const selectorState = useSelector((state) => state.SelectorRedux);
 
-    //console.log('state :', inGameState.team);
-
-    
     const styles = StyleSheet.create({
         zone_titre: {
             flex: 1,
@@ -27,7 +24,9 @@ export default ({ navigation }) => {
         },
         zone_button: {
             flex: 3,
-            marginTop: 20,
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            marginTop: 60,
             marginBottom: 20,
             paddingTop: 20,
             width: '70%',
@@ -44,38 +43,40 @@ export default ({ navigation }) => {
         <View style={Styles.select_container}>
             <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
 
-            <View style={styles.zone_titre}>
-                <TextCustom text='Personnages' size= {28} />
-            </View>
-            
-            <View style={styles.zone_button}>
-                <FlatList
-                    data={inGameState.team}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({item}) => (
+            {console.log('inGameState.team => ', inGameState.team)}
+
+            {selectorState.choosenTeam.length > 0 &&
+                <>
+                    <View style={styles.zone_button}>
+                        <FlatList
+                            data={inGameState.team}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({item}) => (
+                                <Gradiator
+                                    label={item.name}
+                                    fct={() => navigation.navigate("fiche", {item})}
+                                    styleObject={{width: '90%', margin: 10}}
+                                    fSize={15}
+                                />
+                            )}
+                        />
+                    </View>
+
+                    <View style={styles.zone_button_bas}>
+                        <View style={{flexDirection: 'row',alignItems: 'center'}}>
+                            <TextCustom text='livre en cours : ' size={15} />
+                            <TextCustom text={inGameState.book} size={18} />
+                        </View>
                         <Gradiator
-                            label={item.name}
-                            fct={() => navigation.navigate("fiche", {item})}
-                            styleObject={{width: '90%', margin: 10}}
+                            label={'Changer de livre'}
+                            fct={() => navigation.navigate("Selection de base")}
+                            styleObject={{width: '80%', margin: 10}}
                             fSize={15}
                         />
-                    )}
-                />
-            </View>
-
-            <View style={styles.zone_button_bas}>
-                <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                    <TextCustom text='livre en cours : ' size={15} />
-                    <TextCustom text={inGameState.book} size={18} />
-                </View>
-                <Gradiator
-                    label={'Changer de livre'}
-                    fct={() => navigation.navigate("Selection du Livre")}
-                    styleObject={{width: '80%', margin: 10}}
-                    fSize={15}
-                />
-            </View>
-          
+                    </View>
+                </>
+            }
+            
         </View>
     )
 }

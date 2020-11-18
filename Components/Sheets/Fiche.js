@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Button, FlatList, TouchableHighlight, StyleSheet, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
@@ -8,11 +8,27 @@ import Styles from '../Styles';
 
 export default (data) => {
     
-    const dispatch = useDispatch();
-    const inGameState = useSelector((state) => state.InGameRedux);
+    const {finalTeam} = useSelector((state) => state.InGameRedux);
+    const typeReçu = data.route.params.item.type;
 
-    console.log('inGameState du chevalier : ', inGameState);
-    const charac = data.route.params.item;
+    useEffect(() => {
+        console.log('useEffect triggered')
+        finalTeam.forEach(dataSet => {
+            if (dataSet.type === typeReçu) {
+                setPerso(dataSet);
+            }
+        })
+    }, []);
+    const [Perso, setPerso] = useState({});
+    
+    const getImg = (type) => {
+        switch(type) {
+            case 'Chevalier': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Chevalier.png')}></Image>)
+            case 'Prêtre': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Prêtre.png')}></Image>)
+            case 'Magicien': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Magicien.png')}></Image>)
+            case 'Voleur': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Voleur.png')}></Image>)
+        }
+    }
 
     const styles = StyleSheet.create({
         text : {
@@ -55,13 +71,9 @@ export default (data) => {
             height: '95%',
 
             borderWidth: 1,
-            borderColor: '#FFD66F',
+            borderColor: '#000',
             borderRadius: 10,
-
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
+            
         },
         main_right : {
             width: '50%',
@@ -71,7 +83,18 @@ export default (data) => {
         name_container : {
             flex: 1,
             width: '90%',
-            justifyContent: 'center',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            borderColor: '#FFD66F',
+            borderRadius: 10,
+            padding: 10,
+            marginTop: 10,
+
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            elevation: 3,
         },
         name_class : {
             width: '90%',
@@ -110,6 +133,7 @@ export default (data) => {
             flex: 1,
             width: '95%',
             justifyContent: 'space-evenly',
+            marginBottom: 30
         },
         capacity_container_encapsul : {
             flexDirection: 'row',
@@ -161,7 +185,7 @@ export default (data) => {
             <View style={styles.main}>
 
                 <View style={styles.avatar}>
-                    <Image style={styles.avatar_image} source={require('../../Helpers/IMG/Chevalier.png')}></Image>
+                    {getImg(Perso.type)}
                 </View>
 
                 <View style={styles.main_right}>
@@ -169,11 +193,11 @@ export default (data) => {
                     <View style={styles.name_container}>
                         <View style={styles.name_class}>
                             <TextCustom text='Classe : ' size= {13} />
-                            <TextCustom text={charac.type} size= {18} />
+                            <TextCustom text={Perso.type} size= {18} />
                         </View>
                         <View style={styles.name_class}>
                             <TextCustom text='Nom : ' size= {13} />
-                            <TextCustom text={charac.name} size= {18} />
+                            <TextCustom text={Perso.name} size= {18} />
                         </View>
                     </View>
                     
@@ -183,19 +207,19 @@ export default (data) => {
 
                             <View style={styles.carac}>
                                 <TextCustom text='Force : ' size={13} />
-                                <TextCustom text='10' size={18} />
+                                <TextCustom text={Perso.force} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Pouvoir : ' size={13} />
-                                <TextCustom text='10' size={18} />
+                                <TextCustom text={Perso.pouvoir} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Habilté : ' size={13} />
-                                <TextCustom text='10' size={18} />
+                                <TextCustom text={Perso.habilete} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Endurance : ' size={13} />
-                                <TextCustom text='10' size={18} />
+                                <TextCustom text={Perso.endurance} size={18} />
                             </View>
 
                         </View>
@@ -204,23 +228,23 @@ export default (data) => {
 
                             <View style={styles.carac}>
                                 <TextCustom text='Niveau : ' size={13} />
-                                <TextCustom text='10' size={18} />
+                                <TextCustom text={Perso.level} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Experience : ' size={13} />
-                                <TextCustom text='10000' size={18} />
+                                <TextCustom text={Perso.xp} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Protection : ' size={13} />
-                                <TextCustom text='3' size={18} />
-                            </View>
-                            <View style={styles.carac}>
-                                <TextCustom text='Dommage : ' size={13} />
-                                <TextCustom text='2D+2' size={18} />
+                                <TextCustom text={Perso.protection} size={18} />
                             </View>
                             <View style={styles.carac}>
                                 <TextCustom text='Arme : ' size={13} />
-                                <TextCustom text='Epée' size={18} />
+                                <TextCustom text={Perso.arme} size={18} />
+                            </View>
+                            <View style={styles.carac}>
+                                <TextCustom text='Dommage : ' size={13} />
+                                <TextCustom text={`${Perso.degat}d+${Perso.bonus}`} size={18} />
                             </View>
                         
                         </View>

@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { reset, choosenBook } from '../../Store/Actions/SelectActions'
+import { resetSelection, choosenBook } from '../../Store/Actions/SelectActions';
+import { resetInGame } from '../../Store/Actions/InGameActions';
 
 import {books} from '../../Helpers/Data';
 import {slugger} from '../../Helpers/Logic';
@@ -17,6 +18,7 @@ export default ({ navigation }) => {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state.SelectorRedux);
+    const inGameState = useSelector((state) => state.InGameRedux);
 
     const [displayAlert, setDisplayAlert] = useState(false);
     const [message, setMessage] = useState('');
@@ -38,7 +40,8 @@ export default ({ navigation }) => {
 
     const resetFields = () => {
         setNameToDisplay([]);
-        dispatch(reset());
+        dispatch(resetSelection());
+        dispatch(resetInGame());
     };
 
     const closeAlert = () => {
@@ -62,11 +65,28 @@ export default ({ navigation }) => {
     };
 
     const choiceDisplayer = (category) => {
-        if (category === 'livre') {return (state.book === undefined || state.book === '' ? 'Livre de départ' : state.book)}
-        if (category === 'team') {return (state.choosenTeam.length === 0 ? 'Selection de Personnage(s)' 
-            : 
-            "Vous avez choisi " + slugger(state.choosenTeam.length) + " personage(s) : " + nameToDisplay.join(', ') )}
+        switch (category) {
+            case 'livre': {return (state.book === undefined || state.book === '' ? 'Livre de départ' : state.book)};
+            case 'team': {
+                var label = '';
+                if (inGameState.team.length > 1) {label = 'Votre équipe est déjà définie';}
+                else if (state.choosenTeam.length === 0) {label = 'Selection de Personnage(s)';}
+                else {label = "Vous avez choisi " + slugger(state.choosenTeam.length) + " personage(s) : " + nameToDisplay.join(', ');}
+                return (label)
+            }
+        }
     };
+
+    const teamChoice = () => {
+        if (inGameState.team.length === 0) {
+            navigation.navigate("Selection de Personnage")
+        } else {
+            fadeIn();
+            setDisplayAlert(true);
+            setTitle('Choix de personnage');
+            setMessage('Vous ne pouvez plus changer d\'équipe \n à moins de recommencer !!');
+        }
+    }
 
     const fadeIn = () => {
         Animated.timing(fadeAnim, {
@@ -86,13 +106,14 @@ export default ({ navigation }) => {
 
     const styles = StyleSheet.create({
         zone_title : {
-            flex: 1,
-            justifyContent: 'space-evenly',
+            flex: 2,
+            justifyContent: 'space-around',
+            marginTop: 40,
             width: '90%',
             alignItems: 'center',
         },
         zone_button : {
-            flex: 2,
+            flex: 4,
             justifyContent: 'space-evenly',
             width: '90%',
             alignItems: 'center',
@@ -101,6 +122,7 @@ export default ({ navigation }) => {
             flex: 1,
             width: '90%',
             justifyContent: 'center',
+            marginBottom: 30
         },
         custom_alert : {
             position: 'absolute',
@@ -121,13 +143,12 @@ export default ({ navigation }) => {
 
             {displayAlert &&
                 <Animated.View style={{...styles.custom_alert, opacity: fadeAnim}}>
-                    {AllPurposeAlert(title, message, closeAlert )}
+                    {AllPurposeAlert(title, message, closeAlert)}
                 </Animated.View>
             }
             
             <View style={styles.zone_title}>
-                <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {28} />
-                <TextCustom text='Commencez vos choix :' size= {15} />
+                <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {24} />
 
             </View>
 
@@ -140,7 +161,7 @@ export default ({ navigation }) => {
                 />
                 <Gradiator
                     label={choiceDisplayer('team')}
-                    fct={() => navigation.navigate("Selection de Personnage")}
+                    fct={() => teamChoice()}
                     styleObject={{height: 60, width: '90%'}}
                     fSize={15}
                 />

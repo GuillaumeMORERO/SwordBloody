@@ -6,7 +6,7 @@ import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 
 export default (data) => {
-console.log('dans data : ', data.route.params);
+
     const books = data.route.params.books;
     const accept = data.route.params.accept;
 
@@ -33,24 +33,21 @@ console.log('dans data : ', data.route.params);
             elevation: 3
         },
         zone_text: {
-            flex: 1,
+            //flex: 1,
             justifyContent: 'center',
+            backgroundColor:'red'
         },
         zone_button : {
-            flex: 6,
+            //flex: 3,
             width: '90%',
+            marginTop: 40,
             marginBottom: 10,
         },
     });
    
     return (
         <View style={Styles.select_container}>
-
             <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
-
-            <View style={styles.zone_text}>
-                <TextCustom text='Choix du livre' size= {15} />
-            </View>
 
             <View style={styles.zone_button}>
                 <FlatList

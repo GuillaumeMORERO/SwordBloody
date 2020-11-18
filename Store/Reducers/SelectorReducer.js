@@ -3,10 +3,10 @@ import { MANAGE_HERO, RESET, CHOOSEN_BOOK } from '../Actions/SelectActions'
 
 const initialState = {
   team: [
-    {id: 1, type: 'Chevalier', name: 'Chevalier'},
-    {id: 2, type: 'Prêtre', name: 'Prêtre'},
-    {id: 3, type: 'Magicien', name: 'Magicien'},
-    {id: 4, type: 'Voleur', name: 'Voleur'} 
+    // {id: 1, type: 'Chevalier', name: 'Chevalier'},
+    // {id: 2, type: 'Prêtre', name: 'Prêtre'},
+    // {id: 3, type: 'Magicien', name: 'Magicien'},
+    // {id: 4, type: 'Voleur', name: 'Voleur'} 
   ],
   choosenTeam: [
 

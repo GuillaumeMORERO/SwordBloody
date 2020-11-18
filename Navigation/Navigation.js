@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { View, FlatList, Text, TouchableHighlight, TextInput, Image, StyleSheet } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,11 +20,21 @@ export default () => {
 
     const SelectStackNavigator = () => {
         return (
-            <AppStack.Navigator>
-                <AppStack.Screen name="Selection de base" component={SelectionPresentation} />
-                <AppStack.Screen name="Selection du Livre" component={BookSelection} />
-                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} />
-                <AppStack.Screen name="Validation" component={ChoiceValidation} />
+            <AppStack.Navigator
+                screenOptions={{
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                        textShadowOffset: {width: -1, height: 1},
+                        textShadowRadius: 10,
+                    },
+                }}
+            >
+                <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -',headerTransparent: true }}/>
+                <AppStack.Screen name="Selection du Livre" component={BookSelection} options={{headerTransparent: true }}/>
+                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{headerTransparent: true }}/>
+                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true }}/>
             </AppStack.Navigator>
         )
     };
@@ -35,9 +46,19 @@ export default () => {
     };
     const SheetStackNavigator = () => {
         return (
-            <AppStack.Navigator>
-                <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} />
-                <AppStack.Screen name="fiche" component={Fiche} />
+            <AppStack.Navigator
+                screenOptions={{
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                        textShadowOffset: {width: -1, height: 1},
+                        textShadowRadius: 10,
+                    },
+                }}
+            >
+                <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} options={{headerTransparent: true }}/>
+                <AppStack.Screen name="fiche" component={Fiche} options={{ title: '',headerTransparent: true }}/>
             </AppStack.Navigator>
         )
     };
@@ -53,16 +74,20 @@ export default () => {
             <Tab.Navigator
                 initialRouteName="Selection de base"
                 tabBarOptions= {{
-                    inactiveBackgroundColor: '#A0853F',
-                    inactiveTintColor: '#FFD66F',
+                    //inactiveBackgroundColor: '#A0853F',
+                    activeBackgroundColor: '#FFD66F',
                     scrollEnabled: true,
+                    keyboardHidesTabBar: true,
                     style :{
-                        backgroundColor: '#FFD66F',
-                        height: 20,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        height: 30,
+                        position: 'absolute' 
                     },
                     labelStyle: {
-                        color: 'black'
-
+                        color: 'black',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        marginBottom: 5
                     },
                 }}
             >

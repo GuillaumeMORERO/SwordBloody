@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 
-
 export default (title, message, closeAlert) => {
 
     const texts = () => {
@@ -13,6 +12,7 @@ export default (title, message, closeAlert) => {
             </View>
         )
     }
+
     const styles = StyleSheet.create({
         backgroundImage: {
             position: 'absolute',
@@ -41,6 +41,5 @@ export default (title, message, closeAlert) => {
                 {texts()}
             </TouchableHighlight>
         </View>
-        
     )
 }

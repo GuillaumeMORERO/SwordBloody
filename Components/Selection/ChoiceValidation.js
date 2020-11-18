@@ -24,25 +24,27 @@ export default ( data ) => {
         data.navigation.navigate("Selection de base");
     }
     const validation = () => {
-        dispatch(validationChoices(state.book, state.choosenTeam));
+        dispatch(validationChoices(state.book, state.choosenTeam, BaseLvlCharac(state.choosenTeam.length, choosenBook)));
         data.navigation.navigate("Fiches")
     }
 
     const styles = StyleSheet.create({
+
+        cards : {
+            flex: 8,
+            width: '90%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 60,
+            //paddingBottom: 5,
+            paddingTop: 5,
+        },
         book : {
             flex: 1,
             flexDirection: 'row',
             padding: 4,
             justifyContent: 'center',
             alignItems: 'center',
-        },
-        cards : {
-            flex: 8,
-            width: '90%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingBottom: 5,
-            paddingTop: 5,
         },
         card_list : {
             flex: 1,
@@ -66,11 +68,6 @@ export default ( data ) => {
         <View style={Styles.select_container}>
         <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
 
-            <View style={styles.book}>
-                <TextCustom text='Livre de départ : ' size= {15} />
-                <TextCustom text={choosenBook} size= {18} />
-            </View>
-
             <View style={styles.cards}>
                 <FlatList
                     style={styles.card_list}
@@ -86,12 +83,17 @@ export default ( data ) => {
                 />
             </View>
 
+            <View style={styles.book}>
+                <TextCustom text='Livre de départ : ' size= {15} />
+                <TextCustom text={choosenBook} size= {18} />
+            </View>
+
             <View style={styles.button_zone}>
 
                 <View style={styles.button_zone_sub}>
                     
                     <Gradiator
-                        label='Recommencer'
+                        label='Remettre à zero'
                         fct={() => backAndReset()}
                         styleObject={{width: '40%'}}
                         fSize={15}

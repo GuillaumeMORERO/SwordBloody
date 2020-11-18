@@ -11,6 +11,6 @@ export default StyleSheet.create({
         position: 'absolute',
         resizeMode: 'stretch',
         width: '100%', 
-        height: '100%'
+        height: '100%',
     },
 });
