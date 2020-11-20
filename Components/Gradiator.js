@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, StyleSheet, TouchableHighlight} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default ({ label, fct, styleObject, fSize }) => {
+export default ({ label, fct, styleObject, fSize, couleur = 'black' }) => {
 
   const sizeOfFont = parseInt(fSize);
 
@@ -31,6 +31,7 @@ export default ({ label, fct, styleObject, fSize }) => {
       textShadowOffset: { width: -1, height: 1 },
       textShadowRadius: 10,
       fontFamily: 'Tangerine-Bold',
+      color: couleur
     },
   });
 

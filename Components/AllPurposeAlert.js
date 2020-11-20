@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 
+import TextCustom from './TexteCustom';
+
 export default (title, message, closeAlert) => {
 
     const texts = () => {
         return(
             <View style={styles.alert_view}>
-                <Image style={styles.backgroundImage} source={require('../Helpers/IMG/Parchemin.png')}></Image>
-                <Text style={{...styles.text, fontSize: 18}}> - {title} - </Text>
-                <Text style={{...styles.text, fontSize: 12}}>{message}</Text>
+                <Image style={styles.backgroundImage} source={require('../Helpers/IMG/Parchemin.png')} />
+                <TextCustom text={` - ${title} - `} size={18} italic bold  />
+                <TextCustom text={message} size={12} />
             </View>
         )
     }

@@ -7,13 +7,16 @@ export const slugger = (number) => {
     }
 };
 
-
 export const BaseLvlCharac = (nbr, book) => {
     switch (book) {
         case 'Les Treize Mages': {return Math.ceil(8 / nbr);};
         case 'Le Maître des Rêves': {return Math.ceil(8 / nbr);};
         case 'Le Port des Assassins': {return Math.floor(16 / nbr);};
         case 'L\' Impossible Mission': {return Math.ceil(20 / nbr);};
-        case 'Les Murailles de Spyte': {return Math.floor((20 / nbr)+2);};
+        case 'Les Murailles de Spyte': {
+            //return Math.floor((20 / nbr)+2);
+            if (nbr === 1) {return 20;}
+            else { return (24/nbr)} 
+        };
     }
 };

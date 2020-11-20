@@ -17,19 +17,22 @@ function inGameRedux(state = initialState, action) {
     case VALIDATION_CHOICE: {
 
       action.team.forEach(perso => {
-        const persoType = perso.type.toString();
-        const persoName = perso.name
-        const persoLvl = action.level;
+
+        var temporaryPerso = {classe:"", name:"", inventaire:[], capacités: [], data: []};
 
         database.forEach(persoData => {
-          if (persoData.classe === persoType) {
+          if (persoData.classe === perso.type) {
+            
+            temporaryPerso.classe = perso.type;
+            temporaryPerso.name = perso.name;
+            temporaryPerso.inventaire = persoData.inventaire;
+            temporaryPerso.bourse = action.level * 5;
+            if (persoData.carquois !== null) {temporaryPerso.carquois = persoData.carquois}
+            temporaryPerso.capacités = persoData.capacités;
             persoData.data.forEach(dataByLvl => {
-              if (dataByLvl.level === persoLvl) {
-                console.log('dataByLvl => ', dataByLvl);
-                dataByLvl.name = persoName;
-                temporaryTeam = [...temporaryTeam, dataByLvl]
-              }
+              if (dataByLvl.level === action.level) {temporaryPerso.data = dataByLvl;}
             });
+            temporaryTeam = [...temporaryTeam, temporaryPerso];
           }
         });
       });

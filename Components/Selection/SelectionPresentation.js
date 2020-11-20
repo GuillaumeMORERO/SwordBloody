@@ -69,7 +69,7 @@ export default ({ navigation }) => {
             case 'livre': {return (state.book === undefined || state.book === '' ? 'Livre de départ' : state.book)};
             case 'team': {
                 var label = '';
-                if (inGameState.team.length > 1) {label = 'Votre équipe est déjà définie';}
+                if (inGameState.team.length >= 1) {label = 'Votre équipe est déjà définie';}
                 else if (state.choosenTeam.length === 0) {label = 'Selection de Personnage(s)';}
                 else {label = "Vous avez choisi " + slugger(state.choosenTeam.length) + " personage(s) : " + nameToDisplay.join(', ');}
                 return (label)
@@ -148,8 +148,8 @@ export default ({ navigation }) => {
             }
             
             <View style={styles.zone_title}>
-                <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {24} />
-
+                {/* <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {24} /> */}
+                <Image style={{width: 300, resizeMode: 'contain',}} source={require('../../Helpers/IMG/SplashImg.png')} />
             </View>
 
             <View style={styles.zone_button}>

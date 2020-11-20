@@ -11,9 +11,9 @@ import Styles from '../Styles';
 import {classes} from '../../Helpers/Data';
 
 export default (data) => {
-console.log('classes',classes);
+
     const dispatch = useDispatch();
-    const state = useSelector((state) => state.SelectorRedux);
+    //const state = useSelector((state) => state.SelectorRedux);
 
     const valid = (act, perso) => {
         dispatch(manageHero(act, perso));
@@ -51,7 +51,6 @@ console.log('classes',classes);
         },
     });
 
- 
     return (
         <View style={Styles.select_container}>
             <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>

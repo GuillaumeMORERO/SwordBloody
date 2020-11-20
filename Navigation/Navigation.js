@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, FlatList, Text, TouchableHighlight, TextInput, Image, StyleSheet } from 'react-native';
 
+import TabButton from './TabButton';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,6 +14,7 @@ import ChoiceValidation from '../Components/Selection/ChoiceValidation';
 
 import SheetSelection from '../Components/Sheets/SheetSelection';
 import Fiche from '../Components/Sheets/Fiche';
+import ItemSkill from '../Components/Sheets/ItemSkill';
 
 export default () => {
 
@@ -59,6 +62,7 @@ export default () => {
             >
                 <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} options={{headerTransparent: true }}/>
                 <AppStack.Screen name="fiche" component={Fiche} options={{ title: '',headerTransparent: true }}/>
+                <AppStack.Screen name="ItemSkill" component={ItemSkill} options={{ title: '',headerTransparent: true }}/>
             </AppStack.Navigator>
         )
     };
@@ -73,8 +77,14 @@ export default () => {
         <NavigationContainer>
             <Tab.Navigator
                 initialRouteName="Selection de base"
-                tabBarOptions= {{
-                    //inactiveBackgroundColor: '#A0853F',
+                screenOptions={({ route }) => ({
+                    tabBarIcon: () => {
+                        if (route.name === 'Selection') return <TabButton name="Selection"/>;
+                        if (route.name === 'Fiches') return <TabButton name="Fiches"/>;
+                    },
+                })}
+                tabBarOptions={{
+                    showLabel: false,
                     activeBackgroundColor: '#FFD66F',
                     scrollEnabled: true,
                     keyboardHidesTabBar: true,
@@ -82,12 +92,6 @@ export default () => {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         height: 30,
                         position: 'absolute' 
-                    },
-                    labelStyle: {
-                        color: 'black',
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        marginBottom: 5
                     },
                 }}
             >
@@ -99,3 +103,21 @@ export default () => {
     );
 
 }
+
+// tabBarOptions= {{
+//     //inactiveBackgroundColor: '#A0853F',
+//     activeBackgroundColor: '#FFD66F',
+//     scrollEnabled: true,
+//     keyboardHidesTabBar: true,
+//     style :{
+//         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//         height: 30,
+//         position: 'absolute' 
+//     },
+//     labelStyle: {
+//         color: 'black',
+//         fontSize: 18,
+//         fontWeight: 'bold',
+//         marginBottom: 5
+//     }, 
+// }}

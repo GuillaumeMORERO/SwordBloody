@@ -7,12 +7,11 @@ import { validationChoices } from '../../Store/Actions/InGameActions';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
+import PersoList from './PersoList';
 
 export default ({ navigation }) => {
 
-    const dispatch = useDispatch();
     const inGameState = useSelector((state) => state.InGameRedux);
-    const selectorState = useSelector((state) => state.SelectorRedux);
 
     const styles = StyleSheet.create({
         zone_titre: {
@@ -43,21 +42,14 @@ export default ({ navigation }) => {
         <View style={Styles.select_container}>
             <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
 
-            {console.log('inGameState.team => ', inGameState.team)}
-
-            {selectorState.choosenTeam.length > 0 &&
+            {inGameState.team.length > 0 &&
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => (
-                                <Gradiator
-                                    label={item.name}
-                                    fct={() => navigation.navigate("fiche", {item})}
-                                    styleObject={{width: '90%', margin: 10}}
-                                    fSize={15}
-                                />
+                                <PersoList data={item} navigation={navigation} />
                             )}
                         />
                     </View>

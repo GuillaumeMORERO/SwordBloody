@@ -15,13 +15,14 @@ export default ( data ) => {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state.SelectorRedux);
+    const inGameState = useSelector((state) => state.InGameRedux);
 
     const choosenBook = data.route.params.book;
     const resetFields = data.route.params.resetFields;
 
     const backAndReset = () => {
         resetFields();
-        data.navigation.navigate("Selection de base");
+        //data.navigation.navigate("Selection de base");
     }
     const validation = () => {
         dispatch(validationChoices(state.book, state.choosenTeam, BaseLvlCharac(state.choosenTeam.length, choosenBook)));
@@ -84,7 +85,7 @@ export default ( data ) => {
             </View>
 
             <View style={styles.book}>
-                <TextCustom text='Livre de départ : ' size= {15} />
+                <TextCustom text='Livre en cours : ' size= {15} />
                 <TextCustom text={choosenBook} size= {18} />
             </View>
 
@@ -108,14 +109,17 @@ export default ( data ) => {
                     
                 </View>
 
-                <View style={styles.button_zone_sub}>
-                    <Gradiator
-                        label='Accepter ces choix'
-                        fct={() => validation()}
-                        styleObject={{width: '95%'}}
-                        fSize={15}
-                    />
-                </View>
+                {inGameState.team.length === 0 &&
+                    <View style={styles.button_zone_sub}>
+                        <Gradiator
+                            label='Accepter ces choix'
+                            fct={() => validation()}
+                            styleObject={{width: '95%'}}
+                            fSize={15}
+                        />
+                    </View>
+                }
+
 
             </View>
 

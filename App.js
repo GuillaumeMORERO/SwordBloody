@@ -21,7 +21,7 @@ const persistConfig = {
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const storeToSend = createStore(persistedReducer, applyMiddleware(createLogger()));
+const storeToSend = createStore(persistedReducer, applyMiddleware());
 
 const persistedStore = persistStore(storeToSend);
 
