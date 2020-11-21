@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, TouchableHighlight, TextInput, Image, StyleSheet } from 'react-native';
+import { View, FlatList, Text, TouchableHighlight, TextInput, Image, StyleSheet, Pressable  } from 'react-native';
 
 import TabButton from './TabButton';
 
@@ -28,16 +28,18 @@ export default () => {
                     headerTitleStyle: {
                         fontWeight: 'bold',
                         textAlign: 'center',
-                        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                        textShadowColor: 'rgba(255, 255, 255, 0.5)',
                         textShadowOffset: {width: -1, height: 1},
                         textShadowRadius: 10,
+                        color: '#FFD66F'
                     },
+                    headerTintColor: '#FFD66F'
                 }}
             >
                 <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -',headerTransparent: true }}/>
                 <AppStack.Screen name="Selection du Livre" component={BookSelection} options={{headerTransparent: true }}/>
                 <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{headerTransparent: true }}/>
-                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true }}/>
+                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true, }}/>
             </AppStack.Navigator>
         )
     };
@@ -54,15 +56,18 @@ export default () => {
                     headerTitleStyle: {
                         fontWeight: 'bold',
                         textAlign: 'center',
-                        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                        textShadowColor: 'rgba(255, 255, 255, 0.5)',
                         textShadowOffset: {width: -1, height: 1},
                         textShadowRadius: 10,
+                        color: '#FFD66F'
                     },
                 }}
             >
                 <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} options={{headerTransparent: true }}/>
                 <AppStack.Screen name="fiche" component={Fiche} options={{ title: '',headerTransparent: true }}/>
-                <AppStack.Screen name="ItemSkill" component={ItemSkill} options={{ title: '',headerTransparent: true }}/>
+                <AppStack.Screen name="ItemSkill" component={ItemSkill} options={{ title: '',headerTransparent: true }}
+                headerBackImage= {() =>  <Image source={require('../Helpers/IMG/homeIcon.png')} />}
+                />
             </AppStack.Navigator>
         )
     };
@@ -85,13 +90,14 @@ export default () => {
                 })}
                 tabBarOptions={{
                     showLabel: false,
-                    activeBackgroundColor: '#FFD66F',
+                    activeBackgroundColor: 'rgba(255, 214, 111, 0.2)',
                     scrollEnabled: true,
                     keyboardHidesTabBar: true,
                     style :{
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        height: 30,
-                        position: 'absolute' 
+                        backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                        height: 60,
+                        borderTopWidth: 0,
+                        //position: 'absolute' 
                     },
                 }}
             >

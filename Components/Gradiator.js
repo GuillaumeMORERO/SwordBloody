@@ -2,7 +2,9 @@ import React from 'react';
 import {Text, StyleSheet, TouchableHighlight} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default ({ label, fct, styleObject, fSize, couleur = 'black' }) => {
+import TexteCustom from './TexteCustom';
+
+export default ({ label, fct, styleObject, fSize, couleur = '#FFD66F' }) => {
 
   const sizeOfFont = parseInt(fSize);
 
@@ -25,24 +27,16 @@ export default ({ label, fct, styleObject, fSize, couleur = 'black' }) => {
       shadowRadius: 2,
       elevation: 2
     },
-    text: {
-      textAlign: 'center',
-      textShadowColor: 'rgba(0, 0, 0, 0.5)',
-      textShadowOffset: { width: -1, height: 1 },
-      textShadowRadius: 10,
-      fontFamily: 'Tangerine-Bold',
-      color: couleur
-    },
   });
 
   return (
     <LinearGradient
-      colors={['#rgba(255, 255, 255, 0.1)', '#rgba(0, 0, 0, 0.4)']}
+      colors={['#rgba(255, 214, 111, 0.3)', '#rgba(0, 0, 0, 0.4)']}
       style={{ height: 40, borderRadius: 10, ...styleObject }} >
       <TouchableHighlight
         style={styles.gradiator}
         onPress={() => fct()}>
-        <Text style={{...styles.text, fontSize: sizeOfFont}}> {label} </Text>
+        <TexteCustom text={label} size={sizeOfFont} couleur={couleur} /> 
       </TouchableHighlight>
     </LinearGradient>
   )

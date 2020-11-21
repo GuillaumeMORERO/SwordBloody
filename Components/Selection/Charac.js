@@ -98,9 +98,11 @@ export default ({item, valid}) => {
         <View>
             <CheckBox 
                 containerStyle={styles.checkBox}
-                title={item.type}
+                title={<TextCustom text={item.type} size= {15} />}
                 onPress={() => setDisplayed(!displayed)}
                 checked={checked}
+                checkedColor={'#FFD66F'}
+                uncheckedColor={'#FFD66F'}
             />
             {displayer()}
                 

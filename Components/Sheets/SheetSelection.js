@@ -40,7 +40,7 @@ export default ({ navigation }) => {
 
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
 
             {inGameState.team.length > 0 &&
                 <>
@@ -52,6 +52,10 @@ export default ({ navigation }) => {
                                 <PersoList data={item} navigation={navigation} />
                             )}
                         />
+                    </View>
+
+                    <View style={styles.zone_button_bas}>
+                        <TextCustom text='mettre ici le pargraphe en cours et un jet de dés' size={15} />
                     </View>
 
                     <View style={styles.zone_button_bas}>

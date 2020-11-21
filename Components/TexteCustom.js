@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 
-export default ({text, size=14, couleur = 'black', italic, bold}) => {
+export default ({text, size=14, couleur = '#FFD66F', italic, bold}) => {
 
     const sizeFont = parseInt(size);
     (bold) ? bold = 'bold' : bold = 'normal';
@@ -10,7 +10,7 @@ export default ({text, size=14, couleur = 'black', italic, bold}) => {
     const styles = StyleSheet.create({
         text: {
             textAlign: 'center',
-            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+            textShadowColor: 'rgba(255, 255, 255, 0.9)',
             textShadowOffset: {width: -1, height: 1},
             textShadowRadius: 10,
             fontSize: sizeFont,

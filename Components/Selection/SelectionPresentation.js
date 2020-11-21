@@ -122,7 +122,7 @@ export default ({ navigation }) => {
             flex: 1,
             width: '90%',
             justifyContent: 'center',
-            marginBottom: 30
+            marginBottom: 30,
         },
         custom_alert : {
             position: 'absolute',
@@ -139,7 +139,7 @@ export default ({ navigation }) => {
 
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
 
             {displayAlert &&
                 <Animated.View style={{...styles.custom_alert, opacity: fadeAnim}}>

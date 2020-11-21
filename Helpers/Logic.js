@@ -20,3 +20,24 @@ export const BaseLvlCharac = (nbr, book) => {
         };
     }
 };
+
+export const baseEquip = (classe, lvl) => {
+    
+    var Epée = {type: "arme", usableInFight: false, name: "Epée", use: 0, degat: "", prix: "", descr: "Une epée de base", action: null};
+    var Bâton = {type: "arme", usableInFight: false, name: "Bâton", use: 0, degat: "", prix: "", descr: "Un bâton de base", action: null};
+    var Côte = {type: "armure", usableInFight: false, name: "Côte de maille", use: 3, degat: "", prix: "", descr: "Une protection de base", action: null};
+    var Annelée = {type: "armure", usableInFight: false, name: "Côte annelée", use: 2, degat: "", prix: "", descr: "Une protection de base", action: null};
+    var Cuir = {type: "armure", usableInFight: false, name: "Armure en cuir clouté", use: 2, degat: "", prix: "", descr: "Une protection de baser", action: null};
+    var Bourse = {type: "objet", usableInFight: false, name: "Bourse", use: lvl*5, degat: "", prix: "", descr: "Une bourse qui contient vos pièces d'or", action: null};
+    var Arc = {type: "objet", usableInFight: false, name: "Arc", use: 0, degat: "", prix: "", descr: "Une arme de base", action: null};
+    var Carquois = {type: "objet", usableInFight: false, name: "Carquois", use: 6, degat: "", prix: "", descr: "", action: null};
+
+    var equip = [Bourse];
+
+    if (classe === 'Chevalier') {equip = [...equip, Epée, Côte]};
+    if (classe === 'Voleur') {equip = [...equip, Epée, Cuir, Arc, Carquois]};
+    if (classe === 'Prêtre') {equip = [...equip, Bâton, Annelée, Arc, Carquois]};
+    if (classe === 'Magicien') {equip = [...equip, Epée, Annelée]};
+
+    return equip;
+}

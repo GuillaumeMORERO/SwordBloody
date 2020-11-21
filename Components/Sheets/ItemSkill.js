@@ -29,7 +29,7 @@ export default (data) => {
 
     const capa = () => {
         var items = new Array();
-        Perso.capacités.forEach((item, key) => {
+        Perso.skills.forEach((item, key) => {
             //console.log('key = ', key,' item = ', item);
             items.push({id: key+1, name: item.name, descr: item.descr});
         });
@@ -38,9 +38,12 @@ export default (data) => {
      
     const itemList = () => {
         var items = new Array();
-        Object.values(Perso.inventaire).forEach((item, key) => {
-            if (item === "") {item = "vide"}
-            items.push({id: key+1, item: item});
+        // Object.values(Perso.inventaire).forEach((item, key) => {
+        //     if (item === "") {item = "vide"}
+        //     items.push({id: key+1, item: item});
+        // });
+        Perso.inventaire.forEach((item, key) => {
+            items.push({id: key+1, item: item.name});
         });
         return items;
     }
@@ -67,7 +70,7 @@ export default (data) => {
         if(isLoading) {
             return (
                 <View>
-                    <ActivityIndicator size="large" color='#FFD66F' />
+                    <ActivityIndicator size="large" color='Black' />
                 </View>
             )
         }
@@ -116,7 +119,7 @@ export default (data) => {
                         <View style={styles.hrLine} />
                     </View>
 
-                    {bourse()}
+                    {/* {bourse()} */}
 
                     <FlatList 
                         data={itemList()}

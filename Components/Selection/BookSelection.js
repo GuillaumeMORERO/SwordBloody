@@ -16,38 +16,16 @@ export default (data) => {
     };
 
     const styles = StyleSheet.create({
-        select_title: {
-            borderWidth: 1,
-            borderColor: '#FFD66F',
-            borderRadius: 10,
-            margin: 10,
-            paddingTop: 5,
-            paddingBottom: 5,
-            paddingLeft: 30,
-            paddingRight: 30,
-
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 3
-        },
-        zone_text: {
-            //flex: 1,
-            justifyContent: 'center',
-            backgroundColor:'red'
-        },
         zone_button : {
             //flex: 3,
             width: '90%',
             marginTop: 40,
-            marginBottom: 10,
         },
     });
    
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
 
             <View style={styles.zone_button}>
                 <FlatList

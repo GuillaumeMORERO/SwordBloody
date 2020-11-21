@@ -1,7 +1,8 @@
   
 import { VALIDATION_CHOICE, RESET_STATE } from '../Actions/InGameActions';
 
-import {database} from '../../Helpers/Data'
+import {database} from '../../Helpers/Data';
+import {baseEquip} from '../../Helpers/Logic';
 
 const initialState = {
   team: [],
@@ -18,20 +19,21 @@ function inGameRedux(state = initialState, action) {
 
       action.team.forEach(perso => {
 
-        var temporaryPerso = {classe:"", name:"", inventaire:[], capacités: [], data: []};
+        var temporaryPerso = {classe:"", name:"", level: "", xp: 0, protection: 0, arme: true, skills: [], carac: [], inventaire:[]};
 
         database.forEach(persoData => {
           if (persoData.classe === perso.type) {
-            
+            console.log('perso = ', perso);
             temporaryPerso.classe = perso.type;
             temporaryPerso.name = perso.name;
-            temporaryPerso.inventaire = persoData.inventaire;
-            temporaryPerso.bourse = action.level * 5;
-            if (persoData.carquois !== null) {temporaryPerso.carquois = persoData.carquois}
-            temporaryPerso.capacités = persoData.capacités;
-            persoData.data.forEach(dataByLvl => {
-              if (dataByLvl.level === action.level) {temporaryPerso.data = dataByLvl;}
-            });
+            temporaryPerso.level = action.level
+            temporaryPerso.skills = persoData.skills;
+            //temporaryPerso.inventaire = persoData.inventaire;
+            //temporaryPerso.bourse = action.level * 5;
+            //if (persoData.carquois !== null) {temporaryPerso.carquois = persoData.carquois}
+            console.log('persoData.carac = ', persoData.carac);
+            persoData.carac.forEach(dataByLvl => {if (dataByLvl.level === action.level) {temporaryPerso.carac = dataByLvl;} });
+            temporaryPerso.inventaire = baseEquip(perso.type, action.level);
             temporaryTeam = [...temporaryTeam, temporaryPerso];
           }
         });

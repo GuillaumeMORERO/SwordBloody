@@ -36,13 +36,13 @@ export default ( data ) => {
             width: '90%',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 60,
+            marginTop: 50,
             //paddingBottom: 5,
             paddingTop: 5,
         },
         book : {
             flex: 1,
-            flexDirection: 'row',
+            //flexDirection: 'row',
             padding: 4,
             justifyContent: 'center',
             alignItems: 'center',
@@ -55,7 +55,6 @@ export default ( data ) => {
             flex: 4,
             width: '90%',
             justifyContent: 'center',
-            marginBottom: 10,
         },
         button_zone_sub : {
             flexDirection: 'row',
@@ -67,7 +66,6 @@ export default ( data ) => {
      
     return (
         <View style={Styles.select_container}>
-        <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
 
             <View style={styles.cards}>
                 <FlatList
@@ -85,7 +83,7 @@ export default ( data ) => {
             </View>
 
             <View style={styles.book}>
-                <TextCustom text='Livre en cours : ' size= {15} />
+                <TextCustom text='Livre en cours : ' size= {12} italic />
                 <TextCustom text={choosenBook} size= {18} />
             </View>
 

@@ -11,6 +11,9 @@ export default (data) => {
     const {finalTeam} = useSelector((state) => state.InGameRedux);
     const typeReçu = data.route.params.item.type;
 
+    // console.log('finalTeam = ',finalTeam );
+    // console.log('typeReçu = ',typeReçu );
+
     useEffect(() => {
         finalTeam.forEach(dataSet => {
             if (dataSet.classe === typeReçu) {
@@ -148,11 +151,11 @@ export default (data) => {
 
     return (
         <View style={Styles.select_container}>
-        <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
 
             {!isLoading && 
                 <View>
-
+{console.log('Perso = ',Perso.skills )}
                     <View style={styles.main}>
 
                         <View style={styles.avatar}>
@@ -178,19 +181,19 @@ export default (data) => {
 
                                     <View style={styles.carac}>
                                         <TextCustom text='Force : ' size={13} />
-                                        <TextCustom text={Perso.data.force} size={18} />
+                                        <TextCustom text={Perso.carac.force} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Pouvoir : ' size={13} />
-                                        <TextCustom text={Perso.data.pouvoir} size={18} />
+                                        <TextCustom text={Perso.carac.pouvoir} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Habilté : ' size={13} />
-                                        <TextCustom text={Perso.data.habilete} size={18} />
+                                        <TextCustom text={Perso.carac.habilete} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Endurance : ' size={13} />
-                                        <TextCustom text={Perso.data.endurance} size={18} />
+                                        <TextCustom text={Perso.carac.endurance} size={18} />
                                     </View>
 
                                 </View>
@@ -199,24 +202,24 @@ export default (data) => {
 
                                     <View style={styles.carac}>
                                         <TextCustom text='Niveau : ' size={13} />
-                                        <TextCustom text={Perso.data.level} size={18} />
+                                        <TextCustom text={Perso.level} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Experience : ' size={13} />
-                                        <TextCustom text={Perso.data.xp} size={18} />
+                                        <TextCustom text={Perso.xp} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Protection : ' size={13} />
-                                        <TextCustom text={Perso.data.protection} size={18} />
+                                        <TextCustom text={Perso.protection} size={18} />
                                     </View>
-                                    <View style={styles.carac}>
+                                    {/* <View style={styles.carac}>
                                         <TextCustom text='Arme : ' size={13} />
-                                        <TextCustom text={Perso.data.arme} size={18} />
+                                        <TextCustom text={Perso.arme} size={18} />
                                     </View>
                                     <View style={styles.carac}>
                                         <TextCustom text='Dommage : ' size={13} />
                                         <TextCustom text={`${Perso.data.degat}d+${Perso.data.bonus}`} size={18} />
-                                    </View>
+                                    </View> */}
                                 
                                 </View>
 
@@ -249,12 +252,13 @@ export default (data) => {
                                 styleObject={{ width: '90%' }}
                                 fSize={15}
                             />
-                        </View> */}
+                        </View>  */}
 
                     </View>
 
                 </View>
             }
+
         </View>
     )
 }
