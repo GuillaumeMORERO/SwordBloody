@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import Gradiator from '../Gradiator';
@@ -7,7 +7,7 @@ import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 
 export default (data) => {
-    // console.log('data reçu dans fiche = ', data);
+
     const {finalTeam} = useSelector((state) => state.InGameRedux);
     const typeReçu = data.route.params.item.type;
 
@@ -26,6 +26,16 @@ export default (data) => {
     const [isLoading, setIsLoading] = useState(true);
     //console.log('perso => ', Perso.skill);
 
+    const spinner = () => {
+        if(isLoading) {
+            return (
+                <View>
+                    <ActivityIndicator size="large" color='#FFD66F' />
+                </View>
+            )
+        }
+    }
+
     const getImg = (type) => {
         switch(type) {
             case 'Chevalier': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Chevalier.png')}></Image>)
@@ -36,30 +46,6 @@ export default (data) => {
     }
 
     const styles = StyleSheet.create({
-        text : {
-            padding: 5,
-            textShadowColor: 'rgba(0, 0, 0, 0.5)',
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            fontFamily: 'Tangerine-Regular',
-            fontSize: 25,
-        },
-        text_non_font: {
-            textAlign: 'center',
-            textShadowColor: 'rgba(0, 0, 0, 0.5)',
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            fontSize: 13,
-        },
-        text_equipement : {
-            //backgroundColor: '#rgba(255, 0, 0, 0.5)', // rouge
-            paddingLeft: 2,
-            paddingRight: 0,
-            paddingTop: 5,
-            paddingBottom: 5,
-            fontFamily: 'Tangerine-Regular',
-            fontSize: 20,
-        },
         main : {
             flex: 4,
             flexDirection: 'row',
@@ -76,8 +62,8 @@ export default (data) => {
             height: '95%',
 
             borderWidth: 1,
-            borderColor: '#000',
-            borderRadius: 10,
+            borderColor: '#FFD66F',
+            borderRadius: 5,
             
         },
         main_right : {
@@ -90,50 +76,35 @@ export default (data) => {
             width: '90%',
             justifyContent: 'space-around',
             alignItems: 'center',
+            borderWidth: 1,
             borderColor: '#FFD66F',
-            borderRadius: 10,
+            borderRadius: 5,
             padding: 10,
             marginTop: 10,
-
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 3,
         },
-        name_class : {
-            width: '90%',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
+            rowTxt : {
+                width: '90%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            },
         carac_container : {
-            width: '90%',
             flex: 4,
-            justifyContent: 'space-around',
-        },
-        carac_container_lateral : {
-            width: '100%',
-            height: '40%',
+            width: '90%',
             justifyContent: 'space-around',
             alignItems: 'center',
+            borderWidth: 1,
             borderColor: '#FFD66F',
-            borderRadius: 10,
+            borderRadius: 5,
             padding: 10,
             marginTop: 10,
-
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 3,
+            marginBottom: 10,
         },
-        carac : {
-            width: '90%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-        },
+            carac_container_lateral : {
+                width: '100%',
+                height: '40%',
+                justifyContent: 'space-around',
+            },
         capacity_container : {
             flex: 1,
             width: '95%',
@@ -146,16 +117,24 @@ export default (data) => {
             alignItems: 'center',
             justifyContent: 'space-around',
         },
+        hrLine: {
+            width: '30%',
+            backgroundColor: '#FFD66F',
+            height: 1,
+            marginTop: 10,
+        },
      
     });
 
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/caracIcon.png')} />
+
+            {isLoading && spinner()}
 
             {!isLoading && 
-                <View>
-{console.log('Perso = ',Perso.skills )}
+                <View style={{marginTop:40}}>
+
                     <View style={styles.main}>
 
                         <View style={styles.avatar}>
@@ -165,61 +144,59 @@ export default (data) => {
                         <View style={styles.main_right}>
                             
                             <View style={styles.name_container}>
-                                <View style={styles.name_class}>
+                                <View style={styles.rowTxt}>
                                     <TextCustom text='Classe : ' size= {13} />
                                     <TextCustom text={Perso.classe} size= {18}/>
                                 </View>
-                                <View style={styles.name_class}>
+                                <View style={styles.rowTxt}>
                                     <TextCustom text='Nom : ' size= {13} />
                                     <TextCustom text={Perso.name} size= {18} />
                                 </View>
+                                <View style={styles.rowTxt}>
+                                    <TextCustom text='Niveau : ' size={13} />
+                                    <TextCustom text={Perso.level} size={18} />
+                                </View>
                             </View>
-                            
+
                             <View style={styles.carac_container}>
 
                                 <View style={styles.carac_container_lateral}>
 
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Force : ' size={13} />
                                         <TextCustom text={Perso.carac.force} size={18} />
                                     </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Pouvoir : ' size={13} />
                                         <TextCustom text={Perso.carac.pouvoir} size={18} />
                                     </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Habilté : ' size={13} />
                                         <TextCustom text={Perso.carac.habilete} size={18} />
                                     </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Endurance : ' size={13} />
                                         <TextCustom text={Perso.carac.endurance} size={18} />
                                     </View>
 
                                 </View>
 
+                                <View style={{...styles.hrLine, marginTop:0}} />
+
                                 <View style={styles.carac_container_lateral}>
 
-                                    <View style={styles.carac}>
-                                        <TextCustom text='Niveau : ' size={13} />
-                                        <TextCustom text={Perso.level} size={18} />
-                                    </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Experience : ' size={13} />
                                         <TextCustom text={Perso.xp} size={18} />
                                     </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Protection : ' size={13} />
                                         <TextCustom text={Perso.protection} size={18} />
                                     </View>
-                                    {/* <View style={styles.carac}>
-                                        <TextCustom text='Arme : ' size={13} />
-                                        <TextCustom text={Perso.arme} size={18} />
-                                    </View>
-                                    <View style={styles.carac}>
+                                    <View style={styles.rowTxt}>
                                         <TextCustom text='Dommage : ' size={13} />
-                                        <TextCustom text={`${Perso.data.degat}d+${Perso.data.bonus}`} size={18} />
-                                    </View> */}
+                                        <TextCustom text={`${Perso.carac.degat}d+${Perso.carac.bonus}`} size={18} />
+                                    </View>
                                 
                                 </View>
 

@@ -36,10 +36,10 @@ export default () => {
                     headerTintColor: '#FFD66F'
                 }}
             >
-                <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -',headerTransparent: true }}/>
+                <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -',headerTransparent: true}}/>
                 <AppStack.Screen name="Selection du Livre" component={BookSelection} options={{headerTransparent: true }}/>
-                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{headerTransparent: true }}/>
-                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true, }}/>
+                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{headerTransparent: true}}/>
+                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true}}/>
             </AppStack.Navigator>
         )
     };
@@ -61,6 +61,7 @@ export default () => {
                         textShadowRadius: 10,
                         color: '#FFD66F'
                     },
+                    headerTintColor: '#FFD66F'
                 }}
             >
                 <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} options={{headerTransparent: true }}/>

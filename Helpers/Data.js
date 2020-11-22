@@ -11,7 +11,18 @@ export const books = [
     {id: 3, title: 'Le Port des Assassins'},
     {id: 4, title: 'L\' Impossible Mission'},
     {id: 5, title: 'Les Murailles de Spyte'}
-]
+] 
+
+// export const equipement =[
+//     {type: "arme", usableInFight: false, name: "Epée", use: 0, degat: "", prix: "", descr: "Une epée de base", action: null},
+//     {type: "arme", usableInFight: false, name: "Bâton", use: 0, degat: "", prix: "", descr: "Un bâton de base", action: null},
+//     {type: "armure", usableInFight: false, name: "Côte de maille", use: 3, degat: "", prix: "", descr: "Une protection de base", action: null},
+//     {type: "armure", usableInFight: false, name: "Côte annelée", use: 2, degat: "", prix: "", descr: "Une protection de base", action: null},
+//     {type: "armure", usableInFight: false, name: "Armure en cuir clouté", use: 2, degat: "", prix: "", descr: "Une protection de baser", action: null},
+//     {type: "objet", usableInFight: false, name: "Bourse", use: lvl*5, degat: "", prix: "", descr: "Une bourse qui contient vos pièces d'or", action: null},
+//     {type: "objet", usableInFight: false, name: "Arc", use: 0, degat: "", prix: "", descr: "Une arme de base", action: null},
+//     {type: "objet", usableInFight: false, name: "Carquois", use: 6, degat: "", prix: "", descr: "", action: null},
+// ]
 
 export const database = [
     { //persoData

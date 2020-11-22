@@ -15,9 +15,10 @@ export default ({ label, fct, styleObject, fSize, couleur = '#FFD66F' }) => {
       height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
+      //backgroundColor: '#FFD66F',
 
       borderColor: '#FFD66F',
-      borderRadius: 10,
+      borderRadius: 5,
       // paddingBottom: 10,
       // paddingTop: 10,
 
@@ -31,7 +32,7 @@ export default ({ label, fct, styleObject, fSize, couleur = '#FFD66F' }) => {
 
   return (
     <LinearGradient
-      colors={['#rgba(255, 214, 111, 0.3)', '#rgba(0, 0, 0, 0.4)']}
+      colors={['#rgba(255, 214, 111, 0.5)', 'black']}
       style={{ height: 40, borderRadius: 10, ...styleObject }} >
       <TouchableHighlight
         style={styles.gradiator}

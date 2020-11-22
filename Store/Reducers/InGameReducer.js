@@ -1,5 +1,5 @@
   
-import { VALIDATION_CHOICE, RESET_STATE } from '../Actions/InGameActions';
+import { VALIDATION_CHOICE, RESET_STATE, SET_PARAGRAPH, SET_BOOK } from '../Actions/InGameActions';
 
 import {database} from '../../Helpers/Data';
 import {baseEquip} from '../../Helpers/Logic';
@@ -7,6 +7,7 @@ import {baseEquip} from '../../Helpers/Logic';
 const initialState = {
   team: [],
   book : '',
+  paragraph : '',
   finalTeam: []
 };
 
@@ -53,7 +54,22 @@ function inGameRedux(state = initialState, action) {
         ...state,
         team: [],
         book : '',
+        paragraph : '',
         finalTeam: []
+      };
+    };
+
+    case SET_BOOK: {
+      return nextState = {
+        ...state,
+        book : action.book,
+      };
+    };
+
+    case SET_PARAGRAPH: {
+      return nextState = {
+        ...state,
+        paragraph : action.num,
       };
     };
 

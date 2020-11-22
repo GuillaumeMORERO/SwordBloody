@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { resetSelection, choosenBook } from '../../Store/Actions/SelectActions';
-import { resetInGame } from '../../Store/Actions/InGameActions';
+import { resetInGame, setBook } from '../../Store/Actions/InGameActions';
 
 import {books} from '../../Helpers/Data';
 import {slugger} from '../../Helpers/Logic';
@@ -35,6 +35,7 @@ export default ({ navigation }) => {
     const accept = (type,  book) => {
         if (type === 'bookToChoose') {
             dispatch(choosenBook(book));
+            dispatch(setBook(book));
         }
     };
 
@@ -124,32 +125,21 @@ export default ({ navigation }) => {
             justifyContent: 'center',
             marginBottom: 30,
         },
-        custom_alert : {
-            position: 'absolute',
-            flexDirection: 'column',
-            height: '100%',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 10000,
-            elevation: 4,
-            backgroundColor : '#rgba(0, 0, 0, 0.7)',
-        }
     });
 
     return (
         <View style={Styles.select_container}>
-            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
 
             {displayAlert &&
-                <Animated.View style={{...styles.custom_alert, opacity: fadeAnim}}>
+                <Animated.View style={{...Styles.custom_alert, opacity: fadeAnim}}>
                     {AllPurposeAlert(title, message, closeAlert)}
                 </Animated.View>
             }
             
             <View style={styles.zone_title}>
                 {/* <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {24} /> */}
-                <Image style={{width: 300, resizeMode: 'contain',}} source={require('../../Helpers/IMG/SplashImg.png')} />
+                <Image style={{width: 300, resizeMode: 'contain',}} source={require('../../Helpers/IMG/splashLogo.png')} />
             </View>
 
             <View style={styles.zone_button}>

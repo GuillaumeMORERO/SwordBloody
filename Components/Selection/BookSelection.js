@@ -25,7 +25,7 @@ export default (data) => {
    
     return (
         <View style={Styles.select_container}>
-            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
 
             <View style={styles.zone_button}>
                 <FlatList

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 
-import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
 export default ({data}) => {
@@ -12,7 +11,7 @@ export default ({data}) => {
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            borderBottomColor: 'black',
+            borderBottomColor: '#FFD66F',
             borderBottomWidth: 0.5,
             margin: 10,
             width: '70%',
@@ -23,7 +22,7 @@ export default ({data}) => {
     return (
         <View>
             <Tooltip 
-                popover={<TextCustom text={data.descr} size={14} /> } 
+                popover={<TextCustom text={data.descr} size={14} couleur={'black'} /> } 
                 backgroundColor={'#FFD66F'} 
                 containerStyle={{padding: 10}}
                 height={150}
@@ -32,11 +31,13 @@ export default ({data}) => {
                 skipAndroidStatusBar={true}
             >
                 <View style={{justifyContent:'center', alignItems:'center'}}>
-                    <View style={{width:'60%',flexDirection:'row',justifyContent:'space-between', alignItems: 'center'}}>
+                    <View style={{width:'60%',flexDirection:'row', alignItems: 'center'}}>
                        
-                        <TextCustom text={`- ${data.id} - `} size={14} italic />
-
-                        <View style={{width:'90%', alignItems:'flex-start'}}>
+                        <View style={{alignItems:'flex-start'}}>
+                            <TextCustom text={`- ${data.id} - `} size={14} italic />
+                        </View>
+                        
+                        <View style={{width:'90%', alignItems:'center'}}>
                             <TextCustom text={data.name} size={18} bold />
                         </View>
                         

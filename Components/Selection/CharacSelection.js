@@ -53,6 +53,7 @@ export default (data) => {
 
     return (
         <View style={Styles.select_container}>
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
 
             <ScrollView style={styles.scrollview}>
                 <FlatList

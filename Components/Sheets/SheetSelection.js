@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Button, FlatList, Image, StyleSheet } from 'react-native';
+import React, {useState, useRef} from 'react';
+import { View, Text, Button, FlatList, Image, StyleSheet, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { validationChoices } from '../../Store/Actions/InGameActions';
@@ -8,10 +8,47 @@ import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 import PersoList from './PersoList';
+import AllPurposeAlert from '../AllPurposeAlert';
 
 export default ({ navigation }) => {
 
+    const fadeAnim = useRef(new Animated.Value(0)).current
+
     const inGameState = useSelector((state) => state.InGameRedux);
+    const [display, setDisplay] = useState(false);
+    const [message, setMessage] = useState('');
+    const [title, setTitle] = useState('');
+
+    const labelPara = () => {
+        return (inGameState.paragraph !== '') ? 'Paragrpahe actuel : '+inGameState.paragraph : 'Noter le paragraphe';
+    }
+
+    const paraSetter = () => {
+        fadeIn();
+        setDisplay(true);
+        setTitle('Paragraphe');
+        setMessage('Notez le paragraphe en cours');
+    }
+
+    const fadeIn = () => {
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true
+        }).start();
+    };
+    
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+        }).start(() => setDisplay(false));
+    };
+
+    const closeAlert = () => {
+        fadeOut();
+    }
 
     const styles = StyleSheet.create({
         zone_titre: {
@@ -36,11 +73,18 @@ export default ({ navigation }) => {
             alignItems: 'center',
             width: '100%',
         },
+
     })
 
     return (
         <View style={Styles.select_container}>
-            {/* <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image> */}
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/caracIcon.png')} />
+
+            {display &&
+                <Animated.View style={{...Styles.custom_alert, opacity: fadeAnim}}>
+                    {AllPurposeAlert(title, message, closeAlert, 'Paragrapher')}
+                </Animated.View>
+            }
 
             {inGameState.team.length > 0 &&
                 <>
@@ -55,7 +99,12 @@ export default ({ navigation }) => {
                     </View>
 
                     <View style={styles.zone_button_bas}>
-                        <TextCustom text='mettre ici le pargraphe en cours et un jet de dés' size={15} />
+                    <Gradiator
+                            label={labelPara()}
+                            fct={() => paraSetter(true)}
+                            styleObject={{width: '80%', margin: 10}}
+                            fSize={15}
+                        />
                     </View>
 
                     <View style={styles.zone_button_bas}>

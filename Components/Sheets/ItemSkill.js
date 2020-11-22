@@ -43,34 +43,16 @@ export default (data) => {
         //     items.push({id: key+1, item: item});
         // });
         Perso.inventaire.forEach((item, key) => {
-            items.push({id: key+1, item: item.name});
+            items.push({id: key+1, item: item});
         });
         return items;
-    }
-
-    const bourse = () => {
-        return (
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '50%'}}>
-                    <TextCustom text={'Bourse : '} size={14} italic bold />
-                    <TextCustom text={Perso.bourse} size={18} />
-                </View>
-                {(Perso.carquois !== undefined) &&
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '50%'}}>
-                        <TextCustom text={'Carquois : '} size={14} italic bold />
-                        <TextCustom text={Perso.carquois} size={18} />
-                    </View>
-                }
-              
-            </View>
-        )
     }
 
     const spinner = () => {
         if(isLoading) {
             return (
                 <View>
-                    <ActivityIndicator size="large" color='Black' />
+                    <ActivityIndicator size="large" color='#FFD66F' />
                 </View>
             )
         }
@@ -81,18 +63,20 @@ export default (data) => {
             flexDirection: 'row',
             justifyContent:'space-around',
             alignItems: 'center',
-            margin: 10,
+            //margin: 10,
+            marginTop: 20,
+            marginBottom: 10,
         },
         hrLine: {
             width: '30%',
-            backgroundColor: 'black',
+            backgroundColor: '#FFD66F',
             height: 1,
         },
     })
 
     return(
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/BACK_SHEET.png')}></Image>
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/caracIcon.png')} />
 
             {isLoading && spinner() }
 
@@ -118,8 +102,6 @@ export default (data) => {
                         <TextCustom text={'Inventaire'} size={20} bold />
                         <View style={styles.hrLine} />
                     </View>
-
-                    {/* {bourse()} */}
 
                     <FlatList 
                         data={itemList()}

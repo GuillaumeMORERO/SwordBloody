@@ -13,47 +13,50 @@ export default ({item, level}) => {
             width: '70%',
             height: 65,
             
-            borderWidth: 1,
-            borderColor: '#FFD66F',
-            borderRadius: 10,
             paddingBottom: 5,
             paddingTop: 5,
             paddingLeft: 20,
             paddingRight: 20,
             marginTop: 5,
             marginBottom: 5,
-
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 1,
-            shadowRadius: 2,
-            elevation: 3
         },
-        card_column : {
-            flex: 2,
-        },
+ 
         card_column_left : {
             flex: 1,
+            height:'100%',
             justifyContent: 'space-between',
-            alignItems: "stretch",
+        },
+        card_column_right : {
+            flex: 2,
+        },
+        hrLine: {
+            width: '30%',
+            height: 1,
+            backgroundColor: '#FFD66F',
         },
     })
 
     return (
-        <View style={styles.card}>
+        <View style={{justifyContent:'center', alignItems:'center'}}>
+            <View style={styles.card}>
 
-            <View style={styles.card_column_left}>
-                <TextCustom text='Nom : ' size= {12} />
-                <TextCustom text='Classe : ' size= {12} />
-                <TextCustom text='Niveau : ' size= {12} />
-            </View>
+                <View style={styles.card_column_left}>
+                    <TextCustom text='Nom : ' size= {12} />
+                    <TextCustom text='Classe : ' size= {12} />
+                    <TextCustom text='Niveau : ' size= {12} />
+                </View>
 
-            <View style={styles.card_column}>
-                <TextCustom text={item.name} size= {15} />
-                <TextCustom text={item.type} size= {15} />
-                <TextCustom text={level} size= {15} />
+                
+
+                <View style={styles.card_column_right}>
+                    <TextCustom text={item.name} size= {15} />
+                    <TextCustom text={item.type} size= {15} />
+                    <TextCustom text={level} size= {15} />
+                </View>
+
+                
             </View>
-            
+            <View style={styles.hrLine} />
         </View>
         
     )

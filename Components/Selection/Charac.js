@@ -74,30 +74,46 @@ export default ({item, valid}) => {
         },
         checkBox: {
             backgroundColor: 'transparent',
-            borderWidth: 1,
-            borderColor: '#FFD66F',
-            borderRadius: 10,
             paddingBottom: 10,
             paddingTop: 10,
+            borderWidth: 0,
+            marginTop: 10,
+            marginBottom: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // borderColor: '#FFD66F',
+            // borderRadius: 5,
 
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 3,
+            // shadowColor: "#000",
+            // shadowOffset: { width: 0, height: 2 },
+            // shadowOpacity: 0.5,
+            // shadowRadius: 2,
+            // elevation: 3,
         },
         select_validation: {
             width: '100%',
-            borderRadius: 10,
+            borderRadius: 5,
             paddingBottom: 10,
             paddingTop: 10,
+        },
+        hrLine: {
+            width: '80%',
+            marginLeft:'10%',
+            backgroundColor: '#FFD66F',
+            height: 1,
+            
+        },
+        container: {
+            // justifyContent: 'center',
+            // alignItems: 'center',
         },
     });
     
     return (
-        <View>
+        <View style={styles.container}>
             <CheckBox 
                 containerStyle={styles.checkBox}
+                inputContainerStyle={{width:'100%', backgroundColor: 'green'}}
                 title={<TextCustom text={item.type} size= {15} />}
                 onPress={() => setDisplayed(!displayed)}
                 checked={checked}
@@ -105,6 +121,7 @@ export default ({item, valid}) => {
                 uncheckedColor={'#FFD66F'}
             />
             {displayer()}
+            <View style={styles.hrLine} />
                 
         </View>
     )

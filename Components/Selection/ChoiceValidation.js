@@ -37,12 +37,10 @@ export default ( data ) => {
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: 50,
-            //paddingBottom: 5,
             paddingTop: 5,
         },
         book : {
             flex: 1,
-            //flexDirection: 'row',
             padding: 4,
             justifyContent: 'center',
             alignItems: 'center',
@@ -52,7 +50,7 @@ export default ( data ) => {
             width: '90%',
         },
         button_zone : {
-            flex: 4,
+            flex: 3,
             width: '90%',
             justifyContent: 'center',
         },
@@ -66,6 +64,7 @@ export default ( data ) => {
      
     return (
         <View style={Styles.select_container}>
+            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
 
             <View style={styles.cards}>
                 <FlatList
