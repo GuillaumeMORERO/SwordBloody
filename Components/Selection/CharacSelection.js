@@ -20,34 +20,20 @@ export default (data) => {
     };
 
     const styles = StyleSheet.create({
-        zone_titre: {
-            //flex: 1,
-            marginTop: 10,
-            justifyContent: 'space-evenly',
-            width: '90%',
-            alignItems: 'center',
-            //backgroundColor: 'red',
-        },
         scrollview: {
             flex: 4,
-            //justifyContent: 'space-around',
-            marginTop: 50,
             marginBottom: 20,
-            paddingTop: 20,
             paddingBottom: 20,
             width: '90%',
             height:'100%',
-            //backgroundColor: 'green',
         },
         zone_validation : {
-            //flex: 1,
             marginBottom: 10,
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
             width: '90%',
-            marginBottom: 40,
-           //backgroundColor: 'red',
+            marginBottom: 20,
         },
     });
 

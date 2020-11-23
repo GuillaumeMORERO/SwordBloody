@@ -81,7 +81,7 @@ export default (data) => {
             {isLoading && spinner() }
 
             {!isLoading &&
-                <ScrollView style={{marginTop: 40, marginBottom: 50, width:'95%'}}>
+                <ScrollView>
 
                     <View style={styles.divider}>
                         <View style={styles.hrLine} />

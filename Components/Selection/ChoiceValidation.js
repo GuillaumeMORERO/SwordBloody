@@ -36,7 +36,6 @@ export default ( data ) => {
             width: '90%',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 50,
             paddingTop: 5,
         },
         book : {
@@ -109,7 +108,7 @@ export default ( data ) => {
                 {inGameState.team.length === 0 &&
                     <View style={styles.button_zone_sub}>
                         <Gradiator
-                            label='Accepter ces choix'
+                            label='Valider'
                             fct={() => validation()}
                             styleObject={{width: '95%'}}
                             fSize={15}

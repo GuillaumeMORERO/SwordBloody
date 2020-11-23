@@ -33,13 +33,13 @@ export default () => {
                         textShadowRadius: 10,
                         color: '#FFD66F'
                     },
-                    headerTintColor: '#FFD66F'
+                    headerTintColor: '#FFD66F', headerStyle: { backgroundColor: 'black'}
                 }}
             >
-                <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -',headerTransparent: true}}/>
-                <AppStack.Screen name="Selection du Livre" component={BookSelection} options={{headerTransparent: true }}/>
-                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{headerTransparent: true}}/>
-                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{headerTransparent: true}}/>
+                <AppStack.Screen name="Selection de base" component={SelectionPresentation} options={{ title: '- Bloody Sword -'}}/>
+                <AppStack.Screen name="Selection du Livre" component={BookSelection} options={{title: 'Selection du Livre' }}/>
+                <AppStack.Screen name="Selection de Personnage" component={CharacSelection} options={{title: 'Selection de Personnage(s)'}}/>
+                <AppStack.Screen name="Validation" component={ChoiceValidation} options={{title: 'Validation'}}/>
             </AppStack.Navigator>
         )
     };
@@ -59,16 +59,14 @@ export default () => {
                         textShadowColor: 'rgba(255, 255, 255, 0.5)',
                         textShadowOffset: {width: -1, height: 1},
                         textShadowRadius: 10,
-                        color: '#FFD66F'
+                        color: '#FFD66F',
                     },
-                    headerTintColor: '#FFD66F'
+                    headerTintColor: '#FFD66F', headerStyle: { backgroundColor: 'black'}
                 }}
             >
-                <AppStack.Screen name="Feuilles de personnage" component={SheetSelection} options={{headerTransparent: true }}/>
-                <AppStack.Screen name="fiche" component={Fiche} options={{ title: '',headerTransparent: true }}/>
-                <AppStack.Screen name="ItemSkill" component={ItemSkill} options={{ title: '',headerTransparent: true }}
-                headerBackImage= {() =>  <Image source={require('../Helpers/IMG/homeIcon.png')} />}
-                />
+                <AppStack.Screen name="Feuilles de personnage" component={SheetSelection}/>
+                <AppStack.Screen name="fiche" component={Fiche} options={{ title: 'Fiche de personnage' }}/>
+                <AppStack.Screen name="ItemSkill" component={ItemSkill} options={{ title: 'Capacités & Inventaire'}}/>
             </AppStack.Navigator>
         )
     };
@@ -84,14 +82,16 @@ export default () => {
             <Tab.Navigator
                 initialRouteName="Selection de base"
                 screenOptions={({ route }) => ({
-                    tabBarIcon: () => {
-                        if (route.name === 'Selection') return <TabButton name="Selection"/>;
-                        if (route.name === 'Fiches') return <TabButton name="Fiches"/>;
+                    tabBarIcon: ({focused}) => {
+                        let size = focused ? 50 : 40;
+                        let opacity = focused ? 1 : 0.5;
+                        if (route.name === 'Selection') return <TabButton name="Selection" size={size} opacity={opacity}/>;
+                        if (route.name === 'Fiches') return <TabButton name="Fiches" size={size} opacity={opacity}/>;
                     },
                 })}
                 tabBarOptions={{
                     showLabel: false,
-                    activeBackgroundColor: 'rgba(255, 214, 111, 0.2)',
+                    activeBackgroundColor: 'rgba(255, 214, 111, 0.1)',
                     scrollEnabled: true,
                     keyboardHidesTabBar: true,
                     style :{

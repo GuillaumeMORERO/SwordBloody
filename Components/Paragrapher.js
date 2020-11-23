@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
 import { Input } from 'react-native-elements';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +8,11 @@ import { setParagraph } from '../Store/Actions/InGameActions';
 import TextCustom from './TexteCustom';
 import Styles from './Styles';
 import Gradiator from './Gradiator';
+import { color } from 'react-native-reanimated';
 
 export default () => {
 
+    
     const dispatch = useDispatch();
     const {paragraph} = useSelector((state) => state.InGameRedux);
     
@@ -19,9 +21,14 @@ export default () => {
     return (
         <View style={{width:'70%', alignSelf:'center'}} >
             <View>
-                <Input
+                <TextInput
                     onChangeText={ e => setPara(e) }
-                    value={paragraph}
+                    value={para}
+                    placeholder={paragraph}
+                    keyboardType={'numeric'}
+                    autoFocus={true}
+                    textAlign={'center'}
+                    style={{color: '#FFD66F'}}
                 />
             </View>
             <View>

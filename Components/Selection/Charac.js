@@ -35,12 +35,14 @@ export default ({item, valid}) => {
     const displayer = () => {
         if (displayed) {
             return (
-                <View>
-                    <Input
+                <View style={{margin: 10}}>
+                    <TextInput
                         onChangeText={ e => setName(e) }
                         value={name}
                         maxLength= {15}
                         disabled={disabled}
+                        textAlign={'center'}
+                        style={{color: '#FFD66F'}}
                     />
                     {checked ?
                         <TouchableHighlight onPress={() => manage('suppr')} style={styles.select_validation} >

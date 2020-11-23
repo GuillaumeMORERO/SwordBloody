@@ -26,6 +26,16 @@ export default (data) => {
     const [isLoading, setIsLoading] = useState(true);
     //console.log('perso => ', Perso.skill);
 
+    const getProtec = () => {
+        let protec = '';
+        Perso.inventaire.forEach(item => {
+            if (item.type === 'armure') {
+                protec = item.use
+            }
+        })
+        return protec
+    }
+
     const spinner = () => {
         if(isLoading) {
             return (
@@ -133,7 +143,7 @@ export default (data) => {
             {isLoading && spinner()}
 
             {!isLoading && 
-                <View style={{marginTop:40}}>
+                <View>
 
                     <View style={styles.main}>
 
@@ -191,7 +201,7 @@ export default (data) => {
                                     </View>
                                     <View style={styles.rowTxt}>
                                         <TextCustom text='Protection : ' size={13} />
-                                        <TextCustom text={Perso.protection} size={18} />
+                                        <TextCustom text={getProtec()} size={18} />
                                     </View>
                                     <View style={styles.rowTxt}>
                                         <TextCustom text='Dommage : ' size={13} />

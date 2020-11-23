@@ -6,7 +6,7 @@ import Paragrapher from './Paragrapher';
 import Gradiator from './Gradiator';
 
 export default (title, message, closeAlert, composantToLaunch = null) => {
-
+    
     const compozan = () => {
         if (composantToLaunch !== null) {
             switch(composantToLaunch) {
@@ -35,9 +35,9 @@ export default (title, message, closeAlert, composantToLaunch = null) => {
         <View style={styles.alert_view}>
             <View style={styles.closer} >
                 <Gradiator
-                        label={'X'}
+                        label={'Fermer'}
                         fct={() => closeAlert()}
-                        styleObject={{width: 30, alignSelf:'flex-end'}}
+                        styleObject={{width: 100, alignSelf:'flex-end'}}
                         fSize={15}
                     />
             </View>

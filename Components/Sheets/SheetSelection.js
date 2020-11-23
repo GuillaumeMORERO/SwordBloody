@@ -56,15 +56,13 @@ export default ({ navigation }) => {
             justifyContent: 'space-evenly',
             width: '90%',
             alignItems: 'center',
-            //backgroundColor: 'red',
         },
         zone_button: {
             flex: 3,
             flexDirection: 'column',
             justifyContent: 'space-around',
-            marginTop: 60,
+            marginTop: 20,
             marginBottom: 20,
-            paddingTop: 20,
             width: '70%',
         },
         zone_button_bas: {
@@ -72,6 +70,7 @@ export default ({ navigation }) => {
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
+            
         },
 
     })

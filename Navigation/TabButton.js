@@ -1,16 +1,21 @@
 import React, {useRef, useEffect, useState} from 'react';
 import { View, ScrollView , StyleSheet, Image, FlatList, ActivityIndicator  , SafeAreaView  } from 'react-native';
-import {  useDispatch, useSelector  } from 'react-redux';
 
 import TextCustom from '../Components/TexteCustom'
 
-export default ({name}) => {
+export default ({name, size, opacity}) => {
 
-    const {finalTeam} = useSelector((state) => state.InGameRedux);
+    const styles = StyleSheet.create({
+        img: {
+            resizeMode: 'contain', 
+            width: size, 
+            opacity: opacity
+        },
+    });
 
-    const getIcon = (route) => {
-        if (name === 'Selection') {return <Image style={{resizeMode: 'contain', width: 50}} source={require('../Helpers/IMG/homeIcon.png')} />}
-        if (name === 'Fiches') {return <Image style={{resizeMode: 'contain', width: 50}} source={require('../Helpers/IMG/caracIcon.png')} />}
+    const getIcon = () => {
+        if (name === 'Selection') {return <Image style={styles.img} source={require('../Helpers/IMG/homeIcon.png')} />}
+        if (name === 'Fiches') {return <Image style={styles.img} source={require('../Helpers/IMG/caracIcon.png')} />}
        
     }
 
@@ -22,8 +27,3 @@ export default ({name}) => {
     )
 
 }
-  {/* <View>
-            <Image style={styles.icon} source={require('../Helpers/IMG/homeIcon.png')} />
-            <TextCustom text={name} size={18} />
-        </View> */}
-        {/* <Image style={{resizeMode: 'contain'}} source={require('../Helpers/IMG/homeIcon.png')} /> */}

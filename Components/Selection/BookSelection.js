@@ -17,9 +17,7 @@ export default (data) => {
 
     const styles = StyleSheet.create({
         zone_button : {
-            //flex: 3,
             width: '90%',
-            marginTop: 40,
         },
     });
    

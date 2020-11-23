@@ -30,7 +30,7 @@ export default ({item, level}) => {
             flex: 2,
         },
         hrLine: {
-            width: '30%',
+            width: '70%',
             height: 1,
             backgroundColor: '#FFD66F',
         },
