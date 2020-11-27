@@ -1,18 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Tooltip } from 'react-native-elements';
-
-import { useDispatch } from 'react-redux';
-import { suppObjet } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
-export default ({ data, persoClasse, suppItem }) => {
-
-
-
-    const dispatch = useDispatch();
+export default ({ data, suppItem }) => {
     
     const styles = StyleSheet.create({
         card: {
@@ -25,11 +18,20 @@ export default ({ data, persoClasse, suppItem }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
         },
-        gradiators: {
-            flexDirection: 'row',
-            width: '20%',
-            justifyContent: 'space-between',
-        },
+            id: {
+                flex:1,
+            },
+            name: {
+                flex:3,
+                flexDirection: 'row', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+            },
+            gradiators: {
+                flex:1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+            },
 
     });
 
@@ -48,12 +50,12 @@ export default ({ data, persoClasse, suppItem }) => {
 
                 <View style={styles.label1}>
 
-                    <View style={{ width: '10%' }}>
+                    <View style={styles.id}>
                         <TextCustom text={` - ${data.id} - `} size={14} italic bold />
                     </View>
 
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={styles.name}>
                         <TextCustom text={` "${data.item.name}" `} size={16} bold />
                         {data.item.use > 0 && <TextCustom text={` ( ${data.item.use} )`} size={12} italic />}
                     </View>
@@ -63,13 +65,13 @@ export default ({ data, persoClasse, suppItem }) => {
                             label='<->'
                             fct={() => console.log('Echanger !!')}
                             styleObject={{ width: '40%', height: 30 }}
-                            fSize={12}
+                            fSize={2}
                         />
                         <Gradiator
                             label='X'
-                            fct={() => suppItem(data.item.name, data.item.id, persoClasse)}
+                            fct={() => suppItem(data.item.name, data.item.id, data.item.type)}
                             styleObject={{ width: '40%', height: 30, }}
-                            fSize={12}
+                            fSize={2}
                         />
                     </View>
 

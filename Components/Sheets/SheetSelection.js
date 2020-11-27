@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, Button, FlatList, Image, StyleSheet, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,28 +20,34 @@ export default ({ navigation }) => {
     const [dataAlert, setDataAlert] = useState({});
 
     const labelPara = () => { return (inGameState.paragraph !== '') ? `Paragraphe actuel : ${inGameState.paragraph}` : 'Memoriser un paragraphe'; };
-    const labelNote = () => { return ( inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} notes` : 'Notes'; };
+    const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} notes` : 'Notes'; };
 
     const paraSetter = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({'title': 'Paragraphe', 'message': 'Notez le paragraphe en cours', 'closeAlert': closeAlert, 'fct': 'Paragrapher'})
+        setDataAlert({ 'title': 'Paragraphe', 'message': 'Notez le paragraphe en cours', 'closeAlert': closeAlert, 'fct': 'Paragrapher' });
     };
 
     const paraNotes = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter'})
+        setDataAlert({ 'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter' });
+    };
+
+    const changeBook = () => {
+        fadeIn();
+        setDisplay(true);
+        setDataAlert({ 'title': 'Changement de livre', 'message': 'Faudra pas oublier l\'xp !!!!', 'closeAlert': closeAlert, 'fct': 'Booker', 'book': inGameState.book });
     };
 
     const fadeIn = () => {
         Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
         }).start();
     };
-    
+
     const fadeOut = () => {
         Animated.timing(fadeAnim, {
             toValue: 0,
@@ -50,31 +56,33 @@ export default ({ navigation }) => {
         }).start(() => setDisplay(false));
     };
 
-    const closeAlert = () => { fadeOut();};
+    const closeAlert = () => { fadeOut(); };
+
 
     const styles = StyleSheet.create({
         zone_button: {
-            flex: 3,
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            alignItems:'center',
-            width: '80%',
+            flex: 4,
+            alignItems: 'center',
         },
         zone_button_bas: {
-            flex:2,
-            justifyContent:'space-evenly',
+            flex: 1,
+            justifyContent: 'space-evenly',
             alignItems: 'center',
             width: '100%',
         },
-
-
+        zone_livre: {
+            flex: 2,
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            marginBottom: 20,
+        }
     })
 
     return (
         <View style={Styles.select_container}>
 
             {display &&
-                <Animated.View style={{...Styles.custom_alert, opacity: fadeAnim}}>
+                <Animated.View style={{ ...Styles.custom_alert, opacity: fadeAnim }}>
                     {AllPurposeAlert(dataAlert)}
                 </Animated.View>
             }
@@ -84,51 +92,63 @@ export default ({ navigation }) => {
                 <View style={Styles.hrLine} />
             </View>
 
-            {!inGameState.set && <TextCustom text={'Aucune selection'} size={4} bold /> }
+            {!inGameState.set && <TextCustom text={'Aucune selection'} size={4} bold />}
 
             {inGameState.set > 0 &&
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
+                            //contentContainerStyle={{ height: '100%', justifyContent: 'space-around' }}
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
-                            renderItem={({item}) => (
+                            renderItem={({ item }) => (
                                 <PersoList perso={item} navigation={navigation} />
                             )}
                         />
                     </View>
 
+                    <View style={{...Styles.hrLine, marginBottom: 10}} />
+
                     <View style={styles.zone_button_bas}>
-                        <View style={{flexDirection:'row'}} >
+                        <View style={{ flexDirection: 'row' }} >
                             <Gradiator
                                 label={labelPara()}
                                 fct={() => paraSetter()}
-                                styleObject={{width: '50%', margin: 10}}
+                                styleObject={{ width: '50%', margin: 10 }}
                                 fSize={2}
                             />
                             <Gradiator
                                 label={labelNote()}
                                 fct={() => paraNotes()}
-                                styleObject={{width: '20%', margin: 10}}
+                                styleObject={{ width: '20%', margin: 10 }}
+                                fSize={2}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.zone_livre}>
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={Styles.hrLine} />
+                            <TextCustom text='livre en cours : ' size={2} />
+                            <View style={Styles.hrLine} />
+                        </View>
+
+                        <TextCustom text={inGameState.book} size={3} />
+
+                        <View style={{width:200}}>
+                            <Gradiator
+                                label={'Changer de livre'}
+                                fct={() => changeBook()}
+                                styleObject={{ width: '100%'}}
                                 fSize={2}
                             />
                         </View>
 
-
-                        <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                            <TextCustom text='livre en cours : ' size={2} />
-                            <TextCustom text={inGameState.book} size={3} />
-                        </View>
-                        <Gradiator
-                            label={'Changer de livre'}
-                            fct={() => navigation.navigate("Selection de base")}
-                            styleObject={{width: '80%', margin: 10}}
-                            fSize={2}
-                        />
                     </View>
                 </>
             }
-            
+
         </View>
     )
 }

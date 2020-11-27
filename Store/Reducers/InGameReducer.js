@@ -1,5 +1,15 @@
 
-import { VALIDATION_CHOICE, RESET_STATE, SET_PARAGRAPH, SET_BOOK, MANAGE_HERO, SET_NOTES, SUPP_NOTES, SUPP_OBJET } from '../Actions/InGameActions';
+import { 
+  VALIDATION_CHOICE, 
+  RESET_STATE, 
+  SET_PARAGRAPH, 
+  SET_BOOK, 
+  MANAGE_HERO, 
+  SET_NOTES, 
+  SUPP_NOTES, 
+  SUPP_OBJET, 
+  REPLACE_BOOK 
+} from '../Actions/InGameActions';
 
 import { database } from '../../Helpers/Data';
 import { baseEquip } from '../../Helpers/Logic';
@@ -130,6 +140,13 @@ function inGameRedux(state = initialState, action) {
       return nextState = {
         ...state,
         finalTeam: newTeam
+      }
+    };
+
+    case REPLACE_BOOK: {
+      return nextState = {
+        ...state,
+        book: action.book.title
       }
     };
 

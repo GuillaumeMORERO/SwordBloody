@@ -1,12 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Image, FlatList, ActivityIndicator, SafeAreaView, Pressable, Animated } from 'react-native';
-import { Tooltip, Text } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, ScrollView, FlatList, ActivityIndicator, Pressable, Animated } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import ItemComponent from './ItemComponent';
-import CapaComponent from './CapaComponent';
 import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 
@@ -14,13 +12,14 @@ export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
-    const { finalTeam } = useSelector((state) => state.InGameRedux);
+    const { finalTeam, book } = useSelector((state) => state.InGameRedux);
 
     const typeReçu = data.route.params.type;
     const [Perso, setPerso] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [displayAlert, setDisplayAlert] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
+    //const [nbrItems, setNbrItems] = useState();
 
     useEffect(() => {
         finalTeam.forEach(dataSet => {
@@ -36,6 +35,7 @@ export default (data) => {
         Perso.inventaire.forEach((item, key) => {
             items.push({ id: key + 1, item: item });
         });
+        //setNbrItems(items.length);
         return items;
     }
 
@@ -47,7 +47,7 @@ export default (data) => {
                 </View>
             )
         }
-    }
+    };
 
     const closeAlert = () => { fadeOut(); };
 
@@ -67,10 +67,23 @@ export default (data) => {
         }).start(() => setDisplayAlert(false));
     };
 
-    const suppItem = (name, id) => {
+    const suppItem = (name, id, type) => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({'title': 'Suppression', 'message': `Supprimer ${name} ?`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, classe: Perso.classe});
+        let loss = '';
+        type === 'armure' ? loss = 'Cela entraînera la perte \n de vos points de protection' :
+            type === 'arme' ? loss = 'Cela entraînera la perte \n de 2 points de force, et 2 points de dégâts.' : loss;
+
+        setDataAlert({ 'title': 'Suppression', 'message': `Supprimer ${name} ? \n ${loss}`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, 'classe': Perso.classe });
+    };
+
+    const toAddItem = () => {
+        let nbrObject = Perso.inventaire.length;
+        let message = ''; let fct = '';
+        nbrObject === 10 ? message = 'Vous avez dix objets, vous ne pouvez plus en ajouter.' : fct = 'Adder';
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({'title': 'Ajout d\'objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'book': book});
     };
 
     return (
@@ -99,19 +112,27 @@ export default (data) => {
                             <View style={Styles.hrLine} />
                         </View>
 
+                        <Gradiator
+                            label='+'
+                            fct={() => toAddItem()}
+                            styleObject={{ width: '10%', alignSelf: 'center', height: 30 }}
+                            fSize={30}
+                        />
+
                         <FlatList
                             data={itemList()}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => {
-                                return (<ItemComponent data={item} persoClasse={Perso.classe} suppItem={suppItem} />)
+                                return (<ItemComponent data={item} suppItem={suppItem} />)
                             }}
                         />
 
                     </ScrollView>
-
                 </View>
             }
 
         </View>
     )
 }
+
+

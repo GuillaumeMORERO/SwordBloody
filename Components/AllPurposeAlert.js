@@ -7,8 +7,10 @@ import Gradiator from './Gradiator';
 import Reseter from './Compozans/Reseter';
 import Noter from './Compozans/Noter';
 import Deleter from './Compozans/Deleter';
+import Adder from './Compozans/Adder';
+import Booker from './Compozans/Booker';
 
-export default ({title, message, closeAlert, fct = null, id=null, classe=null}) => {
+export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null}) => {
 
     const compozan = () => {
         if ((fct !== null) || (fct !== '')) {
@@ -17,6 +19,8 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null}) 
                 case 'Reseter' : {return <Reseter fct={closeAlert}  />};
                 case 'Noter' : {return <Noter fct={closeAlert}  />};
                 case 'Deleter' : {return <Deleter fct={closeAlert} id={id} classe={classe} />};
+                case 'Adder' : {return <Adder fct={closeAlert} classe={classe} book={book} />};
+                case 'Booker' : {return <Booker fct={closeAlert} book={book} />};
             }
         }
     }

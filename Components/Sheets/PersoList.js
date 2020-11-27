@@ -22,19 +22,19 @@ export default ({perso, navigation}) => {
             <Gradiator
                 label={perso.name}
                 fct={() => navigation.navigate("fiche", {item})}
-                styleObject={{width: '45%', marginVertical:10}}
+                styleObject={{width: '50%', marginVertical:10}}
                 fSize={2}
             />
             <Gradiator
                 label={'Capacités'}
                 fct={() => navigation.navigate("Skills", {type})}
-                styleObject={{width: '25%', height: 35, marginVertical:10}}
+                styleObject={{width: '20%', height: 35, marginVertical:10}}
                 fSize={1}
             />
             <Gradiator
                 label={'Inventaire'}
                 fct={() => navigation.navigate("Items", {type})}
-                styleObject={{width: '25%', height: 35, marginVertical:10}}
+                styleObject={{width: '20%', height: 35, marginVertical:10}}
                 fSize={1}
             />
         </View>
