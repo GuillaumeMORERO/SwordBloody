@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createLogger } from 'redux-logger';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from 'redux-persist/lib/storage';
+import SplashScreen from 'react-native-splash-screen'
 
 import Navigation from './Navigation/Navigation';
 import { applyMiddleware, createStore } from 'redux';
@@ -28,6 +29,7 @@ const persistedStore = persistStore(storeToSend);
 export default function App() {
 
   useEffect(() => {
+    SplashScreen.hide();
     const backAction = () => {
       Alert.alert("Fermeture de l'application", "Voulez-vous partir des Terres de Legendes ?", [
         {

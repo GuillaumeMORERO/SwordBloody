@@ -1,94 +1,103 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Animated } from 'react-native';
+import { View, StyleSheet, Image, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSelection, choosenBook } from '../../Store/Actions/SelectActions';
-import { resetInGame, setBook } from '../../Store/Actions/InGameActions';
+import { validationChoices, setBook } from '../../Store/Actions/InGameActions';
 
 import { books } from '../../Helpers/Data';
 import { slugger } from '../../Helpers/Logic';
 import Gradiator from '../Gradiator';
 import AllPurposeAlert from '../AllPurposeAlert';
-import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
+import { BaseLvlCharac } from '../../Helpers/Logic';
 
 export default ({ navigation }) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     const dispatch = useDispatch();
-    const state = useSelector((state) => state.SelectorRedux);
     const inGameState = useSelector((state) => state.InGameRedux);
 
     const [displayAlert, setDisplayAlert] = useState(false);
-    const [message, setMessage] = useState('');
-    const [title, setTitle] = useState('');
     const [nameToDisplay, setNameToDisplay] = useState([]);
+    const [dataAlert, setDataAlert] = useState({});
 
     useEffect(() => {
         setNameToDisplay([]);
-        state.choosenTeam.forEach(perso => {
+        inGameState.team.forEach(perso => {
             setNameToDisplay(name => [...name, perso.name])
         });
-    }, [state.choosenTeam]);
+    }, [inGameState.team]);
 
-    const accept = (type, book) => {
-        if (type === 'bookToChoose') {
-            dispatch(choosenBook(book));
-            dispatch(setBook(book));
-        }
-    };
+    const accept = (book) => { dispatch(setBook(book));};
 
     const resetFields = () => {
-        setNameToDisplay([]);
-        dispatch(resetSelection());
-        dispatch(resetInGame());
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({'title': 'Remise à zero', 'message': 'Supprimer la selection ?', 'closeAlert': closeAlert, 'fct': 'Reseter'})
     };
 
-    const closeAlert = () => {
-        fadeOut();
-    }
-
     const validationHandler = () => {
-        if (state.book === '') {
+ 
+        if (inGameState.book === '') {
             fadeIn();
             setDisplayAlert(true);
-            setTitle('Choix du livre');
-            setMessage('Vous devez choisir un livre de départ.');
+            setDataAlert({'title': 'Choix du livre', 'message': 'Vous devez choisir un livre de départ.', 'closeAlert': closeAlert})
         }
-        else if (state.choosenTeam.length === 0) {
+        else if (inGameState.team.length === 0) {
             fadeIn();
             setDisplayAlert(true);
-            setTitle('Choix de personnage');
-            setMessage('Vous devez choisir au moins un personnage.');
+            setDataAlert({'title': 'Choix de personnage', 'message': 'Vous devez choisir au moins un personnage.', 'closeAlert': closeAlert})
         }
-        else { navigation.navigate("Validation", { book: state.book, resetFields: resetFields }); }
+        else {
+            dispatch(validationChoices(inGameState.book, inGameState.team, BaseLvlCharac(inGameState.team.length, inGameState.book)));
+            navigation.navigate("Fiches");
+        }
     };
 
     const choiceDisplayer = (category) => {
+        var label = '';
         switch (category) {
-            case 'livre': { return (state.book === undefined || state.book === '' ? 'Livre de départ' : state.book) };
+            case 'book': {
+                if (inGameState.set) { label = 'Votre Livre est déjà choisi'; }
+                else { inGameState.book === undefined || inGameState.book === '' ? label = 'Livre de départ' : label = inGameState.book }
+                return (label)
+            };
             case 'team': {
-                var label = '';
-                if (inGameState.team.length >= 1) { label = 'Votre équipe est déjà définie'; }
-                else if (state.choosenTeam.length === 0) { label = 'Selection de Personnage(s)'; }
-                else { label = "Vous avez choisi " + slugger(state.choosenTeam.length) + " personage(s) : " + nameToDisplay.join(', '); }
+                if (inGameState.set) { label = 'Votre équipe est déjà définie'; }
+                else if (inGameState.team.length === 0) { label = 'Selection de Personnage(s)'; }
+                else { label = "Vous avez choisi " + slugger(inGameState.team.length) + " personage(s) : " + nameToDisplay.join(', '); }
                 return (label)
             }
         }
     };
 
-    const teamChoice = () => {
-        if (inGameState.team.length === 0) {
-            navigation.navigate("Selection de Personnage")
-        } else {
-            fadeIn();
-            setDisplayAlert(true);
-            setTitle('Choix de personnage');
-            setMessage('Vous ne pouvez plus changer d\'équipe \n à moins de recommencer !!');
-        }
+    const teamChoice = (action) => {
+
+        if (action === 'book') {
+
+            if (!inGameState.set) {
+                navigation.navigate("Selection du Livre", { accept, books })
+            } else {
+                fadeIn();
+                setDisplayAlert(true);
+                setDataAlert({'title': 'Choix du livre', 'message': 'Vous ne pouvez plus changer de livre \n à moins de recommencer !!.', 'closeAlert': closeAlert})
+            }
+        };
+        if (action === 'team') {
+
+            if (!inGameState.set) {
+                navigation.navigate("Selection de Personnage")
+            } else {
+                fadeIn();
+                setDisplayAlert(true);
+                setDataAlert({'title': 'Choix de personnage', 'message': 'Vous ne pouvez plus changer d\'équipe \n à moins de recommencer !!', 'closeAlert': closeAlert})
+            }
+        };
     }
 
+    const closeAlert = () => {fadeOut();};
+    
     const fadeIn = () => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -103,6 +112,29 @@ export default ({ navigation }) => {
             duration: 500,
             useNativeDriver: true
         }).start(() => setDisplayAlert(false));
+    };
+
+    const configGradiator = (action, gradiator) => {
+        let colorFont = 'grey';
+        let colorGr = 'grey';
+        let fonction = null;
+        let check = [ 'Valider', 'book', 'team' ]
+
+        if (action === 'fontColor') {
+            if (check.includes(gradiator)) { !inGameState.set ? colorFont = '#FFD66F' : colorFont }
+            else { inGameState.set ? colorFont = '#FFD66F' : colorFont }
+            return colorFont;
+        };
+        if (action === 'gradientColor') {
+            if (check.includes(gradiator)) { !inGameState.set ? colorGr = '#rgba(255, 0, 0, 0.3)' : colorGr }
+            else { inGameState.set ? colorGr = '#rgba(255, 0, 0, 0.3)' : colorGr }
+            return colorGr;
+        };
+        if (action === 'fct') {
+            if (gradiator === 'Valider') { inGameState.set ? fonction : fonction = validationHandler()}
+            else if (gradiator === 'Reset') { !inGameState.set ? fonction : fonction = resetFields()}
+            return fonction;
+        };
     };
 
     const styles = StyleSheet.create({
@@ -120,49 +152,62 @@ export default ({ navigation }) => {
         },
         zone_validation: {
             flex: 1,
+            flexDirection: 'row',
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            //marginBottom: 30,
+            marginBottom: 20,
         },
     });
-
+    
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
 
             {displayAlert &&
                 <Animated.View style={{ ...Styles.custom_alert, opacity: fadeAnim }}>
-                    {AllPurposeAlert(title, message, closeAlert)}
+                    {AllPurposeAlert(dataAlert)}
                 </Animated.View>
             }
 
             <View style={styles.zone_title}>
-                {/* <TextCustom text="Bienvenue dans l'univers de l'Epée de Légende" size= {24} /> */}
-                <Image style={{ width: 300, resizeMode: 'contain', }} source={require('../../Helpers/IMG/splashLogo.png')} />
+                <Image style={{ width: 300, marginTop: 40, resizeMode: 'contain', }} source={require('../../Helpers/IMG/BloodSwordLogo.png')} />
             </View>
 
             <View style={styles.zone_button}>
                 <Gradiator
-                    label={choiceDisplayer('livre')}
-                    fct={() => navigation.navigate("Selection du Livre", { accept, books })}
-                    styleObject={{ width: '90%' }}
-                    fSize={15}
+                    label={choiceDisplayer('book')}
+                    fct={() => teamChoice('book')}
+                    styleObject={{ height: 60, width: '90%' }}
+                    fSize={2}
+                    fCouleur={configGradiator('fontColor', 'book')} 
+                    grCouleur={configGradiator('gradientColor', 'book')}
                 />
                 <Gradiator
                     label={choiceDisplayer('team')}
-                    fct={() => teamChoice()}
+                    fct={() => teamChoice('team')}
                     styleObject={{ height: 60, width: '90%' }}
-                    fSize={15}
+                    fSize={2}
+                    fCouleur={configGradiator('fontColor', 'team')} 
+                    grCouleur={configGradiator('gradientColor', 'team')}
                 />
             </View>
 
             <View style={styles.zone_validation}>
                 <Gradiator
-                    label="Vue d'ensemble"
-                    fct={() => validationHandler()}
-                    styleObject={{ width: '80%', margin: 10 }}
-                    fSize={15}
+                    label="Valider"
+                    fct={() => configGradiator('fct', 'Valider')}
+                    styleObject={{ height: 40, width: '40%', margin: 10 }}
+                    fSize={2}
+                    fCouleur={configGradiator('fontColor', 'Valider')} 
+                    grCouleur={configGradiator('gradientColor', 'Valider')}
+                />
+                <Gradiator
+                    label="Reset"
+                    fct={() => configGradiator('fct', 'Reset')}
+                    styleObject={{ height: 40, width: '40%', margin: 10 }}
+                    fSize={2} 
+                    fCouleur={configGradiator('fontColor', 'reset')} 
+                    grCouleur={configGradiator('gradientColor', 'reset')}
                 />
             </View>
         </View>

@@ -1,29 +1,57 @@
-import React, {useRef, useEffect, useState} from 'react';
-import { View, ScrollView , StyleSheet, Image, FlatList, ActivityIndicator  , SafeAreaView  } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 
 import TextCustom from '../Components/TexteCustom'
 
-export default ({name, size, opacity}) => {
+export default ({ state, descriptors, navigation }) => {
 
-    const styles = StyleSheet.create({
-        img: {
-            resizeMode: 'contain', 
-            width: size, 
-            opacity: opacity
-        },
-    });
-
-    const getIcon = () => {
-        if (name === 'Selection') {return <Image style={styles.img} source={require('../Helpers/IMG/homeIcon.png')} />}
-        if (name === 'Fiches') {return <Image style={styles.img} source={require('../Helpers/IMG/caracIcon.png')} />}
-       
-    }
+    const focusedOptions = descriptors[state.routes[state.index].key].options;
+    if (focusedOptions.tabBarVisible === false) { return null; }
 
     return (
-        <View>
-            {getIcon()}
-        </View>
-      
-    )
+        <View style={{ flexDirection: 'row', height: '10%'}}>
+            {state.routes.map((route, index) => {
+                const label = route.name;
+                const isFocused = state.index === index;
 
+                const opac = isFocused ? 1 : 0.6;
+                const height = isFocused ? '80%' : '70%';
+
+                const styles = StyleSheet.create({
+                    img: {
+                        resizeMode: 'contain',
+                        height: height,
+                        opacity: opac
+                    },
+                    barBot: {
+                        width: '100%',
+                        height: 2,
+                        backgroundColor: '#rgba(255, 0, 0, 0.3)',
+                        opacity: opac,
+
+                    },
+                    pressable : {
+                        flex: 1,  
+                        justifyContent:'space-between', 
+                        alignItems:'center',
+                    },
+                });
+               
+                const onPress = () => {navigation.navigate(label);  }
+                const getIcon = () => {
+                    if (label === 'Selection') { return <Image style={styles.img} source={require('../Helpers/IMG/homeIcon.png')} /> }
+                    if (label === 'Fiches') { return <Image style={styles.img} source={require('../Helpers/IMG/caracIcon.png')} /> }
+                }
+                
+                return (
+                    <Pressable onPress={onPress} style={styles.pressable} key={index} id={index}>
+                        {getIcon()}
+                        <View style={styles.barBot}></View>
+                        {/* <TextCustom text={label} size={10} /> */}
+                    </Pressable>
+                    
+                );
+            })}
+        </View>
+    );
 }

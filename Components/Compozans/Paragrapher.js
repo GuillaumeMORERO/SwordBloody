@@ -1,22 +1,22 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
-import { Input } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View, TextInput } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setParagraph } from '../Store/Actions/InGameActions';
+import { setParagraph } from '../../Store/Actions/InGameActions';
 
-import TextCustom from './TexteCustom';
-import Styles from './Styles';
-import Gradiator from './Gradiator';
-import { color } from 'react-native-reanimated';
+import Gradiator from '../Gradiator';
 
-export default () => {
+export default ({fct}) => {
 
-    
     const dispatch = useDispatch();
     const {paragraph} = useSelector((state) => state.InGameRedux);
     
     const [para, setPara] = useState(paragraph); 
+
+    const press = () => {
+        dispatch(setParagraph(para));
+        fct();
+    }
 
     return (
         <View style={{width:'70%', alignSelf:'center'}} >
@@ -24,7 +24,8 @@ export default () => {
                 <TextInput
                     onChangeText={ e => setPara(e) }
                     value={para}
-                    placeholder={paragraph}
+                    placeholder={'n° de paragraphe'}
+                    placeholderTextColor={"#FFD66F" }
                     keyboardType={'numeric'}
                     autoFocus={true}
                     textAlign={'center'}
@@ -34,9 +35,9 @@ export default () => {
             <View>
                 <Gradiator
                     label={'Valider'}
-                    fct={() => dispatch(setParagraph(para))}
+                    fct={() => press()}
                     styleObject={{width: '100%'}}
-                    fSize={15}
+                    fSize={2}
                 />
             </View>
         </View>

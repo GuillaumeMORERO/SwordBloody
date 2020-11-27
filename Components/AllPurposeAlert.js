@@ -2,15 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight , Pressable } from 'react-native';
 
 import TextCustom from './TexteCustom';
-import Paragrapher from './Paragrapher';
+import Paragrapher from './Compozans/Paragrapher';
 import Gradiator from './Gradiator';
+import Reseter from './Compozans/Reseter';
+import Noter from './Compozans/Noter';
+import Deleter from './Compozans/Deleter';
 
-export default (title, message, closeAlert, composantToLaunch = null) => {
-    
+export default ({title, message, closeAlert, fct = null, id=null, classe=null}) => {
+
     const compozan = () => {
-        if (composantToLaunch !== null) {
-            switch(composantToLaunch) {
-                case 'Paragrapher' : {return <Paragrapher />}
+        if ((fct !== null) || (fct !== '')) {
+            switch(fct) { 
+                case 'Paragrapher' : {return <Paragrapher fct={closeAlert} />};
+                case 'Reseter' : {return <Reseter fct={closeAlert}  />};
+                case 'Noter' : {return <Noter fct={closeAlert}  />};
+                case 'Deleter' : {return <Deleter fct={closeAlert} id={id} classe={classe} />};
             }
         }
     }
@@ -23,11 +29,15 @@ export default (title, message, closeAlert, composantToLaunch = null) => {
             alignItems: 'center',
         },
         closer: {
-            height:80,
-            width:'80%',
+            flex:1,
+            width:'90%',
+            marginTop: 20,
+            justifyContent:'center',
         },
         zone: {
-            width:'80%',
+            flex:5,
+            width:'90%',
+            marginBottom: 20,
         },
     });
 
@@ -37,14 +47,23 @@ export default (title, message, closeAlert, composantToLaunch = null) => {
                 <Gradiator
                         label={'Fermer'}
                         fct={() => closeAlert()}
-                        styleObject={{width: 100, alignSelf:'flex-end'}}
-                        fSize={15}
+                        styleObject={{width: 100, alignSelf:'center'}}
+                        fSize={2}
                     />
             </View>
             <View style={styles.zone}>
-                <TextCustom text={` - ${title} - `} size={18} italic bold  />
-                <TextCustom text={message} size={12} />
-                {compozan()}
+
+                <View style={{flex:1, justifyContent:'center'}}>
+                    <TextCustom text={` - ${title} - `} size={3} italic bold  />
+                    <TextCustom text={message} size={2} />
+                </View>
+
+                {fct !== '' &&
+                    <View style={{flex:3, justifyContent:'center'}}>
+                        {compozan()}
+                    </View>
+                }
+                
             </View>
         </View>
     )

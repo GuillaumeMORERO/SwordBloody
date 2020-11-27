@@ -1,26 +1,41 @@
 import React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import Gradiator from '../Gradiator';
-import TextCustom from '../TexteCustom';
 
-export default (data) => {
-    const item = data.data;
-    const navigation = data.navigation;
-    const type = item.type;
+export default ({perso, navigation}) => {
+
+    const item = perso;
+    const type = perso.type;
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+        },
+    })
+
     return (
-        <View style={{flexDirection:'row', alignItems:'center'}}>
+        <View style={styles.container}>
             <Gradiator
-                label={item.name}
+                label={perso.name}
                 fct={() => navigation.navigate("fiche", {item})}
-                styleObject={{width: '70%', margin: 5}}
-                fSize={15}
+                styleObject={{width: '45%', marginVertical:10}}
+                fSize={2}
             />
             <Gradiator
-                label={'-> skill'}
-                fct={() => navigation.navigate("ItemSkill", {type})}
-                styleObject={{width: '20%', height: 20, margin: 5}}
-                fSize={15}
+                label={'Capacités'}
+                fct={() => navigation.navigate("Skills", {type})}
+                styleObject={{width: '25%', height: 35, marginVertical:10}}
+                fSize={1}
+            />
+            <Gradiator
+                label={'Inventaire'}
+                fct={() => navigation.navigate("Items", {type})}
+                styleObject={{width: '25%', height: 35, marginVertical:10}}
+                fSize={1}
             />
         </View>
     )

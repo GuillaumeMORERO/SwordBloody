@@ -32,7 +32,7 @@ export default ({item, level}) => {
         hrLine: {
             width: '70%',
             height: 1,
-            backgroundColor: '#FFD66F',
+            backgroundColor: '#rgba(255, 0, 0, 0.5)',
         },
     })
 
@@ -41,17 +41,17 @@ export default ({item, level}) => {
             <View style={styles.card}>
 
                 <View style={styles.card_column_left}>
-                    <TextCustom text='Nom : ' size= {12} />
-                    <TextCustom text='Classe : ' size= {12} />
-                    <TextCustom text='Niveau : ' size= {12} />
+                    <TextCustom text='Nom : ' size= {1} />
+                    <TextCustom text='Classe : ' size= {1} />
+                    <TextCustom text='Niveau : ' size= {1} />
                 </View>
 
                 
 
                 <View style={styles.card_column_right}>
-                    <TextCustom text={item.name} size= {15} />
-                    <TextCustom text={item.type} size= {15} />
-                    <TextCustom text={level} size= {15} />
+                    <TextCustom text={item.name} size= {2} />
+                    <TextCustom text={item.type} size= {2} />
+                    <TextCustom text={level} size= {2} />
                 </View>
 
                 

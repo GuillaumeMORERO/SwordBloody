@@ -15,20 +15,24 @@ export default ({ navigation }) => {
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     const inGameState = useSelector((state) => state.InGameRedux);
-    const [display, setDisplay] = useState(false);
-    const [message, setMessage] = useState('');
-    const [title, setTitle] = useState('');
 
-    const labelPara = () => {
-        return (inGameState.paragraph !== '') ? 'Paragrpahe actuel : '+inGameState.paragraph : 'Noter le paragraphe';
-    }
+    const [display, setDisplay] = useState(false);
+    const [dataAlert, setDataAlert] = useState({});
+
+    const labelPara = () => { return (inGameState.paragraph !== '') ? `Paragraphe actuel : ${inGameState.paragraph}` : 'Memoriser un paragraphe'; };
+    const labelNote = () => { return ( inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} notes` : 'Notes'; };
 
     const paraSetter = () => {
         fadeIn();
         setDisplay(true);
-        setTitle('Paragraphe');
-        setMessage('Notez le paragraphe en cours');
-    }
+        setDataAlert({'title': 'Paragraphe', 'message': 'Notez le paragraphe en cours', 'closeAlert': closeAlert, 'fct': 'Paragrapher'})
+    };
+
+    const paraNotes = () => {
+        fadeIn();
+        setDisplay(true);
+        setDataAlert({'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter'})
+    };
 
     const fadeIn = () => {
         Animated.timing(fadeAnim, {
@@ -46,76 +50,80 @@ export default ({ navigation }) => {
         }).start(() => setDisplay(false));
     };
 
-    const closeAlert = () => {
-        fadeOut();
-    }
+    const closeAlert = () => { fadeOut();};
 
     const styles = StyleSheet.create({
-        zone_titre: {
-            flex: 1,
-            justifyContent: 'space-evenly',
-            width: '90%',
-            alignItems: 'center',
-        },
         zone_button: {
             flex: 3,
             flexDirection: 'column',
             justifyContent: 'space-around',
-            marginTop: 20,
-            marginBottom: 20,
-            width: '70%',
+            alignItems:'center',
+            width: '80%',
         },
         zone_button_bas: {
-            flex:1,
-            flexDirection: 'column',
+            flex:2,
+            justifyContent:'space-evenly',
             alignItems: 'center',
             width: '100%',
-            
         },
+
 
     })
 
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/caracIcon.png')} />
 
             {display &&
                 <Animated.View style={{...Styles.custom_alert, opacity: fadeAnim}}>
-                    {AllPurposeAlert(title, message, closeAlert, 'Paragrapher')}
+                    {AllPurposeAlert(dataAlert)}
                 </Animated.View>
             }
+            <View style={Styles.divider}>
+                <View style={Styles.hrLine} />
+                <TextCustom text={'Personnages'} size={4} bold />
+                <View style={Styles.hrLine} />
+            </View>
 
-            {inGameState.team.length > 0 &&
+            {!inGameState.set && <TextCustom text={'Aucune selection'} size={4} bold /> }
+
+            {inGameState.set > 0 &&
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => (
-                                <PersoList data={item} navigation={navigation} />
+                                <PersoList perso={item} navigation={navigation} />
                             )}
                         />
                     </View>
 
                     <View style={styles.zone_button_bas}>
-                    <Gradiator
-                            label={labelPara()}
-                            fct={() => paraSetter(true)}
-                            styleObject={{width: '80%', margin: 10}}
-                            fSize={15}
-                        />
-                    </View>
+                        <View style={{flexDirection:'row'}} >
+                            <Gradiator
+                                label={labelPara()}
+                                fct={() => paraSetter()}
+                                styleObject={{width: '50%', margin: 10}}
+                                fSize={2}
+                            />
+                            <Gradiator
+                                label={labelNote()}
+                                fct={() => paraNotes()}
+                                styleObject={{width: '20%', margin: 10}}
+                                fSize={2}
+                            />
+                        </View>
 
-                    <View style={styles.zone_button_bas}>
+
                         <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                            <TextCustom text='livre en cours : ' size={15} />
-                            <TextCustom text={inGameState.book} size={18} />
+                            <TextCustom text='livre en cours : ' size={2} />
+                            <TextCustom text={inGameState.book} size={3} />
                         </View>
                         <Gradiator
                             label={'Changer de livre'}
                             fct={() => navigation.navigate("Selection de base")}
                             styleObject={{width: '80%', margin: 10}}
-                            fSize={15}
+                            fSize={2}
                         />
                     </View>
                 </>

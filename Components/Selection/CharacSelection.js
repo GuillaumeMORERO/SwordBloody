@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, FlatList, Text, Image, ScrollView, StyleSheet, SafeAreaView,SectionList } from 'react-native';
+import { View, FlatList, Text, Image, ScrollView, StyleSheet, SafeAreaView,SectionList, Pressable } from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { manageHero } from '../../Store/Actions/SelectActions'
+import { useDispatch } from 'react-redux';
+import { manageHero } from '../../Store/Actions/InGameActions'
 
-import Gradiator from '../Gradiator';
 import Charac from './Charac';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
@@ -13,11 +12,8 @@ import {classes} from '../../Helpers/Data';
 export default (data) => {
 
     const dispatch = useDispatch();
-    //const state = useSelector((state) => state.SelectorRedux);
 
-    const valid = (act, perso) => {
-        dispatch(manageHero(act, perso));
-    };
+    const valid = (act, perso) => {dispatch(manageHero(act, perso));};
 
     const styles = StyleSheet.create({
         scrollview: {
@@ -39,7 +35,16 @@ export default (data) => {
 
     return (
         <View style={Styles.select_container}>
-            <Image style={Styles.backgroundImage} source={require('../../Helpers/IMG/homeIcon.png')} />
+
+            <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
+                <TextCustom text={'<<'} size={30} />
+            </Pressable>
+
+            <View style={Styles.divider}>
+                <View style={Styles.hrLine} />
+                <TextCustom text={'Selection de personnage(s)'} size={4} bold />
+                <View style={Styles.hrLine} />
+            </View>
 
             <ScrollView style={styles.scrollview}>
                 <FlatList
@@ -53,16 +58,6 @@ export default (data) => {
                     )}
                 />
             </ScrollView>
-
-            <View style={styles.zone_validation}>
-                <Gradiator
-                    label='Retour'
-                    fct={() => data.navigation.navigate("Selection de base")}
-                    styleObject={{width: '95%'}}
-                    fSize={15}
-                />
-            </View>
-
 
         </View>
     )

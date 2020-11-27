@@ -9,10 +9,10 @@ import Styles from '../Styles';
 
 export default ({item, valid}) => {
 
-    const state = useSelector((state) => state.SelectorRedux);
+    const inGameState = useSelector((state) => state.InGameRedux);
 
     useEffect(() => {
-        state.choosenTeam.forEach( perso => {
+        inGameState.team.forEach( perso => {
             if (perso.id === item.id) {
                 setChecked(true);
                 setDisabled(true);
@@ -26,10 +26,10 @@ export default ({item, valid}) => {
     const [displayed, setDisplayed] = useState(false); 
     const [name, setName] = useState(item.name); 
 
-    const manage = (act) => {
-        valid(act, {id: item.id, name: name, type: item.type});
-        if (act === 'suppr') {setChecked(false);setDisabled(false);}
-        if (act === 'accept') {setChecked(true);setDisabled(true);}
+    const manage = (action) => {
+        valid(action, {id: item.id, name: name, type: item.type});
+        if (action === 'suppr') {setChecked(false);setDisabled(false);}
+        if (action === 'accept') {setChecked(true);setDisabled(true);}
     };
 
     const displayer = () => {
@@ -62,8 +62,8 @@ export default ({item, valid}) => {
     const texter = (label) => {
         return(
             <View style={styles.texter}>
-                <TextCustom text={label} size= {15} />
-                <TextCustom text={` - ${name} - `} size= {18} />
+                <TextCustom text={label} size= {2} />
+                <TextCustom text={` - ${name} - `} size= {3} />
             </View>
         )
     }
@@ -81,49 +81,28 @@ export default ({item, valid}) => {
             borderWidth: 0,
             marginTop: 10,
             marginBottom: 10,
-            justifyContent: 'center',
             alignItems: 'center',
-            // borderColor: '#FFD66F',
-            // borderRadius: 5,
-
-            // shadowColor: "#000",
-            // shadowOffset: { width: 0, height: 2 },
-            // shadowOpacity: 0.5,
-            // shadowRadius: 2,
-            // elevation: 3,
         },
         select_validation: {
-            width: '100%',
             borderRadius: 5,
             paddingBottom: 10,
             paddingTop: 10,
         },
-        hrLine: {
-            width: '80%',
-            marginLeft:'10%',
-            backgroundColor: '#FFD66F',
-            height: 1,
-            
-        },
-        container: {
-            // justifyContent: 'center',
-            // alignItems: 'center',
-        },
     });
-    
+    const fontColor = checked ? '#FFD66F' : '#rgba(255, 214, 111, 0.5)';
     return (
-        <View style={styles.container}>
+        <View>
             <CheckBox 
                 containerStyle={styles.checkBox}
-                inputContainerStyle={{width:'100%', backgroundColor: 'green'}}
-                title={<TextCustom text={item.type} size= {15} />}
+                inputContainerStyle={{width:'100%'}}
+                title={<TextCustom text={item.type} size= {2} couleur={fontColor} />}
                 onPress={() => setDisplayed(!displayed)}
                 checked={checked}
                 checkedColor={'#FFD66F'}
-                uncheckedColor={'#FFD66F'}
+                uncheckedColor={'#rgba(255, 214, 111, 0.5)'}
             />
             {displayer()}
-            <View style={styles.hrLine} />
+            <View style={{...Styles.hrLine, width: '80%'}} />
                 
         </View>
     )

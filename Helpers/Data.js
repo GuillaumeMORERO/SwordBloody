@@ -1,3 +1,11 @@
+export const sizes = [
+    12, 15, 18, 20
+]
+
+export const typo = [
+    'Texturina', 'Roboto', 'Tangerine'
+]
+
 export const classes = [
     {id: 1, type: 'Chevalier', name: 'Chevalier'},
     {id: 2, type: 'Prêtre', name: 'Prêtre'},
