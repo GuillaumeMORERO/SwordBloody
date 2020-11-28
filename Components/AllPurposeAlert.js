@@ -9,8 +9,9 @@ import Noter from './Compozans/Noter';
 import Deleter from './Compozans/Deleter';
 import Adder from './Compozans/Adder';
 import Booker from './Compozans/Booker';
+import Modifier from './Compozans/Modifier';
 
-export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null}) => {
+export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null}) => {
 
     const compozan = () => {
         if ((fct !== null) || (fct !== '')) {
@@ -21,6 +22,7 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
                 case 'Deleter' : {return <Deleter fct={closeAlert} id={id} classe={classe} />};
                 case 'Adder' : {return <Adder fct={closeAlert} classe={classe} book={book} />};
                 case 'Booker' : {return <Booker fct={closeAlert} book={book} />};
+                case 'Modifier' : {return <Modifier fct={closeAlert} perso={perso} />};
             }
         }
     }

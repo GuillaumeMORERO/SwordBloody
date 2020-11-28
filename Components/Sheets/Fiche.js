@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, ActivityIndicator, Pressable } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, StyleSheet, Image, ActivityIndicator, Pressable, Animated } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Icon } from 'react-native-elements';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
+import AllPurposeAlert from '../AllPurposeAlert';
 
 export default (data) => {
 
+    const fadeAnim = useRef(new Animated.Value(0)).current
     const { finalTeam } = useSelector((state) => state.InGameRedux);
     const typeReçu = data.route.params.item.type;
 
@@ -19,10 +22,11 @@ export default (data) => {
             }
         })
     }, []);
+    
     const [Perso, setPerso] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-
-
+    const [dataAlert, setDataAlert] = useState({});
+    const [displayAlert, setDisplayAlert] = useState(false);
 
     const spinner = () => {
         if (isLoading) {
@@ -43,43 +47,34 @@ export default (data) => {
         }
     }
 
-    // const getCarac = (carac) => {
-    //     if (carac === 'force') {
-    //         let force = Perso.carac.force;
-    //         if ((!Perso.arme) && (Perso.classe!='Chevalier')) {force-=2}
-    //         return force
-    //     }
-    //     else if (carac === 'protec') {
-    //         let protec = '';
-    //         Perso.inventaire.forEach(item => {
-    //             if (item.type === 'armure') {
-    //                 protec = item.use
-    //             }
-    //         })
-    //         return protec === '' ? 0 : protec
-    //     }
-    //     else if (carac === 'damage') {
-    //         const bonus = Perso.carac.bonus === 0  ? '' : Perso.carac.bonus !== -1 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
-    //         if ((!Perso.arme) && (Perso.classe!='Chevalier')) {bonus-=2}
-    //         return `${Perso.carac.degat}d${bonus} `;
-    //     }
-    // }
-
-    // const getProtec = () => {
-    //     let protec = '';
-    //     Perso.inventaire.forEach(item => {
-    //         if (item.type === 'armure') {
-    //             protec = item.use
-    //         }
-    //     })
-    //     return protec === '' ? 0 : protec
-    // }
+    const modifCarac = () => {
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({'title': 'Modification des caractéristiques', 'message': '', 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso})
+    }
 
     const damage = () => {
-        console.log('bonus = ',Perso.carac.bonus);
         const bonus = Perso.carac.bonus === 0  ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
-        return `${Perso.carac.degat}d${bonus} `;
+        return `${Perso.carac.dommage}d${bonus} `;
     }
+
+    const closeAlert = () => {fadeOut();};
+    
+    const fadeIn = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+        }).start();
+    };
+
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+        }).start(() => setDisplayAlert(false));
+    };
 
     const styles = StyleSheet.create({
         main: {
@@ -138,7 +133,7 @@ export default (data) => {
         },
         carac_container_lateral: {
             width: '100%',
-            height: '40%',
+            height: '60%',
             justifyContent: 'space-around',
         },
         capacity_container: {
@@ -152,6 +147,12 @@ export default (data) => {
 
     return (
         <View style={Styles.select_container}>
+
+        {displayAlert &&
+                <Animated.View style={{ ...Styles.custom_alert, opacity: fadeAnim }}>
+                    {AllPurposeAlert(dataAlert)}
+                </Animated.View>
+            }
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
                 <TextCustom text={'<<'} size={30} />
@@ -189,6 +190,8 @@ export default (data) => {
 
                                 <View style={styles.carac_container_lateral}>
 
+                                    <Icon  name='pencil'  type='evilicon' color='#FFD66F' onPress={() => modifCarac()} />
+
                                     <View style={styles.rowTxt}>
                                         <TextCustom text='Force : ' size={1} />
                                         <TextCustom text={Perso.carac.force} size={3} />
@@ -205,17 +208,17 @@ export default (data) => {
                                         <TextCustom text='Endurance : ' size={1} />
                                         <TextCustom text={Perso.carac.endurance} size={3} />
                                     </View>
+                                    <View style={styles.rowTxt}>
+                                        <TextCustom text='Experience : ' size={1} />
+                                        <TextCustom text={Perso.xp} size={3} />
+                                    </View>
 
                                 </View>
 
                                 <View style={Styles.hrLine} />
 
-                                <View style={styles.carac_container_lateral}>
+                                <View style={{...styles.carac_container_lateral, height: '20%'}}>
 
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Experience : ' size={1} />
-                                        <TextCustom text={Perso.xp} size={3} />
-                                    </View>
                                     <View style={styles.rowTxt}>
                                         <TextCustom text='Protection : ' size={1} />
                                         <TextCustom text={Perso.protection} size={3} />

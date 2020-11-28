@@ -7,6 +7,7 @@ export const SET_NOTES = 'action/SET_NOTES';
 export const SUPP_NOTES = 'action/SUPP_NOTES';
 export const SUPP_OBJET = 'action/SUPP_OBJET';
 export const REPLACE_BOOK = 'action/REPLACE_BOOK';
+export const MODIF_CARAC = 'action/MODIF_CARAC';
 
 export const manageHero = (action, charac) => {
   return { type: MANAGE_HERO, action, charac };
@@ -40,9 +41,10 @@ export const suppObjet = (id, classe) => {
   return { type: SUPP_OBJET, id, classe};
 };
 
-export const replaceBook = (book) => {
-  return { type: REPLACE_BOOK, book};
+export const replaceBook = (book, modif) => {
+  return { type: REPLACE_BOOK, book, modif};
 };
 
-
-replaceBook
+export const modifCarac = (modif, classe) => {
+  return { type: MODIF_CARAC, modif, classe};
+};

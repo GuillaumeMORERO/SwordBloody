@@ -58,7 +58,6 @@ export default ({ navigation }) => {
 
     const closeAlert = () => { fadeOut(); };
 
-
     const styles = StyleSheet.create({
         zone_button: {
             flex: 4,
@@ -98,7 +97,6 @@ export default ({ navigation }) => {
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
-                            //contentContainerStyle={{ height: '100%', justifyContent: 'space-around' }}
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (

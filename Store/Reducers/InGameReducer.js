@@ -8,7 +8,8 @@ import {
   SET_NOTES, 
   SUPP_NOTES, 
   SUPP_OBJET, 
-  REPLACE_BOOK 
+  REPLACE_BOOK,
+  MODIF_CARAC
 } from '../Actions/InGameActions';
 
 import { database } from '../../Helpers/Data';
@@ -144,10 +145,22 @@ function inGameRedux(state = initialState, action) {
     };
 
     case REPLACE_BOOK: {
+      let newteam = [];
+      state.finalTeam.map(perso => {
+        let newPerso = perso;
+        perso.xp = Math.floor((1000 / state.finalTeam.length)+ action.modif) ;
+        newteam.push(...newteam, newPerso);
+      });
+
       return nextState = {
         ...state,
+        finalTeam: newteam,
         book: action.book.title
       }
+    };
+
+    case MODIF_CARAC: {
+      console.log('action => ',action);
     };
 
     default: {

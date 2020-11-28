@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { replaceBook } from '../../Store/Actions/InGameActions';
@@ -15,9 +15,10 @@ export default ({ fct, book }) => {
     const nextBook = books.find(book => book.id === idCurrentBook + 1);
 
     const dispatch = useDispatch();
+    const [bonusXp, setBonusXp] = useState('');
 
     const press = () => {
-        dispatch(replaceBook(nextBook));
+        dispatch(replaceBook(nextBook, parseInt(bonusXp) ));
         fct();
     };
 
@@ -30,7 +31,7 @@ export default ({ fct, book }) => {
     const styles = StyleSheet.create({
         container: {
             width: '80%',
-            height: '80%',
+            height: '100%',
             justifyContent: 'space-around',
             alignSelf: 'center',
         }
@@ -39,14 +40,27 @@ export default ({ fct, book }) => {
     return (
         <View style={styles.container}>
 
-            <TextCustom text={label()} size={3} />
+            <TextCustom text={label()} size={2} />
             {idCurrentBook !== books.length &&
-                <Gradiator
-                    label={nextBook.title}
-                    fct={() => press()}
-                    styleObject={{ width: '100%' }}
-                    fSize={2}
-                />
+                <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
+                    <Gradiator
+                        label={nextBook.title}
+                        fct={() => press()}
+                        styleObject={{ width: '100%' }}
+                        fSize={2}
+                    />
+                    <View>
+                        <TextCustom text={'Si dans le texte vous avez eu une modification de gain d\'expérience :'} size={1} />
+                        <TextInput
+                            onChangeText={e => setBonusXp(e)}
+                            placeholder={'Entrez ici une modification eventuelle'}
+                            keyboardType={'numeric'}
+                            placeholderTextColor={"#FFD66F"}
+                            textAlign={'center'}
+                            style={{ color: '#FFD66F' }}
+                        />
+                    </View>
+                </View>
             }
 
         </View>
