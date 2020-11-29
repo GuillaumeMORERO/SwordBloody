@@ -49,7 +49,7 @@ function inGameRedux(state = initialState, action) {
 
       action.team.forEach(perso => {
 
-        var temporaryPerso = { classe: "", name: "", level: "", xp: 0, protection: 0, arme: true, skills: [], carac: [], inventaire: [] };
+        var temporaryPerso = { classe: "", name: "", level: "", xp: 0, protection: 0, arme: true, skills: [], carac: [], actualCarac: [], inventaire: [] };
 
         database.forEach(persoData => {
           if (persoData.classe === perso.type) {
@@ -58,10 +58,16 @@ function inGameRedux(state = initialState, action) {
             temporaryPerso.name = perso.name;
             temporaryPerso.level = action.level
             temporaryPerso.skills = persoData.skills;
-            persoData.carac.forEach(dataByLvl => { if (dataByLvl.level === action.level) { temporaryPerso.carac = dataByLvl; } });
+            persoData.carac.forEach(dataByLvl => { 
+              if (dataByLvl.level === action.level) { 
+                temporaryPerso.carac = dataByLvl; 
+                temporaryPerso.actualCarac = {force: dataByLvl.force, pouvoir: dataByLvl.pouvoir, habilete: dataByLvl.habilete, endurance: dataByLvl.endurance, dommage: dataByLvl.dommage, bonus: dataByLvl.bonus};
+              } 
+            });
             temporaryPerso.inventaire = baseEquip(perso.type, action.level);
             let armure = temporaryPerso.inventaire.find(obj => obj.type === 'armure');
             temporaryPerso.protection = armure.use;
+
             temporaryTeam = [...temporaryTeam, temporaryPerso];
           }
         });
@@ -160,8 +166,29 @@ function inGameRedux(state = initialState, action) {
     };
 
     case MODIF_CARAC: {
-      console.log('action => ',action);
+
+      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+      let {actualCarac} = perso;
+      let arrayOfModif = action.modif;
+ 
+      for (let [name, value] of Object.entries(actualCarac)) {
+        arrayOfModif.forEach(modif => {
+          if (name === modif.carac) {
+            value = parseInt(value) + parseInt(modif.value);
+            actualCarac[name] = value;
+          }
+        });
+      }
+
+      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+      newTeam.push(perso);
+
+      return nextState = {
+        ...state,
+        finalTeam: newTeam,
+      }
     };
+
 
     default: {
       return state

@@ -41,7 +41,7 @@ export default ({ carac, listGenerator, send }) => {
             <View style={{ width: '50%', alignItems: 'center' }}>
                 <Picker
                     selectedValue={modif}
-                    style={{ height: 50, width: 100, backgroundColor: 'grey' }}
+                    style={{ width: 100, color:'#FFD66F', }}
                     onValueChange={(itemValue, itemIndex) => select(carac.name, itemValue)}
                 >
                     {

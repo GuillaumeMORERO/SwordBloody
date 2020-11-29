@@ -21,6 +21,13 @@ export const books = [
     {id: 5, title: 'Les Murailles de Spyte'}
 ] 
 
+export const descrCarac = [
+    {name: 'force', descr: 'La Force mesure les aptitudes physiques du personnage.'},
+    {name: 'pouvoir', descr: 'Le Pouvoir détermine sa résistance aux sortilèges et, dans le cas des magiciens, ses aptitudes à maîtriser la magie.'},
+    {name: 'habilete', descr: 'L\'Habileté tient compte à la fois de l\'agilité du personnage et de sa présenced\'esprit.'},
+    {name: 'endurance', descr: 'L\'Endurance détermine la constitution et la résistance du personnage. Les blessures subies au combat font baisser le total d\'Endurance. Lorsquecelui-ci atteint zéro, le personnage meurt.'}
+]
+
 // export const equipement =[
 //     {type: "arme", usableInFight: false, name: "Epée", use: 0, dommage: "", prix: "", descr: "Une epée de base", action: null},
 //     {type: "arme", usableInFight: false, name: "Bâton", use: 0, dommage: "", prix: "", descr: "Un bâton de base", action: null},
@@ -61,6 +68,7 @@ export const database = [
             {level: 19, force: 10, pouvoir: 8, habilete: 8, endurance: 114, dommage: 7, bonus: 0,},
             {level: 20, force: 10, pouvoir: 8, habilete: 9, endurance: 120, dommage: 7, bonus: 1,},
         ],
+        actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
             {usableInFight: false, name: "Ambidextérité", descr: "Vous pouvez combattre avec deux épées (une dans chaque main) et frapper ainsi deux fois par Assaut. Si vous combattez avec une arme magique, les bonifications qu'elle vous apporte ne peuvent s'appliquer à la deuxième arme."},
@@ -95,6 +103,7 @@ export const database = [
             {level: 19, force:  9, pouvoir: 10, habilete:  9, endurance:  95, dommage: 6, bonus: 2},
             {level: 20, force: 10, pouvoir: 10, habilete: 10, endurance: 100, dommage: 7, bonus: 0},
         ],
+        actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
             {usableInFight: true, name: "Tir", descr: "Tant que vous possédez votre arc et vos flèches, vous pouvez choisir le tir lors des combats. Pour cela, vous n'avez pas besoin de vous trouver dans une case adjacente à celle de l'ennemi pour l'atteindre. Pour le toucher, vous devez obtenir un résultat inférieur ou égal à votre total d'HABILETÉ avec deux dés. Dommage de 1 dé (moins la Protection)."},
@@ -134,6 +143,7 @@ export const database = [
             {level: 19, force: 9, pouvoir: 10, habilete: 9, endurance:  95, dommage: 5, bonus:  1},
             {level: 20, force: 9, pouvoir: 11, habilete: 9, endurance: 100, dommage: 5, bonus:  2},
         ],
+        actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
             {usableInFight: true, level: 1, name: "Miasmes", descr: "Un brouillard toxique recouvre tous les adversaires et inflige à chacun la perte de 1 point d'ENDURANCE (moins la valeur de Protection). Il s'agit d'un sortilège d'attaque."},
@@ -181,7 +191,7 @@ export const database = [
             {level: 19, force:  9, pouvoir:  9, habilete: 10, endurance: 114, dommage: 6, bonus: 2},
             {level: 20, force: 10, pouvoir: 10, habilete: 11, endurance: 120, dommage: 7, bonus: 0},
         ],
-        
+        actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire: [],
         skills: [
             {usableInFight: true, name: "Esquive", descr: "Votre agilité et votre souplesse vous ont rendu maître dans l'art de l'esquive.Chaque fois qu\'un adversaire tente de vous frapper, il doit jeter 2 dés + 1 au lieu des deux dés habituels."},

@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, Image, ActivityIndicator, Pressable, Animated } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator, Pressable, Animated, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Icon } from 'react-native-elements';
+import { Icon, Tooltip } from 'react-native-elements';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 import AllPurposeAlert from '../AllPurposeAlert';
+import { descrCarac } from '../../Helpers/Data'
 
 export default (data) => {
 
@@ -22,7 +23,7 @@ export default (data) => {
             }
         })
     }, []);
-    
+
     const [Perso, setPerso] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [dataAlert, setDataAlert] = useState({});
@@ -50,16 +51,16 @@ export default (data) => {
     const modifCarac = () => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({'title': 'Modification des caractéristiques', 'message': '', 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso})
+        setDataAlert({ 'title': 'Modification des caractéristiques', 'message': '', 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso })
     }
 
     const damage = () => {
-        const bonus = Perso.carac.bonus === 0  ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
+        const bonus = Perso.carac.bonus === 0 ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
         return `${Perso.carac.dommage}d${bonus} `;
     }
 
-    const closeAlert = () => {fadeOut();};
-    
+    const closeAlert = () => { fadeOut(); };
+
     const fadeIn = () => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -75,6 +76,24 @@ export default (data) => {
             useNativeDriver: true
         }).start(() => setDisplayAlert(false));
     };
+
+    const showCarac = () => {
+        let filtre = ['force', 'pouvoir', 'habilete', 'endurance'];
+        let object = ''; let tab = []; let caractual = Perso.actualCarac;
+        //console.log('caractual = ',caractual);
+        for (const [name, value] of Object.entries(Perso.carac)) {
+            if (filtre.includes(name)) {
+                let descr = descrCarac.find(elm => elm.name === name).descr;
+                //let actualValue = caractual.find(carac => );
+                //console.log(caractual, name);
+                const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+                object = { 'name': nameCapitalized, 'value': value, 'descr': descr, 'actualValue': caractual[name] };
+                tab.push(object);
+            }
+        }
+        return tab
+
+    }
 
     const styles = StyleSheet.create({
         main: {
@@ -114,13 +133,13 @@ export default (data) => {
             marginTop: 10,
         },
         rowTxt: {
-            width: '90%',
+            width: '100%',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
         carac_container: {
-            flex: 4,
+            flex: 2,
             width: '90%',
             justifyContent: 'space-around',
             alignItems: 'center',
@@ -134,7 +153,8 @@ export default (data) => {
         carac_container_lateral: {
             width: '100%',
             height: '60%',
-            justifyContent: 'space-around',
+            //justifyContent: 'center',
+            //alignItems:'center',
         },
         capacity_container: {
             flex: 1,
@@ -148,7 +168,7 @@ export default (data) => {
     return (
         <View style={Styles.select_container}>
 
-        {displayAlert &&
+            {displayAlert &&
                 <Animated.View style={{ ...Styles.custom_alert, opacity: fadeAnim }}>
                     {AllPurposeAlert(dataAlert)}
                 </Animated.View>
@@ -161,8 +181,8 @@ export default (data) => {
             {isLoading && spinner()}
 
             {!isLoading &&
-                <View style={{flex:1}}>
-
+                <View style={{ flex: 1 }}>
+{/* {console.log('perso de base => ', Perso.carac, '\n' , Perso.actualCarac)} */}
                     <View style={styles.main}>
 
                         <View style={styles.avatar}>
@@ -184,40 +204,55 @@ export default (data) => {
                                     <TextCustom text='Niveau : ' size={1} />
                                     <TextCustom text={Perso.level} size={3} />
                                 </View>
+                                <View style={styles.rowTxt}>
+                                    <TextCustom text='Experience : ' size={1} />
+                                    <TextCustom text={Perso.xp} size={3} />
+                                </View>
                             </View>
 
                             <View style={styles.carac_container}>
 
                                 <View style={styles.carac_container_lateral}>
 
-                                    <Icon  name='pencil'  type='evilicon' color='#FFD66F' onPress={() => modifCarac()} />
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                                        <View style={Styles.hrLine} />
+                                        <Icon name='pencil' type='evilicon' color='#FFD66F' size={20} onPress={() => modifCarac()} />
+                                        <View style={Styles.hrLine} />
+                                    </View>
 
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Force : ' size={1} />
-                                        <TextCustom text={Perso.carac.force} size={3} />
-                                    </View>
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Pouvoir : ' size={1} />
-                                        <TextCustom text={Perso.carac.pouvoir} size={3} />
-                                    </View>
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Habilté : ' size={1} />
-                                        <TextCustom text={Perso.carac.habilete} size={3} />
-                                    </View>
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Endurance : ' size={1} />
-                                        <TextCustom text={Perso.carac.endurance} size={3} />
-                                    </View>
-                                    <View style={styles.rowTxt}>
-                                        <TextCustom text='Experience : ' size={1} />
-                                        <TextCustom text={Perso.xp} size={3} />
-                                    </View>
+                                    <FlatList
+                                        data={showCarac()}
+                                        keyExtractor={(item) => item.name.toString()}
+                                        renderItem={({ item }) => {
+                                            return (
+                                                <Tooltip
+                                                    popover={<TextCustom text={item.descr} size={2} italic />}
+                                                    backgroundColor={'#rgba(255, 214, 111, 0.0)'}
+                                                    containerStyle={{ padding: 10 }}
+                                                    height={150}
+                                                    width={300}
+                                                    overlayColor={'#rgba(0, 0, 0, 0.9)'}
+                                                    skipAndroidStatusBar={true}
+                                                >
+                                                    <View style={{ ...styles.rowTxt, marginVertical: 5 }}>
+                                                        <View style={{ width: '45%', alignItems: 'flex-start' }}>
+                                                            <TextCustom text={`${item.name} : `} size={1} />
+                                                        </View>
+                                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '25%' }}>
+                                                            <TextCustom text={item.actualValue} size={2} />
+                                                            <TextCustom text={`/ ${item.value}`} size={1} />
+                                                        </View>
+                                                    </View>
+                                                </Tooltip>
+                                            )
+                                        }}
+                                    />
 
                                 </View>
 
                                 <View style={Styles.hrLine} />
 
-                                <View style={{...styles.carac_container_lateral, height: '20%'}}>
+                                <View style={{ ...styles.carac_container_lateral, height: '25%' }}>
 
                                     <View style={styles.rowTxt}>
                                         <TextCustom text='Protection : ' size={1} />

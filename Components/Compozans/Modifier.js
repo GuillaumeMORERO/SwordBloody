@@ -37,7 +37,7 @@ export default ({ fct, perso }) => {
     }
 
     const send = (carac, value) => {
-        let modifToAdd = { 'carac': carac, 'value': value };
+        let modifToAdd = { 'carac': carac.toLowerCase(), 'value': value };
         if (arrayOfModif.length === 0) {setArrayOfModif([modifToAdd]); }
         else {
             let modifToCheck = arrayOfModif.find(elm => elm.carac === carac);
@@ -46,6 +46,11 @@ export default ({ fct, perso }) => {
             }
             setArrayOfModif(arrayOfModif => [...arrayOfModif, modifToAdd]); 
         }
+    }
+
+    const press = () => {
+        dispatch(modifCarac(arrayOfModif, perso.classe));
+        fct();
     }
 
     return (
@@ -67,7 +72,7 @@ export default ({ fct, perso }) => {
 
             <Gradiator
                 label="Valider"
-                fct={() => dispatch(modifCarac(arrayOfModif, perso.classe))}
+                fct={() => press()}
                 styleObject={{ height: 40, width: '40%', margin: 10 }}
                 fSize={2}
             />
