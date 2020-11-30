@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Tooltip } from 'react-native-elements';
+import { Tooltip, Icon } from 'react-native-elements';
+import { Picker } from '@react-native-picker/picker';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
+import Styles from '../Styles';
 
-export default ({ data, suppItem }) => {
-    
+export default ({ data, suppItem, modifQte }) => {
+
+    const [useNbr, setUseNbr] = useState(0);
+
+    const listGenerator = () => {
+        let list = []; let min = -15; let max = 15;
+        for (let i = 0; i < (max * 2) + 1; i++) {
+            list.push({ 'key': i, 'value': min++ });
+        }
+        return list
+    }
+
+    const press = (value) => {
+        setUseNbr(value);
+        modifQte(value, data.item.id);
+        setUseNbr(0);
+    }
+
     const styles = StyleSheet.create({
         card: {
             marginTop: 15,
@@ -18,20 +36,20 @@ export default ({ data, suppItem }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
         },
-            id: {
-                flex:1,
-            },
-            name: {
-                flex:3,
-                flexDirection: 'row', 
-                justifyContent: 'center', 
-                alignItems: 'center',
-            },
-            gradiators: {
-                flex:1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-            },
+        id: {
+            flex: 1,
+        },
+        name: {
+            flex: 3,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        gradiators: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        },
 
     });
 
@@ -53,7 +71,6 @@ export default ({ data, suppItem }) => {
                     <View style={styles.id}>
                         <TextCustom text={` - ${data.id} - `} size={14} italic bold />
                     </View>
-
 
                     <View style={styles.name}>
                         <TextCustom text={` "${data.item.name}" `} size={16} bold />
@@ -78,6 +95,23 @@ export default ({ data, suppItem }) => {
                 </View>
 
             </Tooltip>
+
+            {data.item.usable &&
+                <View style={{ justifyContent: 'center', alignSelf: 'center'}}>
+                    <Picker
+                        selectedValue={useNbr}
+                        style={{ width: 80, height: 20, color: '#FFD66F' }}
+                        onValueChange={(itemValue, itemIndex) => press(itemValue)}
+                    >
+                        {
+                            listGenerator().map((nbr) => {
+                                return (<Picker.Item key={nbr.key} label={nbr.value.toString()} value={nbr.value} />)
+                            })
+                        }
+                    </Picker>
+                    <View style={Styles.hrLine} />
+                </View>
+            }
 
         </View>
 

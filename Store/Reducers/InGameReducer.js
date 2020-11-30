@@ -9,7 +9,8 @@ import {
   SUPP_NOTES, 
   SUPP_OBJET, 
   REPLACE_BOOK,
-  MODIF_CARAC
+  MODIF_CARAC,
+  QTE_USE_OBJECT
 } from '../Actions/InGameActions';
 
 import { database } from '../../Helpers/Data';
@@ -152,11 +153,14 @@ function inGameRedux(state = initialState, action) {
 
     case REPLACE_BOOK: {
       let newteam = [];
+      //console.log((1000+ parseInt(action.modif)) / state.finalTeam.length);
       state.finalTeam.map(perso => {
         let newPerso = perso;
-        perso.xp = Math.floor((1000 / state.finalTeam.length)+ action.modif) ;
+        perso.xp = Math.floor((1000+ parseInt(action.modif) ) / state.finalTeam.length) ; //doit être divisé entre les perso vivants !!!
         newteam.push(...newteam, newPerso);
       });
+
+      //console.log(newteam)
 
       return nextState = {
         ...state,
@@ -189,6 +193,26 @@ function inGameRedux(state = initialState, action) {
       }
     };
 
+    case QTE_USE_OBJECT: {
+
+      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+      let {inventaire} = perso;
+
+      let objectToModif = inventaire.find(object => object.id === action.idItem);
+      objectToModif.use += action.value;
+
+      let newInventaire = inventaire.filter(object => object.id !== action.idItem);
+      newInventaire.push(objectToModif);
+      perso.inventaire = newInventaire
+
+      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+      newTeam.push(perso);
+
+      return nextState = {
+        ...state,
+        finalTeam: newTeam,
+      }
+    };
 
     default: {
       return state

@@ -59,7 +59,7 @@ export default () => {
                         textShadowRadius: 10,
                         color: '#FFD66F',
                     },
-                    headerTintColor: '#FFD66F', headerStyle: { backgroundColor: 'black' }
+                    headerTintColor: '#FFD66F', headerStyle: { backgroundColor: 'black' },
                 }}
             >
                 <AppStack.Screen name="Feuilles de personnage" component={SheetSelection}  options={{headerShown: false }}/>
@@ -96,32 +96,3 @@ export default () => {
     );
 
 }
-
-// tabBarOptions= {{
-//     //inactiveBackgroundColor: '#A0853F',
-//     activeBackgroundColor: '#FFD66F',
-//     scrollEnabled: true,
-//     keyboardHidesTabBar: true,
-//     style :{
-//         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//         height: 30,
-//         position: 'absolute' 
-//     },
-//     labelStyle: {
-//         color: 'black',
-//         fontSize: 18,
-//         fontWeight: 'bold',
-//         marginBottom: 5
-//     }, 
-// }}
-
-
-
-// screenOptions={({ route }) => ({
-//     tabBarIcon: ({focused}) => {
-//         let size = focused ? 50 : 40;
-//         let opacity = focused ? 1 : 0.5;
-//         if (route.name === 'Selection') return <TabButton name="Selection" size={size} opacity={opacity}/>;
-//         if (route.name === 'Fiches') return <TabButton name="Fiches" size={size} opacity={opacity}/>;
-//     },
-// })}

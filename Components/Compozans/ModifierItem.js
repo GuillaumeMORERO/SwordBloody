@@ -10,7 +10,7 @@ import { classes } from '../../Helpers/Data';
 
 export default ({ carac, listGenerator, send }) => {
 
-    //console.log(send);
+    console.log('listGenerator = ',listGenerator);
 
     const dispatch = useDispatch();
     const [modif, setModif] = useState(0);

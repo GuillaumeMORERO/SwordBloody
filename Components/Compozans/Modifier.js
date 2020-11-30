@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, TextInput, FlatList } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
 import { useDispatch } from 'react-redux';
 import { modifCarac } from '../../Store/Actions/InGameActions';

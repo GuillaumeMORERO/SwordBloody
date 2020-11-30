@@ -37,7 +37,11 @@ export default ({ state, descriptors, navigation }) => {
                     },
                 });
                
-                const onPress = () => {navigation.navigate(label);  }
+                const onPress = () => {
+
+                    if (label === 'Fiches') {navigation.navigate('Fiches', {screen: 'Feuilles de personnage'}); }
+                    else {navigation.navigate(label);};
+                }
                 const getIcon = () => {
                     if (label === 'Selection') { return <Image style={styles.img} source={require('../Helpers/IMG/homeIcon.png')} /> }
                     if (label === 'Fiches') { return <Image style={styles.img} source={require('../Helpers/IMG/caracIcon.png')} /> }

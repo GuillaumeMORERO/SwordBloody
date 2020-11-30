@@ -23,14 +23,14 @@ export const BaseLvlCharac = (nbr, book) => {
 
 export const baseEquip = (classe, lvl) => {
     
-    var Epée = {type: "arme", usableInFight: false, name: "Epée", use: 0, dommage: "", prix: "", descr: "Une epée de base", action: null, id: random(1, 10000)};
-    var Bâton = {type: "arme", usableInFight: false, name: "Bâton", use: 0, dommage: "", prix: "", descr: "Un bâton de base", action: null, id: random(1, 10000)};
-    var Côte = {type: "armure", usableInFight: false, name: "Côte de maille", use: 3, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
-    var Annelée = {type: "armure", usableInFight: false, name: "Côte annelée", use: 2, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
-    var Cuir = {type: "armure", usableInFight: false, name: "Armure en cuir clouté", use: 2, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
-    var Bourse = {type: "objet", usableInFight: false, name: "Bourse", use: lvl*5, dommage: "", prix: "", descr: "Une bourse qui contient vos pièces d'or", action: null, id: random(1, 10000)};
-    var Arc = {type: "objet", usableInFight: false, name: "Arc", use: 0, dommage: "", prix: "", descr: "Une arme de base", action: null, id: random(1, 10000)};
-    var Carquois = {type: "objet", usableInFight: false, name: "Carquois", use: 6, dommage: "", prix: "", descr: "", action: null, id: random(1, 10000)};
+    var Epée = {type: "arme", usableInFight: false, name: "Epée", use: 0, usable: false, dommage: "", prix: "", descr: "Une epée de base", action: null, id: random(1, 10000)};
+    var Bâton = {type: "arme", usableInFight: false, name: "Bâton", use: 0, usable: false, dommage: "", prix: "", descr: "Un bâton de base", action: null, id: random(1, 10000)};
+    var Côte = {type: "armure", usableInFight: false, name: "Côte de maille", use: 3, usable: false, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
+    var Annelée = {type: "armure", usableInFight: false, name: "Côte annelée", use: 2, usable: false, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
+    var Cuir = {type: "armure", usableInFight: false, name: "Armure en cuir clouté", use: 2, usable: false, dommage: "", prix: "", descr: "Une protection de base", action: null, id: random(1, 10000)};
+    var Bourse = {type: "objet", usableInFight: false, name: "Bourse", use: lvl*5, usable: true, dommage: "", prix: "", descr: "Une bourse qui contient vos pièces d'or", action: null, id: random(1, 10000)};
+    var Arc = {type: "objet", usableInFight: false, name: "Arc", use: 0, usable: false, dommage: "", prix: "", descr: "Une arme de base", action: null, id: random(1, 10000)};
+    var Carquois = {type: "objet", usableInFight: false, name: "Carquois", use: 6, usable: true, dommage: "", prix: "", descr: "", action: null, id: random(1, 10000)};
 
     var equip = [Bourse];
 

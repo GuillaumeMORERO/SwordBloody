@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, ScrollView, FlatList, ActivityIndicator, Pressable, Animated } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
@@ -8,11 +8,14 @@ import ItemComponent from './ItemComponent';
 import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 
+import {qteUseObject} from '../../Store/Actions/InGameActions';
+
 export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     const { finalTeam, book } = useSelector((state) => state.InGameRedux);
+    const dispatch = useDispatch();
 
     const typeReçu = data.route.params.type;
     const [Perso, setPerso] = useState({});
@@ -86,6 +89,10 @@ export default (data) => {
         setDataAlert({'title': 'Ajout d\'objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'book': book});
     };
 
+    const modifQte = (value, id) => {
+        dispatch(qteUseObject(value, id, Perso.classe));
+    }
+
     return (
         <View style={Styles.select_container}>
 
@@ -123,7 +130,7 @@ export default (data) => {
                             data={itemList()}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => {
-                                return (<ItemComponent data={item} suppItem={suppItem} />)
+                                return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} />)
                             }}
                         />
 

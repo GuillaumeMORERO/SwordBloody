@@ -8,6 +8,7 @@ export const SUPP_NOTES = 'action/SUPP_NOTES';
 export const SUPP_OBJET = 'action/SUPP_OBJET';
 export const REPLACE_BOOK = 'action/REPLACE_BOOK';
 export const MODIF_CARAC = 'action/MODIF_CARAC';
+export const QTE_USE_OBJECT = 'action/QTE_USE_OBJECT';
 
 export const manageHero = (action, charac) => {
   return { type: MANAGE_HERO, action, charac };
@@ -47,4 +48,8 @@ export const replaceBook = (book, modif) => {
 
 export const modifCarac = (modif, classe) => {
   return { type: MODIF_CARAC, modif, classe};
+};
+
+export const qteUseObject = (value, idItem, classe) => {
+  return { type: QTE_USE_OBJECT, value, idItem, classe};
 };
