@@ -86,7 +86,7 @@ export default (data) => {
         nbrObject === 10 ? message = 'Vous avez dix objets, vous ne pouvez plus en ajouter.' : fct = 'Adder';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({'title': 'Ajout d\'objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'book': book});
+        setDataAlert({'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'book': book});
     };
 
     const modifQte = (value, id) => {

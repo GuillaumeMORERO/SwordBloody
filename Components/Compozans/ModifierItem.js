@@ -10,8 +10,6 @@ import { classes } from '../../Helpers/Data';
 
 export default ({ carac, listGenerator, send }) => {
 
-    console.log('listGenerator = ',listGenerator);
-
     const dispatch = useDispatch();
     const [modif, setModif] = useState(0);
 
@@ -31,11 +29,11 @@ export default ({ carac, listGenerator, send }) => {
     });
 
     return (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', height:40 }}>
 
             <View style={{ flexDirection: 'row', width: '50%', alignItems: 'center', justifyContent: 'space-around', }}>
                 <TextCustom text={`${carac.name} : `} size={2} italic />
-                <TextCustom text={carac.value} size={2} />
+                <TextCustom text={`${carac.actualValue} /${carac.value}`} size={2} />
             </View>
 
             <View style={{ width: '50%', alignItems: 'center' }}>

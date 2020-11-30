@@ -1,13 +1,13 @@
 
-import { 
-  VALIDATION_CHOICE, 
-  RESET_STATE, 
-  SET_PARAGRAPH, 
-  SET_BOOK, 
-  MANAGE_HERO, 
-  SET_NOTES, 
-  SUPP_NOTES, 
-  SUPP_OBJET, 
+import {
+  VALIDATION_CHOICE,
+  RESET_STATE,
+  SET_PARAGRAPH,
+  SET_BOOK,
+  MANAGE_HERO,
+  SET_NOTES,
+  SUPP_NOTES,
+  SUPP_OBJET,
   REPLACE_BOOK,
   MODIF_CARAC,
   QTE_USE_OBJECT
@@ -59,11 +59,11 @@ function inGameRedux(state = initialState, action) {
             temporaryPerso.name = perso.name;
             temporaryPerso.level = action.level
             temporaryPerso.skills = persoData.skills;
-            persoData.carac.forEach(dataByLvl => { 
-              if (dataByLvl.level === action.level) { 
-                temporaryPerso.carac = dataByLvl; 
-                temporaryPerso.actualCarac = {force: dataByLvl.force, pouvoir: dataByLvl.pouvoir, habilete: dataByLvl.habilete, endurance: dataByLvl.endurance, dommage: dataByLvl.dommage, bonus: dataByLvl.bonus};
-              } 
+            persoData.carac.forEach(dataByLvl => {
+              if (dataByLvl.level === action.level) {
+                temporaryPerso.carac = dataByLvl;
+                temporaryPerso.actualCarac = { force: dataByLvl.force, pouvoir: dataByLvl.pouvoir, habilete: dataByLvl.habilete, endurance: dataByLvl.endurance, dommage: dataByLvl.dommage, bonus: dataByLvl.bonus };
+              }
             });
             temporaryPerso.inventaire = baseEquip(perso.type, action.level);
             let armure = temporaryPerso.inventaire.find(obj => obj.type === 'armure');
@@ -131,14 +131,19 @@ function inGameRedux(state = initialState, action) {
 
     case SUPP_OBJET: {
       let perso = state.finalTeam.find(elm => elm.classe === action.classe);
+      let { actualCarac } = perso;
       let inventaire = perso.inventaire;
       let objectToSupp = inventaire.find(obj => obj.id === action.id);
 
       if (objectToSupp.type === 'arme') {
         perso.arme = false;
-        if (perso.classe!='Chevalier') {perso.carac.force=perso.carac.force-2; perso.carac.bonus=perso.carac.bonus-2}
+        if (perso.classe != 'Chevalier') {
+          perso.carac.bonus = perso.carac.bonus - 2;
+          actualCarac['force'] = actualCarac['force'] - 2;
+        }
       };
-      if (objectToSupp.type === 'armure') {perso.protection = 0};
+      if (objectToSupp.type === 'armure') { perso.protection = 0 };
+
       let newInventaire = inventaire.filter(objet => objet.id !== action.id);
       perso.inventaire = newInventaire;
 
@@ -153,14 +158,12 @@ function inGameRedux(state = initialState, action) {
 
     case REPLACE_BOOK: {
       let newteam = [];
-      //console.log((1000+ parseInt(action.modif)) / state.finalTeam.length);
+    
       state.finalTeam.map(perso => {
         let newPerso = perso;
-        perso.xp = Math.floor((1000+ parseInt(action.modif) ) / state.finalTeam.length) ; //doit être divisé entre les perso vivants !!!
+        perso.xp = Math.floor((1000 + parseInt(action.modif)) / state.finalTeam.length); //doit être divisé entre les perso vivants !!!
         newteam.push(...newteam, newPerso);
       });
-
-      //console.log(newteam)
 
       return nextState = {
         ...state,
@@ -172,18 +175,18 @@ function inGameRedux(state = initialState, action) {
     case MODIF_CARAC: {
 
       let perso = state.finalTeam.find(perso => perso.classe === action.classe);
-      let {actualCarac} = perso;
+      let { actualCarac } = perso;
       let arrayOfModif = action.modif;
- 
-      for (let [name, value] of Object.entries(actualCarac)) {
-        arrayOfModif.forEach(modif => {
-          if (name === modif.carac) {
-            value = parseInt(value) + parseInt(modif.value);
-            actualCarac[name] = value;
-          }
-        });
-      }
 
+      arrayOfModif.forEach(objectOfModif => {
+        if (objectOfModif.carac === 'protection') {
+          perso.protection = parseInt(perso.protection) + parseInt(objectOfModif.value);
+        } 
+        else {
+          actualCarac[objectOfModif.carac] = parseInt(actualCarac[objectOfModif.carac]) + parseInt(objectOfModif.value);
+        }
+      });
+      
       let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
       newTeam.push(perso);
 
@@ -191,34 +194,34 @@ function inGameRedux(state = initialState, action) {
         ...state,
         finalTeam: newTeam,
       }
-    };
+  };
 
     case QTE_USE_OBJECT: {
 
-      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
-      let {inventaire} = perso;
+    let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+    let { inventaire } = perso;
 
-      let objectToModif = inventaire.find(object => object.id === action.idItem);
-      objectToModif.use += action.value;
+    let objectToModif = inventaire.find(object => object.id === action.idItem);
+    objectToModif.use += action.value;
 
-      let newInventaire = inventaire.filter(object => object.id !== action.idItem);
-      newInventaire.push(objectToModif);
-      perso.inventaire = newInventaire
+    let newInventaire = inventaire.filter(object => object.id !== action.idItem);
+    newInventaire.push(objectToModif);
+    perso.inventaire = newInventaire
 
-      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
-      newTeam.push(perso);
+    let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+    newTeam.push(perso);
 
-      return nextState = {
-        ...state,
-        finalTeam: newTeam,
-      }
-    };
+    return nextState = {
+      ...state,
+      finalTeam: newTeam,
+    }
+  };
 
     default: {
-      return state
-    };
+    return state
+  };
 
-  }
+}
 }
 
 export default inGameRedux;

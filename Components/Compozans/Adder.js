@@ -18,3 +18,12 @@ export default ({ fct, book, classe }) => {
         </View>
     )
 }
+
+var Epée = {
+    type: "arme", // select picker
+    name: "Epée", // textinput
+    descr: "Une epée de base", // textinput
+    use: 0, // switch ?
+    usable: false, // switch ?
+    id: `arme_${random(1, 10000)}` // generé avec import de la fct depuis logic
+};

@@ -56,7 +56,7 @@ export default (data) => {
 
     const damage = () => {
         const bonus = Perso.carac.bonus === 0 ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
-        return `${Perso.carac.dommage}d${bonus} `;
+        return `${Perso.carac.dommage}d ${bonus} `;
     }
 
     const closeAlert = () => { fadeOut(); };
@@ -182,7 +182,7 @@ export default (data) => {
 
             {!isLoading &&
                 <View style={{ flex: 1 }}>
-{/* {console.log('perso de base => ', Perso.carac, '\n' , Perso.actualCarac)} */}
+
                     <View style={styles.main}>
 
                         <View style={styles.avatar}>

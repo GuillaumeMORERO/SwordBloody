@@ -12,16 +12,23 @@ export default ({ fct, perso }) => {
 
     // mettre en place un systéme de modif en plus des caracs, genre les caracs de base ne bougent qu'avec la montée de niveau, mais on applique une modif qui est de base à 0
     // faudra dispatcher un objet qui ne contient que les modif de carac, genre {modifForce: -1, modifPouvoir: +2, ...etc}
-    const { carac } = perso;
+    const { carac, actualCarac } = perso;
+    // console.log('actualCarac', actualCarac);
+    // console.log('carac', carac);
     const dispatch = useDispatch();
     const [arrayOfModif, setArrayOfModif] = useState([]);
 
     const list = () => {
         let caracList = [];
-        Object.entries(carac).forEach(([key, value]) => {
-            const nameCapitalized = key.charAt(0).toUpperCase() + key.slice(1)
-            key !== 'level' ? caracList.push({ 'name': nameCapitalized, 'value': value }) : null;
+        Object.entries(carac).forEach(([caracName, value]) => {
+            const nameCapitalized = caracName.charAt(0).toUpperCase() + caracName.slice(1);
+            let actualValue = 0;
+            for (let [actualCaracName, value] of Object.entries(actualCarac)) {
+                if (actualCaracName === caracName)  {actualValue = value}
+              }
+            caracName !== 'level' ? caracList.push({ 'name': nameCapitalized, 'value': value, 'actualValue': actualValue }) : null;
         });
+        caracList.push({'name': 'Protection', 'value': perso.protection, 'actualValue': perso.protection })
         return caracList
     }
 
