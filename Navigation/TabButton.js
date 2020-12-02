@@ -49,9 +49,9 @@ export default ({ state, descriptors, navigation }) => {
                 
                 return (
                     <Pressable onPress={onPress} style={styles.pressable} key={index} id={index}>
-                        {getIcon()}
+                        {/* {getIcon()} */}
+                        <TextCustom text={label} size={10} />
                         <View style={styles.barBot}></View>
-                        {/* <TextCustom text={label} size={10} /> */}
                     </Pressable>
                     
                 );

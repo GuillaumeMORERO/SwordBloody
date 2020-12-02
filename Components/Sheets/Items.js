@@ -8,7 +8,7 @@ import ItemComponent from './ItemComponent';
 import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 
-import {qteUseObject} from '../../Store/Actions/InGameActions';
+import { qteUseObject } from '../../Store/Actions/InGameActions';
 
 export default (data) => {
 
@@ -35,10 +35,13 @@ export default (data) => {
 
     const itemList = () => {
         var items = new Array();
-        Perso.inventaire.forEach((item, key) => {
-            items.push({ id: key + 1, item: item });
-        });
+        if (Array.isArray(Perso.inventaire)) {
+            Perso.inventaire.forEach((item, key) => {
+                items.push({ id: key + 1, item: item });
+            });
+        }
         //setNbrItems(items.length);
+        //console.log('items = ',items)
         return items;
     }
 
@@ -86,7 +89,7 @@ export default (data) => {
         nbrObject === 10 ? message = 'Vous avez dix objets, vous ne pouvez plus en ajouter.' : fct = 'Adder';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'book': book});
+        setDataAlert({ 'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe });
     };
 
     const modifQte = (value, id) => {

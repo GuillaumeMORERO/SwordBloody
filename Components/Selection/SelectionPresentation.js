@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, StyleSheet, Image, Animated } from 'react-native';
+import { View, StyleSheet, Image, Animated, Text } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { validationChoices, setBook } from '../../Store/Actions/InGameActions';
@@ -10,6 +10,7 @@ import Gradiator from '../Gradiator';
 import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 import { BaseLvlCharac } from '../../Helpers/Logic';
+import TexteCustom from '../TexteCustom';
 
 export default ({ navigation }) => {
 
@@ -170,8 +171,11 @@ export default ({ navigation }) => {
             }
 
             <View style={styles.zone_title}>
-                <Image style={{ width: 300, marginTop: 40, resizeMode: 'contain', }} source={require('../../Helpers/IMG/BloodSwordLogo.png')} />
+                <Image style={{ width: 300, marginTop: 40, resizeMode: 'contain', }} source={require('../../Helpers/IMG/final_splash.png')} />
             </View>
+
+            <TexteCustom text={'selection'} size={3} typo={'BLOODY'} />
+            <Text style={{fontSize: 20, fontFamily: 'BLOODY', color: 'white'}}>test</Text>
 
             <View style={styles.zone_button}>
                 <Gradiator

@@ -8,6 +8,7 @@ import {
   SET_NOTES,
   SUPP_NOTES,
   SUPP_OBJET,
+  ADD_OBJET,
   REPLACE_BOOK,
   MODIF_CARAC,
   QTE_USE_OBJECT
@@ -131,21 +132,11 @@ function inGameRedux(state = initialState, action) {
 
     case SUPP_OBJET: {
       let perso = state.finalTeam.find(elm => elm.classe === action.classe);
-      let { actualCarac } = perso;
       let inventaire = perso.inventaire;
-      let objectToSupp = inventaire.find(obj => obj.id === action.id);
-
-      if (objectToSupp.type === 'arme') {
-        perso.arme = false;
-        if (perso.classe != 'Chevalier') {
-          perso.carac.bonus = perso.carac.bonus - 2;
-          actualCarac['force'] = actualCarac['force'] - 2;
-        }
-      };
-      if (objectToSupp.type === 'armure') { perso.protection = 0 };
 
       let newInventaire = inventaire.filter(objet => objet.id !== action.id);
-      perso.inventaire = newInventaire;
+      //Array.isArray(newInventaire) ? perso.inventaire = newInventaire : newInventaire = [];
+      perso.inventaire = newInventaire
 
       let teamSupp = state.finalTeam.filter(charac => charac.classe !== action.classe);
       let newTeam = [...teamSupp, perso]
@@ -155,6 +146,26 @@ function inGameRedux(state = initialState, action) {
         finalTeam: newTeam
       }
     };
+
+    case ADD_OBJET: {
+      //console.log('action = ', action.objet)
+      let perso = state.finalTeam.find(elm => elm.classe === action.classe);
+      let {inventaire} = perso;
+      //let inventaire = perso.inventaire;
+      //console.log(inventaire)
+      let newInventaire = inventaire.push(action.objet);
+      //console.log('newInventaire = ',newInventaire)
+      // perso.inventaire = newInventaire;
+      // console.log(perso.inventaire)
+      let teamSupp = state.finalTeam.filter(charac => charac.classe !== action.classe);
+      let newTeam = [...teamSupp, perso]
+
+      return nextState = {
+        ...state,
+        finalTeam: newTeam
+      }
+
+    }
 
     case REPLACE_BOOK: {
       let newteam = [];

@@ -89,6 +89,7 @@ export default ({item, valid}) => {
             paddingTop: 10,
         },
     });
+    
     const fontColor = checked ? '#FFD66F' : '#rgba(255, 214, 111, 0.5)';
     return (
         <View>
