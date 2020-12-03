@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 import Gradiator from '../Gradiator';
 
@@ -15,6 +15,11 @@ export default ({perso, navigation}) => {
             justifyContent: 'space-around',
             alignItems: 'center',
         },
+        icon :{
+            resizeMode: 'contain',
+            width: 35,
+            height: 35,
+        }
     })
 
     return (
@@ -25,18 +30,29 @@ export default ({perso, navigation}) => {
                 styleObject={{width: '50%', marginVertical:10}}
                 fSize={2}
             />
-            <Gradiator
+            {/* <Gradiator
                 label={'Capacités'}
                 fct={() => navigation.navigate("Skills", {type})}
                 styleObject={{width: '20%', height: 35, marginVertical:10}}
                 fSize={1}
-            />
-            <Gradiator
+            /> */}
+            
+            {/* <Gradiator
                 label={'Inventaire'}
                 fct={() => navigation.navigate("Items", {type})}
                 styleObject={{width: '20%', height: 35, marginVertical:10}}
                 fSize={1}
-            />
+            /> */}
+            <TouchableHighlight
+                onPress={() => navigation.navigate("Skills", {type})}
+            >
+                <Image source={require('../../Helpers/IMG/capacite.png')} style={styles.icon} />
+            </TouchableHighlight>
+            <TouchableHighlight
+                onPress={() => navigation.navigate("Items", {type})}
+            >
+                <Image source={require('../../Helpers/IMG/inventaire.png')} style={styles.icon} />
+            </TouchableHighlight>
         </View>
     )
 }

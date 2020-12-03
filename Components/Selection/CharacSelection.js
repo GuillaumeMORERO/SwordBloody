@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, Image, ScrollView, StyleSheet, SafeAreaView,SectionList, Pressable } from 'react-native';
+import { View, FlatList, Text, Image, ScrollView, StyleSheet, SectionList, Pressable } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { manageHero } from '../../Store/Actions/InGameActions'
@@ -7,13 +7,13 @@ import { manageHero } from '../../Store/Actions/InGameActions'
 import Charac from './Charac';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
-import {classes} from '../../Helpers/Data';
+import { classes } from '../../Helpers/Data';
 
 export default (data) => {
 
     const dispatch = useDispatch();
 
-    const valid = (act, perso) => {dispatch(manageHero(act, perso));};
+    const valid = (act, perso) => { dispatch(manageHero(act, perso)); };
 
     const styles = StyleSheet.create({
         scrollview: {
@@ -21,9 +21,9 @@ export default (data) => {
             marginBottom: 20,
             paddingBottom: 20,
             width: '90%',
-            height:'100%',
+            height: '100%',
         },
-        zone_validation : {
+        zone_validation: {
             marginBottom: 10,
             width: '100%',
             alignItems: 'center',
@@ -37,7 +37,7 @@ export default (data) => {
         <View style={Styles.select_container}>
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
-                <TextCustom text={'<<'} size={30} />
+                <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
             <View style={Styles.divider}>
@@ -50,7 +50,7 @@ export default (data) => {
                 <FlatList
                     data={classes}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({item}) => (
+                    renderItem={({ item }) => (
                         <Charac
                             item={item}
                             valid={valid}

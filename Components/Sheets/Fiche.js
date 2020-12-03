@@ -175,7 +175,7 @@ export default (data) => {
             }
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
-                <TextCustom text={'<<'} size={30} />
+                <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
             {isLoading && spinner()}
@@ -214,7 +214,7 @@ export default (data) => {
 
                                 <View style={styles.carac_container_lateral}>
 
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                                         <View style={Styles.hrLine} />
                                         <Icon name='pencil' type='evilicon' color='#FFD66F' size={20} onPress={() => modifCarac()} />
                                         <View style={Styles.hrLine} />

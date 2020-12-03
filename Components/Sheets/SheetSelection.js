@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Button, FlatList, Image, StyleSheet, Animated } from 'react-native';
+import { View, Text, Button, FlatList, Image, StyleSheet, Animated, TouchableHighlight } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { validationChoices } from '../../Store/Actions/InGameActions';
@@ -65,7 +65,7 @@ export default ({ navigation }) => {
         },
         zone_button_bas: {
             flex: 1,
-            justifyContent: 'space-evenly',
+            flexDirection: 'row',
             alignItems: 'center',
             width: '100%',
         },
@@ -74,6 +74,12 @@ export default ({ navigation }) => {
             justifyContent: 'space-around',
             alignItems: 'center',
             marginBottom: 20,
+        },
+        icon: {
+            resizeMode: 'contain',
+            width: 50,
+            height: 50,
+            alignSelf: 'center',
         }
     })
 
@@ -105,11 +111,11 @@ export default ({ navigation }) => {
                         />
                     </View>
 
-                    <View style={{...Styles.hrLine, marginBottom: 10}} />
+                    <View style={{ ...Styles.hrLine, marginBottom: 10 }} />
 
                     <View style={styles.zone_button_bas}>
-                        <View style={{ flexDirection: 'row' }} >
-                            <Gradiator
+
+                        {/* <Gradiator
                                 label={labelPara()}
                                 fct={() => paraSetter()}
                                 styleObject={{ width: '50%', margin: 10 }}
@@ -120,8 +126,21 @@ export default ({ navigation }) => {
                                 fct={() => paraNotes()}
                                 styleObject={{ width: '20%', margin: 10 }}
                                 fSize={2}
-                            />
-                        </View>
+                            /> */}
+                        <TouchableHighlight
+                            style={{ width: '50%' }}
+                            onPress={() => paraSetter()}
+                        >
+                            <Image source={require('../../Helpers/IMG/paragraphe.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={{ width: '50%' }}
+                            onPress={() => paraNotes()}
+                        >
+                            <Image source={require('../../Helpers/IMG/note.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
                     </View>
 
                     <View style={styles.zone_livre}>
@@ -134,11 +153,11 @@ export default ({ navigation }) => {
 
                         <TextCustom text={inGameState.book} size={3} />
 
-                        <View style={{width:200}}>
+                        <View style={{ width: 200 }}>
                             <Gradiator
                                 label={'Changer de livre'}
                                 fct={() => changeBook()}
-                                styleObject={{ width: '100%'}}
+                                styleObject={{ width: '100%' }}
                                 fSize={2}
                             />
                         </View>

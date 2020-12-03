@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { Tooltip, Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 
@@ -7,7 +7,7 @@ import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 
-export default ({ data, suppItem, modifQte }) => {
+export default ({ data, suppItem, modifQte, teamLength, exchangeItem }) => {
 
     const [useNbr, setUseNbr] = useState(0);
 
@@ -40,16 +40,22 @@ export default ({ data, suppItem, modifQte }) => {
             flex: 1,
         },
         name: {
-            flex: 3,
+            flex: 5,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
         },
         gradiators: {
-            flex: 1,
+            flex: 2,
             flexDirection: 'row',
             justifyContent: 'space-between',
         },
+        icon: {
+            resizeMode: 'contain',
+            width: 25,
+            height: 25,
+            alignSelf: 'center',
+        }
 
     });
 
@@ -78,18 +84,35 @@ export default ({ data, suppItem, modifQte }) => {
                     </View>
 
                     <View style={styles.gradiators}>
-                        <Gradiator
+
+                        {/* <Gradiator
                             label='<->'
-                            fct={() => console.log('Echanger !!')}
+                            fct={() => exchangeItem(data.item)}
                             styleObject={{ width: '40%', height: 30 }}
                             fSize={2}
+                            fCouleur={teamLength > 1 ? '#FFD66F' : 'grey'}
+                            grCouleur={teamLength > 1 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
                         />
                         <Gradiator
                             label='X'
                             fct={() => suppItem(data.item.name, data.item.id, data.item.type)}
                             styleObject={{ width: '40%', height: 30, }}
                             fSize={2}
-                        />
+                        /> */}
+                        <TouchableHighlight
+                            style={{ width: '50%', opacity: teamLength > 1 ? 1 : 0.5}}
+                            onPress={() => exchangeItem(data.item)}
+                        >
+                            <Image source={require('../../Helpers/IMG/echange.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={{ width: '50%' }}
+                            onPress={() => suppItem(data.item.name, data.item.id, data.item.type)}
+                        >
+                            <Image source={require('../../Helpers/IMG/supp.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
                     </View>
 
                 </View>

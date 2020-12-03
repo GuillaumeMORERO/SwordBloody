@@ -37,6 +37,12 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
+    back: {
+        resizeMode: 'contain',
+        width: 30,
+        height: 30,
+        alignSelf: 'flex-start',
+    },
     hrLine: {
         width: '30%',
         

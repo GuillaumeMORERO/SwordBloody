@@ -17,7 +17,7 @@ export default (data) => {
 
     const styles = StyleSheet.create({
         zone_button: {
-            flex:1,
+            flex: 1,
             width: '90%',
             marginTop: 20,
         },
@@ -27,7 +27,7 @@ export default (data) => {
         <View style={Styles.select_container}>
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
-                <TextCustom text={'<<'} size={30} />
+                <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
             <View style={Styles.divider}>

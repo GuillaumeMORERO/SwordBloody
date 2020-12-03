@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, ScrollView, FlatList, ActivityIndicator, Pressable, Animated } from 'react-native';
+import { View, ScrollView, FlatList, ActivityIndicator, Pressable, Animated, Image, TouchableHighlight, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Gradiator from '../Gradiator';
@@ -22,7 +22,6 @@ export default (data) => {
     const [isLoading, setIsLoading] = useState(true);
     const [displayAlert, setDisplayAlert] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
-    //const [nbrItems, setNbrItems] = useState();
 
     useEffect(() => {
         finalTeam.forEach(dataSet => {
@@ -40,8 +39,6 @@ export default (data) => {
                 items.push({ id: key + 1, item: item });
             });
         }
-        //setNbrItems(items.length);
-        //console.log('items = ',items)
         return items;
     }
 
@@ -92,9 +89,28 @@ export default (data) => {
         setDataAlert({ 'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe });
     };
 
+    const exchangeItem = (item) => {
+        let nbrPerso = finalTeam.length;
+        let message = `Avec qui voulez-vous échanger\n '${item.name}'`; let fct = '';
+        nbrPerso === 1 ? message = 'Vous n\' avez qu\' un seul Personnage dans l\'équipe !' : fct = 'Exchanger';
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({ 'title': 'Echange d\' objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'id': item.id });
+    };
+
     const modifQte = (value, id) => {
         dispatch(qteUseObject(value, id, Perso.classe));
     }
+
+    const styles = StyleSheet.create({
+        icon: {
+            resizeMode: 'contain',
+            width: 40,
+            height: 40,
+            alignSelf: 'center',
+        },
+
+    });
 
     return (
         <View style={Styles.select_container}>
@@ -108,7 +124,7 @@ export default (data) => {
             {isLoading && spinner()}
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
-                <TextCustom text={'<<'} size={30} />
+                <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
             {!isLoading &&
@@ -122,18 +138,26 @@ export default (data) => {
                             <View style={Styles.hrLine} />
                         </View>
 
-                        <Gradiator
+                        {/* <Gradiator
                             label='+'
                             fct={() => toAddItem()}
                             styleObject={{ width: '10%', alignSelf: 'center', height: 30 }}
                             fSize={30}
-                        />
+                            fCouleur={Perso.inventaire.length < 10 ? '#FFD66F' : 'grey'}
+                            grCouleur={Perso.inventaire.length < 10 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
+                        /> */}
+                        <TouchableHighlight
+                            style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
+                            onPress={() => toAddItem()}
+                        >
+                            <Image source={require('../../Helpers/IMG/add.png')} style={styles.icon} />
+                        </TouchableHighlight>
 
                         <FlatList
                             data={itemList()}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => {
-                                return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} />)
+                                return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} teamLength={finalTeam.length} exchangeItem={exchangeItem} />)
                             }}
                         />
 

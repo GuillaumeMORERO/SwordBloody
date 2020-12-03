@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Switch, StyleSheet } from 'react-native';
+import { View, TextInput, Switch, StyleSheet, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 import { useDispatch } from 'react-redux';
@@ -12,20 +12,18 @@ import Styles from '../Styles';
 
 export default ({ fct, classe }) => {
 
-    //console.log(fct, book, classe);
     const dispatch = useDispatch();
     const [newObject, setNewObject] = useState({
         'type': 'objet',
-        'name': 'nomDeTest',
-        'descr': 'decrDeTest',
+        'name': '',
+        'descr': '',
         'use': 0,
         'usable': false,
         'id': ''
     });
     const [isEnabled, setIsEnabled] = useState(false);
 
-    //console.log(newObject);
-    const { type, name, descr, use, usable } = newObject
+    const { type, name, descr, use } = newObject
     const press = (name, value) => {
         setNewObject({
             ...newObject,
@@ -34,28 +32,22 @@ export default ({ fct, classe }) => {
     }
 
     const validation = () => {
-        //mettredees verifs en place : nom & type obligatoires !!
-        // let nameId = 'id'
-        // let valueId = `${type}_${random(1, 10000)}`;
-        // console.log(valueId);
+        let usableValue = newObject.use > 0 ? true : false;
         setNewObject({
             ...newObject,
-            'id': `${type}_${random(1, 10000)}`
+            'id': `${type}_${random(1, 10000)}`,
+            'usable': usableValue
         });
-        //console.log(newObject)
-        //dispatch(addObject(newObject, classe));
-        //fct();
     }
     useEffect(() => {
         if (newObject.id !== '') {
-            //console.log(newObject)
             dispatch(addObject(newObject, classe));
-            //fct();
+            fct();
         }
-    },[newObject])
+    }, [newObject])
 
     const listGenerator = () => {
-        let list = []; let min = -10; let max = 10;
+        let list = []; let min = 0; let max = 10;
         for (let i = 0; i < (max * 2) + 1; i++) {
             list.push({ 'key': i, 'value': min++ });
         }
@@ -84,16 +76,22 @@ export default ({ fct, classe }) => {
     }
 
     const styles = StyleSheet.create({
+        ScrollView: {
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
         ligne: {
-            width: '100%',
+            width: '70%',
+            marginVertical: 10,
+            justifyContent: 'center'
         },
         txt: {
-            alignSelf: 'flex-start'
+            alignSelf: 'center'
         },
     });
 
     return (
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <ScrollView contentContainerStyle={styles.ScrollView}>
 
             <View style={Styles.hrLine} />
 
@@ -125,7 +123,7 @@ export default ({ fct, classe }) => {
                     onChangeText={e => press('name', e)}
                     value={name}
                     placeholder={'nom'}
-                    placeholderTextColor="#FFD66F" 
+                    placeholderTextColor="#FFD66F"
                     maxLength={20}
                     textAlign={'center'}
                     style={{ color: '#FFD66F' }}
@@ -142,7 +140,7 @@ export default ({ fct, classe }) => {
                     onChangeText={e => press('descr', e)}
                     value={descr}
                     placeholder={'descritption'}
-                    placeholderTextColor="#FFD66F" 
+                    placeholderTextColor="#FFD66F"
                     textAlign={'center'}
                     style={{ color: '#FFD66F' }}
                 />
@@ -150,7 +148,7 @@ export default ({ fct, classe }) => {
 
             <View style={Styles.hrLine} />
 
-            <View>
+            <View style={{ ...styles.ligne, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TextCustom text={'Quantité utilisable ?'} size={2} italic />
                 <Switch
                     trackColor={{ false: "#rgba(255, 0, 0, 0.3)", true: "#rgba(255, 0, 0, 0.6)" }}
@@ -158,17 +156,8 @@ export default ({ fct, classe }) => {
                     onValueChange={() => setIsEnabled(!isEnabled)}
                     value={isEnabled}
                 />
-                {displayer()}
             </View>
-
-
-            {/* usable */}
-            {/* <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                onValueChange={press('usable', !isEnabled)}
-                value={isEnabled}
-            /> */}
+            {displayer()}
 
             <Gradiator
                 label={'Valider'}
@@ -177,6 +166,6 @@ export default ({ fct, classe }) => {
                 fSize={2}
             />
 
-        </View>
+        </ScrollView>
     )
 }

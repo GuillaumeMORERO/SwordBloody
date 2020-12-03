@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import {sizes, typo} from '../Helpers/Data';
 
-export default ({text, size=2, couleur = '#FFD66F', italic, bold, typo='Texturina'}) => {
+export default ({text, size=2, couleur = '#FFD66F', italic, bold, typo='Texturina', opacity=1}) => {
 
     const sizeFont = (size === 1) ? 12 : (size === 2) ? 15 : (size === 3) ? 18 : (size === 4) ? 20 : (size > 4) ? size: size;
     const type = ()=> {
@@ -23,6 +23,7 @@ export default ({text, size=2, couleur = '#FFD66F', italic, bold, typo='Texturin
             fontSize: sizeFont,
             fontFamily:`${typo}-${type()}`,
             color: couleur,
+            opacity: opacity
         },
     })
 

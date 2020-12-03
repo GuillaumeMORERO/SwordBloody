@@ -51,7 +51,7 @@ export default (data) => {
             {isLoading && spinner()}
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
-                <TextCustom text={'<<'} size={30} />
+                <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
             {!isLoading &&

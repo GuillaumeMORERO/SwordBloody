@@ -175,7 +175,7 @@ export default ({ navigation }) => {
             </View>
 
             <TexteCustom text={'selection'} size={3} typo={'BLOODY'} />
-            <Text style={{fontSize: 20, fontFamily: 'BLOODY', color: 'white'}}>test</Text>
+            <Text style={{fontSize: 20, fontFamily: 'BLOODY', color: 'white'}}>AAAff</Text>
 
             <View style={styles.zone_button}>
                 <Gradiator
