@@ -11,6 +11,7 @@ import Adder from './Compozans/Adder';
 import Booker from './Compozans/Booker';
 import Modifier from './Compozans/Modifier';
 import Exchanger from './Compozans/Exchanger';
+import Saver from './Compozans/Saver';
 
 export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null}) => {
 
@@ -25,6 +26,7 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
                 case 'Booker' : {return <Booker fct={closeAlert} book={book} />};
                 case 'Modifier' : {return <Modifier fct={closeAlert} perso={perso} />};
                 case 'Exchanger' : {return <Exchanger fct={closeAlert} classe={classe} objectId={id} />};
+                case 'Saver' : {return <Saver fct={closeAlert} />};
             }
         }
     }

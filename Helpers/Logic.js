@@ -47,3 +47,11 @@ export const random = (min, max) => {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min +1)) + min;
 };
+
+export const listGenerator = (min, max) => {
+    let list = [];
+    for (let i = 0; i < (max * 2) + 1; i++) {
+        list.push({ 'key': i, 'value': min++ });
+    }
+    return list
+}

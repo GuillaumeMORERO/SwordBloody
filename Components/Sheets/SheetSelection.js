@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { View, Text, Button, FlatList, Image, StyleSheet, Animated, TouchableHighlight } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { validationChoices } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
@@ -15,6 +14,7 @@ export default ({ navigation }) => {
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     const inGameState = useSelector((state) => state.InGameRedux);
+    const dispatch = useDispatch();
 
     const [display, setDisplay] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
@@ -33,6 +33,12 @@ export default ({ navigation }) => {
         setDisplay(true);
         setDataAlert({ 'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter' });
     };
+
+    const save = () => {
+        fadeIn();
+        setDisplay(true);
+        setDataAlert({ 'title': 'Sauvegarde', 'message': 'Sauvegardez votre partie.', 'closeAlert': closeAlert, 'fct': 'Saver' });
+    }
 
     const changeBook = () => {
         fadeIn();
@@ -67,6 +73,7 @@ export default ({ navigation }) => {
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'space-around',
             width: '100%',
         },
         zone_livre: {
@@ -128,17 +135,31 @@ export default ({ navigation }) => {
                                 fSize={2}
                             /> */}
                         <TouchableHighlight
-                            style={{ width: '50%' }}
+                            style={{ width: '25%' }}
                             onPress={() => paraSetter()}
                         >
                             <Image source={require('../../Helpers/IMG/paragraphe.png')} style={styles.icon} />
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                            style={{ width: '50%' }}
+                            style={{ width: '25%' }}
                             onPress={() => paraNotes()}
                         >
                             <Image source={require('../../Helpers/IMG/note.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={{ width: '25%' }}
+                            onPress={() => save()}
+                        >
+                            <Image source={require('../../Helpers/IMG/save.png')} style={styles.icon} />
+                        </TouchableHighlight>
+                        
+                        <TouchableHighlight
+                            style={{ width: '25%' }}
+                            onPress={() => console.log('roll the die !!')}
+                        >
+                            <Image source={require('../../Helpers/IMG/die.png')} style={styles.icon} />
                         </TouchableHighlight>
 
                     </View>
