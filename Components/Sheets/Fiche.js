@@ -56,7 +56,7 @@ export default (data) => {
 
     const damage = () => {
         const bonus = Perso.carac.bonus === 0 ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
-        return `${Perso.carac.dommage}d ${bonus} `;
+        return `${Perso.carac.dommage}d${bonus}`;
     }
 
     const closeAlert = () => { fadeOut(); };
@@ -245,7 +245,7 @@ export default (data) => {
 
                                 </View>
 
-                                <View style={Styles.hrLine} />
+                                <View style={{...Styles.hrLine, width:'80%'}} />
 
                                 <View style={{ ...styles.carac_container_lateral, height: '25%' }}>
 
