@@ -6,7 +6,6 @@ import { suppObjet, addObject } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
-import Styles from '../Styles';
 
 export default ({ fct, classe, objectId }) => {
 

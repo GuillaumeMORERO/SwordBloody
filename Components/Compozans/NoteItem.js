@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, TextInput, FlatList, ScrollView, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { suppNotes } from '../../Store/Actions/InGameActions';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, Image, ScrollView, StyleSheet, SectionList, Pressable } from 'react-native';
+import { View, FlatList, Image, ScrollView, StyleSheet, Pressable } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { manageHero } from '../../Store/Actions/InGameActions'

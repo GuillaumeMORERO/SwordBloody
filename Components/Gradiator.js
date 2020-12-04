@@ -14,7 +14,6 @@ export default ({ label, fct, styleObject, fSize, fCouleur = '#FFD66F', grCouleu
       alignItems: 'center',
       borderWidth: 1,
       borderColor: grCouleur,
-      //borderColor: 'green',
       borderRadius: 6,
     },
   });

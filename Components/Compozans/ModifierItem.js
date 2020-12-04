@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { suppNotes } from '../../Store/Actions/InGameActions';
-import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
-import { classes } from '../../Helpers/Data';
 
 export default ({ carac, listGenerator, send }) => {
 
-    const dispatch = useDispatch();
     const [modif, setModif] = useState(0);
 
     const select = (carac, value) => {

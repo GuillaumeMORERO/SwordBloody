@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Button, FlatList, Image, StyleSheet, Animated, TouchableHighlight } from 'react-native';
+import { View, FlatList, Image, StyleSheet, Animated, TouchableHighlight } from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
@@ -14,12 +14,11 @@ export default ({ navigation }) => {
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     const inGameState = useSelector((state) => state.InGameRedux);
-    const dispatch = useDispatch();
 
     const [display, setDisplay] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
 
-    const labelPara = () => { return (inGameState.paragraph !== '') ? `Paragraphe actuel : ${inGameState.paragraph}` : 'Memoriser un paragraphe'; };
+    const labelPara = () => { return (inGameState.paragraph !== '') ? `n° ${inGameState.paragraph}` : 'Paragraphe'; };
     const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} notes` : 'Notes'; };
 
     const paraSetter = () => {
@@ -66,8 +65,7 @@ export default ({ navigation }) => {
 
     const styles = StyleSheet.create({
         zone_button: {
-            flex: 4,
-            alignItems: 'center',
+            flex: inGameState.team.length,
         },
         zone_button_bas: {
             flex: 1,
@@ -76,18 +74,25 @@ export default ({ navigation }) => {
             justifyContent: 'space-around',
             width: '100%',
         },
-        zone_livre: {
-            flex: 2,
-            justifyContent: 'space-around',
+        icon_container: {
+            width: '25%',
+            height: '100%',
+            justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 20,
         },
         icon: {
             resizeMode: 'contain',
             width: 50,
             height: 50,
             alignSelf: 'center',
-        }
+        },
+        zone_livre: {
+            flex: 1,
+            width: '90%',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            marginBottom: 20,
+        },
     })
 
     return (
@@ -98,7 +103,7 @@ export default ({ navigation }) => {
                     {AllPurposeAlert(dataAlert)}
                 </Animated.View>
             }
-            <View style={Styles.divider}>
+            <View style={{ ...Styles.divider, margin: 10 }}>
                 <View style={Styles.hrLine} />
                 <TextCustom text={'Personnages'} size={4} bold />
                 <View style={Styles.hrLine} />
@@ -110,6 +115,7 @@ export default ({ navigation }) => {
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
+                            contentContainerStyle={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-around' }}
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
@@ -118,67 +124,71 @@ export default ({ navigation }) => {
                         />
                     </View>
 
-                    <View style={{ ...Styles.hrLine, marginBottom: 10 }} />
+                    <View style={{ ...Styles.divider, width: '100%', margin: 10 }}>
+                        <View style={Styles.hrLine} />
+                        <TextCustom text={'Actions'} size={4} bold />
+                        <View style={Styles.hrLine} />
+                    </View>
 
                     <View style={styles.zone_button_bas}>
 
-                        {/* <Gradiator
-                                label={labelPara()}
-                                fct={() => paraSetter()}
-                                styleObject={{ width: '50%', margin: 10 }}
-                                fSize={2}
-                            />
-                            <Gradiator
-                                label={labelNote()}
-                                fct={() => paraNotes()}
-                                styleObject={{ width: '20%', margin: 10 }}
-                                fSize={2}
-                            /> */}
-                        <TouchableHighlight
-                            style={{ width: '25%' }}
-                            onPress={() => paraSetter()}
-                        >
-                            <Image source={require('../../Helpers/IMG/paragraphe.png')} style={styles.icon} />
-                        </TouchableHighlight>
+                        <View style={styles.icon_container}>
+                            <TouchableHighlight
+                                style={{ width: '25%' }}
+                                onPress={() => paraSetter()}
+                            >
+                                <Image source={require('../../Helpers/IMG/paragraphe.png')} style={styles.icon} />
+                            </TouchableHighlight>
+                            <TextCustom text={labelPara()} size={1} italic />
+                        </View>
 
-                        <TouchableHighlight
-                            style={{ width: '25%' }}
-                            onPress={() => paraNotes()}
-                        >
-                            <Image source={require('../../Helpers/IMG/note.png')} style={styles.icon} />
-                        </TouchableHighlight>
+                        <View style={styles.icon_container}>
+                            <TouchableHighlight
+                                style={{ width: '25%' }}
+                                onPress={() => paraNotes()}
+                            >
+                                <Image source={require('../../Helpers/IMG/note.png')} style={styles.icon} />
+                            </TouchableHighlight>
+                            <TextCustom text={labelNote()} size={1} italic />
+                        </View>
 
-                        <TouchableHighlight
-                            style={{ width: '25%' }}
-                            onPress={() => save()}
-                        >
-                            <Image source={require('../../Helpers/IMG/save.png')} style={styles.icon} />
-                        </TouchableHighlight>
-                        
-                        <TouchableHighlight
-                            style={{ width: '25%' }}
-                            onPress={() => console.log('roll the die !!')}
-                        >
-                            <Image source={require('../../Helpers/IMG/die.png')} style={styles.icon} />
-                        </TouchableHighlight>
+                        <View style={styles.icon_container}>
+                            <TouchableHighlight
+                                style={{ width: '25%' }}
+                                onPress={() => save()}
+                            >
+                                <Image source={require('../../Helpers/IMG/save.png')} style={styles.icon} />
+                            </TouchableHighlight>
+                            <TextCustom text={'Sauvegarde'} size={1} italic />
+                        </View>
 
+                        <View style={styles.icon_container}>
+                            <TouchableHighlight
+                                style={{ width: '25%' }}
+                                onPress={() => console.log('roll the die !!')}
+                            >
+                                <Image source={require('../../Helpers/IMG/die.png')} style={styles.icon} />
+                            </TouchableHighlight>
+                            <TextCustom text={'Lancé de dé'} size={1} italic />
+                        </View>
+
+                    </View>
+
+                    <View style={{ ...Styles.divider, margin: 10 }}>
+                        <View style={Styles.hrLine} />
+                        <TextCustom text='livre en cours' size={4} bold />
+                        <View style={Styles.hrLine} />
                     </View>
 
                     <View style={styles.zone_livre}>
 
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={Styles.hrLine} />
-                            <TextCustom text='livre en cours : ' size={2} />
-                            <View style={Styles.hrLine} />
-                        </View>
-
-                        <TextCustom text={inGameState.book} size={3} />
+                        <TextCustom text={inGameState.book} size={2} italic />
 
                         <View style={{ width: 200 }}>
                             <Gradiator
                                 label={'Changer de livre'}
                                 fct={() => changeBook()}
-                                styleObject={{ width: '100%' }}
+                                styleObject={{ width: '100%', height: 30 }}
                                 fSize={2}
                             />
                         </View>

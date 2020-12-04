@@ -1,13 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Image, FlatList, ActivityIndicator, SafeAreaView, Pressable, Animated } from 'react-native';
-import { Tooltip, Text } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { View, ScrollView, StyleSheet, Image, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
-import ItemComponent from './ItemComponent';
 import CapaComponent from './CapaComponent';
-import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 
 export default (data) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, FlatList, TouchableHighlight, StyleSheet, Image, Pressable } from 'react-native';
+import { View, FlatList, StyleSheet, Image, Pressable } from 'react-native';
 
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';

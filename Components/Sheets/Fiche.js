@@ -80,19 +80,16 @@ export default (data) => {
     const showCarac = () => {
         let filtre = ['force', 'pouvoir', 'habilete', 'endurance'];
         let object = ''; let tab = []; let caractual = Perso.actualCarac;
-        //console.log('caractual = ',caractual);
+
         for (const [name, value] of Object.entries(Perso.carac)) {
             if (filtre.includes(name)) {
                 let descr = descrCarac.find(elm => elm.name === name).descr;
-                //let actualValue = caractual.find(carac => );
-                //console.log(caractual, name);
                 const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
                 object = { 'name': nameCapitalized, 'value': value, 'descr': descr, 'actualValue': caractual[name] };
                 tab.push(object);
             }
         }
         return tab
-
     }
 
     const styles = StyleSheet.create({
@@ -153,8 +150,6 @@ export default (data) => {
         carac_container_lateral: {
             width: '100%',
             height: '60%',
-            //justifyContent: 'center',
-            //alignItems:'center',
         },
         capacity_container: {
             flex: 1,

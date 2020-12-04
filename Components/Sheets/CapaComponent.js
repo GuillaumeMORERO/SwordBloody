@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 
 import TextCustom from '../TexteCustom';
 
 export default ({data}) => {
-
 
     return (
         <View>

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Image, TouchableHighlight } from 'react-native';
-import { Tooltip, Icon } from 'react-native-elements';
+import { Tooltip } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 
-import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 
@@ -85,20 +84,6 @@ export default ({ data, suppItem, modifQte, teamLength, exchangeItem }) => {
 
                     <View style={styles.gradiators}>
 
-                        {/* <Gradiator
-                            label='<->'
-                            fct={() => exchangeItem(data.item)}
-                            styleObject={{ width: '40%', height: 30 }}
-                            fSize={2}
-                            fCouleur={teamLength > 1 ? '#FFD66F' : 'grey'}
-                            grCouleur={teamLength > 1 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
-                        />
-                        <Gradiator
-                            label='X'
-                            fct={() => suppItem(data.item.name, data.item.id, data.item.type)}
-                            styleObject={{ width: '40%', height: 30, }}
-                            fSize={2}
-                        /> */}
                         <TouchableHighlight
                             style={{ width: '50%', opacity: teamLength > 1 ? 1 : 0.5}}
                             onPress={() => exchangeItem(data.item)}

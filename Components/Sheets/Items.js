@@ -14,7 +14,7 @@ export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
-    const { finalTeam, book } = useSelector((state) => state.InGameRedux);
+    const { finalTeam } = useSelector((state) => state.InGameRedux);
     const dispatch = useDispatch();
 
     const typeReçu = data.route.params.type;
@@ -138,14 +138,6 @@ export default (data) => {
                             <View style={Styles.hrLine} />
                         </View>
 
-                        {/* <Gradiator
-                            label='+'
-                            fct={() => toAddItem()}
-                            styleObject={{ width: '10%', alignSelf: 'center', height: 30 }}
-                            fSize={30}
-                            fCouleur={Perso.inventaire.length < 10 ? '#FFD66F' : 'grey'}
-                            grCouleur={Perso.inventaire.length < 10 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
-                        /> */}
                         <TouchableHighlight
                             style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
                             onPress={() => toAddItem()}

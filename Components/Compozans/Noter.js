@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNotes } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
-import TextCustom from '../TexteCustom';
 import NoteItem from './NoteItem';
 
 export default ({fct}) => {
@@ -38,7 +37,7 @@ export default ({fct}) => {
             <View>
                 <TextInput
                     onChangeText={ e => setNote(e) }
-                    placeholder={'Ecrivez votre note'}
+                    placeholder={'Ecrivez votre note ici'}
                     placeholderTextColor={"#FFD66F" }
                     textAlign={'center'}
                     style={{color: '#FFD66F'}}

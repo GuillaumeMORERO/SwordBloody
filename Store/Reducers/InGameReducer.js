@@ -11,7 +11,8 @@ import {
   ADD_OBJET,
   REPLACE_BOOK,
   MODIF_CARAC,
-  QTE_USE_OBJECT
+  QTE_USE_OBJECT,
+  LOAD_DATA
 } from '../Actions/InGameActions';
 
 import { database } from '../../Helpers/Data';
@@ -225,6 +226,18 @@ function inGameRedux(state = initialState, action) {
     return nextState = {
       ...state,
       finalTeam: newTeam,
+    }
+  };
+
+  case LOAD_DATA: {
+    //console.log('reçu dans le reducer = ',action.data)
+    return nextState = {
+      team: action.data.team,
+      book: action.data.book,
+      set: true,
+      paragraph: action.data.paragraph,
+      finalTeam: action.data.finalTeam,
+      inGameNotes: action.data.inGameNotes,
     }
   };
 

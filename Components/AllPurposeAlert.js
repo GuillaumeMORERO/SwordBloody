@@ -12,8 +12,9 @@ import Booker from './Compozans/Booker';
 import Modifier from './Compozans/Modifier';
 import Exchanger from './Compozans/Exchanger';
 import Saver from './Compozans/Saver';
+import Loader from './Compozans/Loader';
 
-export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null}) => {
+export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null, slot=null}) => {
 
     const compozan = () => {
         if ((fct !== null) || (fct !== '')) {
@@ -27,6 +28,7 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
                 case 'Modifier' : {return <Modifier fct={closeAlert} perso={perso} />};
                 case 'Exchanger' : {return <Exchanger fct={closeAlert} classe={classe} objectId={id} />};
                 case 'Saver' : {return <Saver fct={closeAlert} />};
+                case 'Loader' : {return <Loader fct={closeAlert} slot={slot} />};
             }
         }
     }

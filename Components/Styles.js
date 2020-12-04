@@ -56,7 +56,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 20
+        margin: 20,
     },
     border: {
         borderWidth: 1,

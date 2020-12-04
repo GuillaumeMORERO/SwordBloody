@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import {sizes, typo} from '../Helpers/Data';
 
 export default ({text, size=2, couleur = '#FFD66F', italic, bold, typo='Texturina', opacity=1}) => {
 

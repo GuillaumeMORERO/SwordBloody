@@ -27,30 +27,13 @@ export default ({perso, navigation}) => {
             <Gradiator
                 label={perso.name}
                 fct={() => navigation.navigate("fiche", {item})}
-                styleObject={{width: '50%', marginVertical:10}}
+                styleObject={{width: '60%', marginVertical:10}}
                 fSize={2}
             />
-            {/* <Gradiator
-                label={'Capacités'}
-                fct={() => navigation.navigate("Skills", {type})}
-                styleObject={{width: '20%', height: 35, marginVertical:10}}
-                fSize={1}
-            /> */}
-            
-            {/* <Gradiator
-                label={'Inventaire'}
-                fct={() => navigation.navigate("Items", {type})}
-                styleObject={{width: '20%', height: 35, marginVertical:10}}
-                fSize={1}
-            /> */}
-            <TouchableHighlight
-                onPress={() => navigation.navigate("Skills", {type})}
-            >
+            <TouchableHighlight onPress={() => navigation.navigate("Skills", {type})}>
                 <Image source={require('../../Helpers/IMG/capacite.png')} style={styles.icon} />
             </TouchableHighlight>
-            <TouchableHighlight
-                onPress={() => navigation.navigate("Items", {type})}
-            >
+            <TouchableHighlight onPress={() => navigation.navigate("Items", {type})} >
                 <Image source={require('../../Helpers/IMG/inventaire.png')} style={styles.icon} />
             </TouchableHighlight>
         </View>

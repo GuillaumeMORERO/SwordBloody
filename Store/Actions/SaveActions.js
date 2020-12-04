@@ -1,6 +1,5 @@
-  
-export const SAVE_STATE = 'action/SAVE_STATE';
+export const MANAGE_STATE = 'action/SAVE_STATE';
 
-export const saveState = (slot, stateToSave) => {
-  return { type: SAVE_STATE, slot, stateToSave };
+export const manageState = (action, slot, stateToSave) => {
+  return { type: MANAGE_STATE, action, slot, stateToSave };
 };
