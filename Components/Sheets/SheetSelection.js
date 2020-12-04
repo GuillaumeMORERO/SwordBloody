@@ -115,11 +115,10 @@ export default ({ navigation }) => {
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
-                            contentContainerStyle={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-around' }}
                             data={inGameState.team}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
-                                <PersoList perso={item} navigation={navigation} />
+                                <PersoList perso={item} navigation={navigation} nbr={inGameState.team.length} />
                             )}
                         />
                     </View>

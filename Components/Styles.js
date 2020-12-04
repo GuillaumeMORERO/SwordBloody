@@ -12,9 +12,9 @@ export default StyleSheet.create({
     backgroundImage: {
         position: 'absolute',
         resizeMode: 'contain',
-        width: '50%',
-        height: '50%',
-        opacity: 0.3
+        width: '100%',
+        //height: 30,
+        opacity: 0.5
     },
     custom_alert: {
         position: 'absolute',
