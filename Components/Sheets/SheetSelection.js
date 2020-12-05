@@ -33,6 +33,12 @@ export default ({ navigation }) => {
         setDataAlert({ 'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter' });
     };
 
+    const dice = () => {
+        fadeIn();
+        setDisplay(true);
+        setDataAlert({ 'title': 'Lancé de dés', 'message': '', 'closeAlert': closeAlert, 'fct': 'Dicer' });
+    }; 
+
     const save = () => {
         fadeIn();
         setDisplay(true);
@@ -164,7 +170,7 @@ export default ({ navigation }) => {
                         <View style={styles.icon_container}>
                             <TouchableHighlight
                                 style={{ width: '25%' }}
-                                onPress={() => console.log('roll the die !!')}
+                                onPress={() => dice()}
                             >
                                 <Image source={require('../../Helpers/IMG/die.png')} style={styles.icon} />
                             </TouchableHighlight>

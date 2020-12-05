@@ -13,6 +13,7 @@ import Modifier from './Compozans/Modifier';
 import Exchanger from './Compozans/Exchanger';
 import Saver from './Compozans/Saver';
 import Loader from './Compozans/Loader';
+import Dicer from './Compozans/Dicer';
 
 export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null, slot=null}) => {
 
@@ -29,6 +30,7 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
                 case 'Exchanger' : {return <Exchanger fct={closeAlert} classe={classe} objectId={id} />};
                 case 'Saver' : {return <Saver fct={closeAlert} />};
                 case 'Loader' : {return <Loader fct={closeAlert} slot={slot} />};
+                case 'Dicer' : {return <Dicer />};
             }
         }
     }
