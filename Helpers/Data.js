@@ -28,6 +28,28 @@ export const descrCarac = [
     {name: 'endurance', descr: 'L\'Endurance détermine la constitution et la résistance du personnage. Les blessures subies au combat font baisser le total d\'Endurance. Lorsquecelui-ci atteint zéro, le personnage meurt.'}
 ]
 
+export const ranks = [
+    {'level':  2, 'points':  250},
+    {'level':  3, 'points':  500},
+    {'level':  4, 'points':  750},
+    {'level':  5, 'points': 1000},
+    {'level':  6, 'points': 1250},
+    {'level':  7, 'points': 1500},
+    {'level':  8, 'points': 1750},
+    {'level':  9, 'points': 2000},
+    {'level': 10, 'points': 2250},
+    {'level': 11, 'points': 2500},
+    {'level': 12, 'points': 2750},
+    {'level': 13, 'points': 3000},
+    {'level': 14, 'points': 3250},
+    {'level': 15, 'points': 3500},
+    {'level': 16, 'points': 3750},
+    {'level': 17, 'points': 4000},
+    {'level': 18, 'points': 4250},
+    {'level': 19, 'points': 4500},
+    {'level': 20, 'points': 5000},
+]
+
 // export const equipement =[
 //     {type: "arme", usableInFight: false, name: "Epée", use: 0, dommage: "", prix: "", descr: "Une epée de base", action: null},
 //     {type: "arme", usableInFight: false, name: "Bâton", use: 0, dommage: "", prix: "", descr: "Un bâton de base", action: null},
@@ -44,6 +66,7 @@ export const database = [
         classe: "Chevalier",
         name: "",
         level: "",
+        oldLevel: 0,
         xp: 0,
         protection: 0,
         arme: true,
@@ -79,6 +102,7 @@ export const database = [
         classe: "Prêtre",
         name: "",
         level: "",
+        oldLevel: 0,
         xp: 0,
         protection: 0,
         arme: true,
@@ -119,6 +143,7 @@ export const database = [
         classe: "Magicien",
         name: "",
         level: "",
+        oldLevel: 0,
         xp: 0,
         protection: 0,
         arme: true,
@@ -167,6 +192,7 @@ export const database = [
         classe: "Voleur",
         name: "",
         level: "",
+        oldLevel: 0,
         xp: 0,
         protection: 0,
         arme: true,

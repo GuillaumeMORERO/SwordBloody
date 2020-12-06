@@ -54,6 +54,12 @@ export default (data) => {
         setDataAlert({ 'title': 'Modification des caractéristiques', 'message': '', 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso })
     }
 
+    const modifXp = () => {
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({ 'title': 'Ajout de points d\'expérience', 'message': '', 'closeAlert': closeAlert, 'fct': 'Xper', 'perso': Perso })
+    }
+
     const damage = () => {
         const bonus = Perso.carac.bonus === 0 ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
         return `${Perso.carac.dommage}d${bonus}`;
@@ -183,7 +189,7 @@ export default (data) => {
                         <View style={styles.avatar}>
                             {getImg(Perso.classe)}
                         </View>
-
+                        
                         <View style={styles.main_right}>
 
                             <View style={styles.name_container}>
@@ -200,7 +206,8 @@ export default (data) => {
                                     <TextCustom text={Perso.level} size={3} />
                                 </View>
                                 <View style={styles.rowTxt}>
-                                    <TextCustom text='Experience : ' size={1} />
+                                    <TextCustom text='XP : ' size={1} />
+                                    <Icon name='pencil' type='evilicon' color='#FFD66F' size={20} onPress={() => modifXp()} />
                                     <TextCustom text={Perso.xp} size={3} />
                                 </View>
                             </View>

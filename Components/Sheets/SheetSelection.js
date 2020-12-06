@@ -48,7 +48,7 @@ export default ({ navigation }) => {
     const changeBook = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Changement de livre', 'message': 'Faudra pas oublier l\'xp !!!!', 'closeAlert': closeAlert, 'fct': 'Booker', 'book': inGameState.book });
+        setDataAlert({ 'title': 'Changement de livre', 'message': '', 'closeAlert': closeAlert, 'fct': 'Booker', 'book': inGameState.book });
     };
 
     const fadeIn = () => {
@@ -95,6 +95,7 @@ export default ({ navigation }) => {
         zone_livre: {
             flex: 1,
             width: '90%',
+            flexDirection:'row',
             justifyContent: 'space-around',
             alignItems: 'center',
             marginBottom: 20,
@@ -187,11 +188,11 @@ export default ({ navigation }) => {
 
                     <View style={styles.zone_livre}>
 
-                        <TextCustom text={inGameState.book} size={2} italic />
+                        <TextCustom text={` - ${inGameState.book} - `} size={2} italic />
 
-                        <View style={{ width: 200 }}>
+                        <View style={{ width: 100 }}>
                             <Gradiator
-                                label={'Changer de livre'}
+                                label={'Changer'}
                                 fct={() => changeBook()}
                                 styleObject={{ width: '100%', height: 30 }}
                                 fSize={2}

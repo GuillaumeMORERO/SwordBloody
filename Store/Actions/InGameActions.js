@@ -11,6 +11,7 @@ export const REPLACE_BOOK = 'action/REPLACE_BOOK';
 export const MODIF_CARAC = 'action/MODIF_CARAC';
 export const QTE_USE_OBJECT = 'action/QTE_USE_OBJECT';
 export const LOAD_DATA = 'action/LOAD_DATA';
+export const GAIN_XP = 'action/GAIN_XP';
 
 export const manageHero = (action, charac) => {
   return { type: MANAGE_HERO, action, charac };
@@ -48,8 +49,8 @@ export const addObject = (objet, classe) => {
   return { type: ADD_OBJET, objet, classe};
 };
 
-export const replaceBook = (book, modif) => {
-  return { type: REPLACE_BOOK, book, modif};
+export const replaceBook = (book) => {
+  return { type: REPLACE_BOOK, book};
 };
 
 export const modifCarac = (modif, classe) => {
@@ -64,4 +65,6 @@ export const loadData = (data) => {
   return { type: LOAD_DATA, data};
 };
 
-loadData
+export const xpGain = (gain, perso) => {
+  return { type: GAIN_XP, gain, perso};
+};

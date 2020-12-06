@@ -12,10 +12,11 @@ import {
   REPLACE_BOOK,
   MODIF_CARAC,
   QTE_USE_OBJECT,
-  LOAD_DATA
+  LOAD_DATA,
+  GAIN_XP
 } from '../Actions/InGameActions';
 
-import { database } from '../../Helpers/Data';
+import { database, ranks } from '../../Helpers/Data';
 import { baseEquip } from '../../Helpers/Logic';
 
 const initialState = {
@@ -59,7 +60,12 @@ function inGameRedux(state = initialState, action) {
 
             temporaryPerso.classe = perso.type;
             temporaryPerso.name = perso.name;
-            temporaryPerso.level = action.level
+            temporaryPerso.level = action.level;
+            temporaryPerso.oldLevel = action.level;
+
+            let startingXp = ranks.find(rank => rank.level === action.level);
+            temporaryPerso.xp = startingXp.points;
+
             temporaryPerso.skills = persoData.skills;
             persoData.carac.forEach(dataByLvl => {
               if (dataByLvl.level === action.level) {
@@ -151,7 +157,7 @@ function inGameRedux(state = initialState, action) {
     case ADD_OBJET: {
       //console.log('action = ', action.objet)
       let perso = state.finalTeam.find(elm => elm.classe === action.classe);
-      let {inventaire} = perso;
+      let { inventaire } = perso;
       //let inventaire = perso.inventaire;
       //console.log(inventaire)
       let newInventaire = inventaire.push(action.objet);
@@ -169,17 +175,17 @@ function inGameRedux(state = initialState, action) {
     }
 
     case REPLACE_BOOK: {
-      let newteam = [];
-    
-      state.finalTeam.map(perso => {
-        let newPerso = perso;
-        perso.xp = Math.floor((1000 + parseInt(action.modif)) / state.finalTeam.length); //doit être divisé entre les perso vivants !!!
-        newteam.push(...newteam, newPerso);
-      });
+      // let newteam = [];
+
+      // state.finalTeam.map(perso => {
+      //   let newPerso = perso;
+      //   perso.xp = Math.floor((1000 + parseInt(action.modif)) / state.finalTeam.length); //doit être divisé entre les perso vivants !!!
+      //   newteam.push(...newteam, newPerso);
+      // });
 
       return nextState = {
         ...state,
-        finalTeam: newteam,
+        //finalTeam: newteam,
         book: action.book.title
       }
     };
@@ -193,12 +199,12 @@ function inGameRedux(state = initialState, action) {
       arrayOfModif.forEach(objectOfModif => {
         if (objectOfModif.carac === 'protection') {
           perso.protection = parseInt(perso.protection) + parseInt(objectOfModif.value);
-        } 
+        }
         else {
           actualCarac[objectOfModif.carac] = parseInt(actualCarac[objectOfModif.carac]) + parseInt(objectOfModif.value);
         }
       });
-      
+
       let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
       newTeam.push(perso);
 
@@ -206,46 +212,87 @@ function inGameRedux(state = initialState, action) {
         ...state,
         finalTeam: newTeam,
       }
-  };
+    };
 
     case QTE_USE_OBJECT: {
 
-    let perso = state.finalTeam.find(perso => perso.classe === action.classe);
-    let { inventaire } = perso;
+      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+      let { inventaire } = perso;
 
-    let objectToModif = inventaire.find(object => object.id === action.idItem);
-    objectToModif.use += action.value;
+      let objectToModif = inventaire.find(object => object.id === action.idItem);
+      objectToModif.use += action.value;
 
-    let newInventaire = inventaire.filter(object => object.id !== action.idItem);
-    newInventaire.push(objectToModif);
-    perso.inventaire = newInventaire
+      let newInventaire = inventaire.filter(object => object.id !== action.idItem);
+      newInventaire.push(objectToModif);
+      perso.inventaire = newInventaire
 
-    let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
-    newTeam.push(perso);
+      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+      newTeam.push(perso);
 
-    return nextState = {
-      ...state,
-      finalTeam: newTeam,
-    }
-  };
+      return nextState = {
+        ...state,
+        finalTeam: newTeam,
+      }
+    };
 
-  case LOAD_DATA: {
-    //console.log('reçu dans le reducer = ',action.data)
-    return nextState = {
-      team: action.data.team,
-      book: action.data.book,
-      set: true,
-      paragraph: action.data.paragraph,
-      finalTeam: action.data.finalTeam,
-      inGameNotes: action.data.inGameNotes,
-    }
-  };
+    case LOAD_DATA: {
+      //console.log('reçu dans le reducer = ',action.data)
+      return nextState = {
+        team: action.data.team,
+        book: action.data.book,
+        set: true,
+        paragraph: action.data.paragraph,
+        finalTeam: action.data.finalTeam,
+        inGameNotes: action.data.inGameNotes,
+      }
+    };
+
+    case GAIN_XP: {
+      let currentPerso = state.finalTeam.find(perso => perso.classe === action.perso.classe);
+      currentPerso.xp += action.gain;
+
+      let rankArray = [];
+      ranks.forEach(rank => {
+        if (currentPerso.xp >= rank.points) {
+          rankArray.push(rank);
+        }
+      });
+      let newRank = rankArray.slice(-1);
+
+      currentPerso.oldLevel = currentPerso.level;
+      currentPerso.level = newRank[0].level;
+
+      database.forEach(dataByClass => {
+        if (dataByClass.classe === currentPerso.classe) {
+          let newSetOfCarac = dataByClass.carac.find(set => set.level === currentPerso.level)
+
+          currentPerso.carac = newSetOfCarac;
+          currentPerso.actualCarac = {
+            'force': newSetOfCarac.force,
+            'pouvoir': newSetOfCarac.pouvoir,
+            'habilete': newSetOfCarac.habilete,
+            'endurance': newSetOfCarac.endurance,
+            'dommage': newSetOfCarac.dommage,
+            'bonus': newSetOfCarac.bonus
+          };
+        }
+      });
+
+      let newTeam = state.finalTeam.filter(hero => hero.classe !== currentPerso.classe);
+      newTeam.push(currentPerso);
+
+      return nextState = {
+        ...state,
+        finalTeam: newTeam,
+      }
+
+    };
 
     default: {
-    return state
-  };
+      return state
+    };
 
-}
+  }
 }
 
 export default inGameRedux;

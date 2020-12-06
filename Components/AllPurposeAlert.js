@@ -14,6 +14,7 @@ import Exchanger from './Compozans/Exchanger';
 import Saver from './Compozans/Saver';
 import Loader from './Compozans/Loader';
 import Dicer from './Compozans/Dicer';
+import Xper from './Compozans/Xper';
 
 export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null, slot=null}) => {
 
@@ -31,6 +32,7 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
                 case 'Saver' : {return <Saver fct={closeAlert} />};
                 case 'Loader' : {return <Loader fct={closeAlert} slot={slot} />};
                 case 'Dicer' : {return <Dicer />};
+                case 'Xper' : {return <Xper perso={perso} />};
             }
         }
     }
