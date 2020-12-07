@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ import TextCustom from '../TexteCustom';
 export default ({ fct, perso }) => {
 
     const dispatch = useDispatch();
-    const [xpoints, setXpoints] = useState(50);
+    const [xpoints, setXpoints] = useState(0);
     const [displayed, setDisplayed] = useState(false); // et dans l'affichage, conditionner aussi avec un gain d'xp sans gain de niveau
     //console.log(perso.level);
     let oldCarac;
@@ -40,6 +40,7 @@ export default ({ fct, perso }) => {
         const bonus = perso.carac.bonus === 0 ? '' : perso.carac.bonus > 0 ? ` +${perso.carac.bonus}` : `${perso.carac.bonus}`;
         return `${perso.carac.dommage}d${bonus}`;
     }
+
     const oldDamage = () => {
         const bonus = oldCarac.bonus === 0 ? '' : oldCarac.bonus > 0 ? ` +${oldCarac.bonus}` : `${oldCarac.bonus}`;
         return `${oldCarac.dommage}d${bonus}`;
@@ -181,6 +182,16 @@ export default ({ fct, perso }) => {
                 <View style={styles.titler_text}>
                     <TextCustom text={perso.name} size={3} />
                 </View>
+
+                {/* <TextInput
+                    onChangeText={ e => setXpoints(e) }
+                    //value={toString(xpoints)}
+                    placeholder={'Gain d\'xp'}
+                    placeholderTextColor={"#FFD66F" }
+                    keyboardType={'numeric'}
+                    textAlign={'center'}
+                    style={{color: '#FFD66F'}}
+                /> */}
 
                 <Picker
                     selectedValue={xpoints}

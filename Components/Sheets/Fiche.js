@@ -240,7 +240,7 @@ export default (data) => {
                                                         <View style={{ width: '45%', alignItems: 'flex-start' }}>
                                                             <TextCustom text={`${item.name} : `} size={1} />
                                                         </View>
-                                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '25%' }}>
+                                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '40%' }}>
                                                             <TextCustom text={item.actualValue} size={2} />
                                                             <TextCustom text={`/ ${item.value}`} size={1} />
                                                         </View>

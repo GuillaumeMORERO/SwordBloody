@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableHighlight, Image } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { loadData } from '../../Store/Actions/InGameActions';
+import { manageState } from '../../Store/Actions/SaveActions';
 
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
@@ -24,6 +25,11 @@ export default ({ fct, slot }) => {
         fct();
     }
 
+    const supp = () => {
+        dispatch(manageState('supp', slot));
+        fct();
+    }
+
     const styles = StyleSheet.create({
         container: {
             //flex: 1,
@@ -35,20 +41,21 @@ export default ({ fct, slot }) => {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            //backgroundColor: 'blue',
         },
-        info: {
-            //backgroundColor: 'grey',
-
-        },
+        icon: {
+            resizeMode: 'contain',
+            width: 35,
+            height: 35,
+            alignSelf: 'center',
+        }
     })
 
     return (
         <View style={styles.container}>
 
-            <View style={styles.info}>
+            <View>
 
-                <View style={{...Styles.divider, marginVertical: 5}}>
+                <View style={{ ...Styles.divider, marginVertical: 5 }}>
                     <View style={Styles.hrLine} />
                     <TextCustom text='Equipe' size={3} bold />
                     <View style={Styles.hrLine} />
@@ -64,7 +71,7 @@ export default ({ fct, slot }) => {
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    alignSelf:'center',
+                                    alignSelf: 'center',
                                     width: '80%',
                                     //backgroundColor: 'red'
                                 }}>
@@ -78,7 +85,7 @@ export default ({ fct, slot }) => {
                     />
                 </View>
 
-                <View style={{...Styles.divider, marginVertical: 5}}>
+                <View style={{ ...Styles.divider, marginVertical: 5 }}>
                     <View style={Styles.hrLine} />
                     <TextCustom text='Livre' size={3} bold />
                     <View style={Styles.hrLine} />
@@ -101,6 +108,16 @@ export default ({ fct, slot }) => {
                     styleObject={{ height: 40, width: '40%', margin: 10 }}
                     fSize={2}
                 />
+            </View>
+
+            <View style={styles.choice}>
+                <TextCustom text={'Effacer cette sauvegarde ?'} size={1} italic />
+                <TouchableHighlight
+                    style={{ width: '25%'}}
+                    onPress={() => supp()}
+                >
+                    <Image source={require('../../Helpers/IMG/supp.png')} style={styles.icon} />
+                </TouchableHighlight>
             </View>
 
         </View>
