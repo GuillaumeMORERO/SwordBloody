@@ -7,6 +7,7 @@ import Styles from '../Styles';
 
 export default (data) => {
 
+    console.log(data.route.params);
     const books = data.route.params.books;
     const accept = data.route.params.accept;
 

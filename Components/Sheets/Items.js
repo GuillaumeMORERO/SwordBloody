@@ -130,7 +130,7 @@ export default (data) => {
             {!isLoading &&
                 <View style={{ flex: 1, marginBottom: 20 }}>
 
-                    <ScrollView>
+                    <View>
 
                         <View style={Styles.divider}>
                             <View style={Styles.hrLine} />
@@ -153,7 +153,7 @@ export default (data) => {
                             }}
                         />
 
-                    </ScrollView>
+                    </View>
                 </View>
             }
 

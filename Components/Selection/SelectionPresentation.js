@@ -78,7 +78,7 @@ export default ({ navigation }) => {
         if (action === 'book') {
 
             if (!inGameState.set) {
-                navigation.navigate("Selection du Livre", { accept, books })
+                navigation.navigate("Selection du Livre", { 'accept': accept, 'books': books })
             } else {
                 fadeIn();
                 setDisplayAlert(true);

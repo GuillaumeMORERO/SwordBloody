@@ -8,7 +8,7 @@ import TextCustom from '../TexteCustom';
 
 export default () => {
 
-    const [dice, setDice] = useState(0);
+    const [dice, setDice] = useState(2);
     const [arrayOfDice, setArrayOfDice] = useState();
     const [displayed, setDisplayed] = useState(false);
 

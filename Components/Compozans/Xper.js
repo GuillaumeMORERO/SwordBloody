@@ -13,8 +13,9 @@ export default ({ fct, perso }) => {
 
     const dispatch = useDispatch();
     const [xpoints, setXpoints] = useState(0);
-    const [displayed, setDisplayed] = useState(false); // et dans l'affichage, conditionner aussi avec un gain d'xp sans gain de niveau
-    //console.log(perso.level);
+    const [displayed, setDisplayed] = useState(false);
+
+    //console.log(xpoints);
     let oldCarac;
     database.forEach(model => {
         if (model.classe === perso.classe) {
@@ -26,6 +27,7 @@ export default ({ fct, perso }) => {
         dispatch(xpGain(xpoints, perso));
         setDisplayed(true);
         // fct();
+
     };
 
     const listGenerator = () => {
@@ -214,7 +216,7 @@ export default ({ fct, perso }) => {
             />
 
             {displayed &&
-               shower()
+                shower()
             }
 
         </View>

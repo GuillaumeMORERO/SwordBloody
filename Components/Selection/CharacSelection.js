@@ -46,7 +46,7 @@ export default (data) => {
                 <View style={Styles.hrLine} />
             </View>
 
-            <ScrollView style={styles.scrollview}>
+            <View style={styles.scrollview}>
                 <FlatList
                     data={classes}
                     keyExtractor={(item) => item.id.toString()}
@@ -57,7 +57,7 @@ export default (data) => {
                         />
                     )}
                 />
-            </ScrollView>
+            </View>
 
         </View>
     )

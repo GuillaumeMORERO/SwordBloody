@@ -23,7 +23,7 @@ export default ({fct}) => {
         <View style={{width:'95%', alignSelf:'center'}} >
 
             {inGameNotes.length > 0 &&
-                <ScrollView style={{height: '70%', width:'100%'}}>
+                <View style={{height: '70%', width:'100%'}}>
                     <FlatList
                         data={inGameNotes}
                         keyExtractor={(item) => item.id.toString()}
@@ -31,7 +31,7 @@ export default ({fct}) => {
                             return(<NoteItem item={item}/>)
                         }}
                     />
-                </ScrollView>
+                </View>
             }
 
             <View>
