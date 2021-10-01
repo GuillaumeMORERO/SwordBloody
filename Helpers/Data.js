@@ -7,10 +7,10 @@ export const typo = [
 ]
 
 export const classes = [
-    {id: 1, type: 'Chevalier', name: 'Chevalier'},
-    {id: 2, type: 'Prêtre', name: 'Prêtre'},
-    {id: 3, type: 'Magicien', name: 'Magicien'},
-    {id: 4, type: 'Voleur', name: 'Voleur'}  
+    {id: 1, type: 'Warrior', name: 'Chevalier'},
+    {id: 2, type: 'Sage', name: 'Prêtre'},
+    {id: 3, type: 'Enchanter', name: 'Magicien'},
+    {id: 4, type: 'Trickster', name: 'Voleur'},
  ]
 
 export const books = [
@@ -20,13 +20,6 @@ export const books = [
     {id: 4, title: 'L\' Impossible Mission'},
     {id: 5, title: 'Les Murailles de Spyte'}
 ] 
-
-export const descrCarac = [
-    {name: 'force', descr: 'La Force mesure les aptitudes physiques du personnage.'},
-    {name: 'pouvoir', descr: 'Le Pouvoir détermine sa résistance aux sortilèges et, dans le cas des magiciens, ses aptitudes à maîtriser la magie.'},
-    {name: 'habilete', descr: 'L\'Habileté tient compte à la fois de l\'agilité du personnage et de sa présenced\'esprit.'},
-    {name: 'endurance', descr: 'L\'Endurance détermine la constitution et la résistance du personnage. Les blessures subies au combat font baisser le total d\'Endurance. Lorsquecelui-ci atteint zéro, le personnage meurt.'}
-]
 
 export const ranks = [
     {'level':  2, 'points':  250},
@@ -50,19 +43,9 @@ export const ranks = [
     {'level': 20, 'points': 5000},
 ]
 
-// export const equipement =[
-//     {type: "arme", usableInFight: false, name: "Epée", use: 0, dommage: "", prix: "", descr: "Une epée de base", action: null},
-//     {type: "arme", usableInFight: false, name: "Bâton", use: 0, dommage: "", prix: "", descr: "Un bâton de base", action: null},
-//     {type: "armure", usableInFight: false, name: "Côte de maille", use: 3, dommage: "", prix: "", descr: "Une protection de base", action: null},
-//     {type: "armure", usableInFight: false, name: "Côte annelée", use: 2, dommage: "", prix: "", descr: "Une protection de base", action: null},
-//     {type: "armure", usableInFight: false, name: "Armure en cuir clouté", use: 2, dommage: "", prix: "", descr: "Une protection de baser", action: null},
-//     {type: "objet", usableInFight: false, name: "Bourse", use: lvl*5, dommage: "", prix: "", descr: "Une bourse qui contient vos pièces d'or", action: null},
-//     {type: "objet", usableInFight: false, name: "Arc", use: 0, dommage: "", prix: "", descr: "Une arme de base", action: null},
-//     {type: "objet", usableInFight: false, name: "Carquois", use: 6, dommage: "", prix: "", descr: "", action: null},
-// ]
-
 export const database = [
     { //persoData
+        id: 1,
         classe: "Chevalier",
         name: "",
         level: "",
@@ -94,11 +77,12 @@ export const database = [
         actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
-            {usableInFight: false, name: "Ambidextérité", descr: "Vous pouvez combattre avec deux épées (une dans chaque main) et frapper ainsi deux fois par Assaut. Si vous combattez avec une arme magique, les bonifications qu'elle vous apporte ne peuvent s'appliquer à la deuxième arme."},
-            {usableInFight: false, name: "Combat à mains nues", descr: "Contrairement aux autres personnages, vous combattez à mains nues sans subir de pénalité ni en FORCE ni en Dommages."},
+            {skillID: 1, usableInFight: false},
+            {skillID: 2, usableInFight: false},
         ]
     },
     {
+        id: 2,
         classe: "Prêtre",
         name: "",
         level: "",
@@ -130,16 +114,17 @@ export const database = [
         actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
-            {usableInFight: true, name: "Tir", descr: "Tant que vous possédez votre arc et vos flèches, vous pouvez choisir le tir lors des combats. Pour cela, vous n'avez pas besoin de vous trouver dans une case adjacente à celle de l'ennemi pour l'atteindre. Pour le toucher, vous devez obtenir un résultat inférieur ou égal à votre total d'HABILETÉ avec deux dés. Dommage de 1 dé (moins la Protection)."},
-            {usableInFight: true, name: "Maîtrise du Bâton", descr: "Une longue pratique des arts martiaux associée à une parfaite connaissance de l'organisme humain vous permet de toucher l'ennemi à ses points faibles. Lorsque vous combattez avec votre bâton et que vous frappez votre adversaire, il vous est possible de déterminer votre coup avec trois dés au lieu des deux dés habituellement requis. Cela augmente la difficulté mais, si le coup porte, vous infligez à votre adversaire 1 dé de Dommages supplémentaires et vousparvenez à le déséquilibrer, et un ennemi à terre ne peut réagir avant la fin de l'Assaut suivant."},
-            {usableInFight: false, name: "Soins", descr: "Vous pouvez utiliser ce pouvoir psychique à tout moment, sauf au combat. Pour prodiguer des soins vous devez avant tout déterminer le nombre de points d'ENDURANCE que vous allez dépenser à cet effet. Otez ces points de votre total d'ENDURANCE et jetez 1 dé - 2. Multipliez le résultat par le nombre de points d'ENDURANCE dépensés, afin de connaître le total d'Énergie Curative - sous forme de points d'ENDURANCE - que vous avez rassemblés. Ces points peuvent ensuite être distribués entre les membres de l'expédition, vous y compris. Exemple : Alric le prêtre décide de prodiguer des Soins et y consacre 5 points d'ENDURANCE. Il jette 1 dé - 2 et obtient 4. Il multiplie les 5 points qu'il a consacrés par 2 (4 - 2) et rassemble ainsi 10 points d'ENDURANCE. Il peut donc récupérer ses 5 points d'ENDURANCE et distribuer les 5 points restants à ses compagnons. Les résultats négatifs comptent pour zéro. Cet te pratique comporte des risques puisque vous pouvez dépenser despoints sans rien avoir en retour.Vous serez averti lorsque vous pourrez recourir à d'autres pouvoirs psychiques."},
-            {usableInFight: false, name: "Perceptions extrasensorielles", descr: "Possibilité de connaître les pensées d'autrui."},
-            {usableInFight: false, name: "Clairvoyance", descr: "Cette faculté permet de voir à travers les tentures un épais brouillard ou de l'eau trouble. Elle ne s'étend pas aux matériaux durs telsque la pierre ou le métal."},
-            {usableInFight: false, name: "Lévitation", descr: "Vous pouvez vous élever à la verticale dans les airs."},
-            {usableInFight: false, name: "Exorcisme", descr: "Ce pouvoir permet de repousser les Fantômes ou les Morts Vivants en neutralisant l'énergie surnaturelle qui les anime."},
+            {skillID: 1, usableInFight: true},
+            {skillID: 2, usableInFight: true},
+            {skillID: 3, usableInFight: false},
+            {skillID: 4, usableInFight: false},
+            {skillID: 5, usableInFight: false},
+            {skillID: 6, usableInFight: false},
+            {skillID: 7, usableInFight: false},
         ]
     },
     {
+        id: 3,
         classe: "Magicien",
         name: "",
         level: "",
@@ -171,24 +156,25 @@ export const database = [
         actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire :[],
         skills: [
-            {usableInFight: true, level: 1, name: "Miasmes", descr: "Un brouillard toxique recouvre tous les adversaires et inflige à chacun la perte de 1 point d'ENDURANCE (moins la valeur de Protection). Il s'agit d'un sortilège d'attaque."},
-            {usableInFight: true, level: 1, name: "Hurlement", descr: "Ce sortilège mental ne peut affecter qu'une seule cible. Le cri du magicien trouble l'adversaire qui procède à ses jets de coups et à ses jets de tir avec trois dés au lieu de deux pendant quatre Assauts."},
-            {usableInFight: true, level: 1, name: "Foudre Blanche", descr: "Ce sortilège d'attaque frappe un seul adversaire et provoque la perte de 2 dés + 2 d'ENDURANCE (moins la valeur de Protection)."},
-            {usableInFight: true, level: 2, name: "Blessure", descr: "Ce sortilège d'attaque frappe un seul adversaire et provoque la perte de 3 dés + 3 d'ENDURANCE (moins la valeur de Protection)."},
-            {usableInFight: true, level: 2, name: "Puissance", descr: "Ce sortilège augmente votre FORCE de 2 points et permet d'ajouter 2 points aux Dommages que vous infligez ou biend'augmenter de 1 point le total de FORCE de tous vos compagnons (vous compris) et d'ajouter 1 point à leur jet de Dommages. Les effets durent quatre Assauts."},
-            {usableInFight: true, level: 2, name: "Téléportation", descr: "Lorsque vous désirez rompre le combat, ce sortilège téléporte tous les membres de l'expédition vers la plus proche sortie, permettant de fuir dès l'Assaut suivant."},
-            {usableInFight: true, level: 2, name: "Souffle Mortel", descr: "Ce sortilège mental provoque la perte de 2 points d'ENDURANCE chez tous les adversaires qui n'auront su y résister. Dans ce cas, la Protection est inopérante."},
-            {usableInFight: true, level: 3, name: "Vampire", descr: "Ce sortilège mental n'affecte qu'un seul adversaire, qui, s'il ne peut y résister, perd 4 dés d'ENDURANCE.  De surcroît, le magicien récupère la moitié des points d'ENDURANCE perdus par la victime (arrondis au chiffre inférieur). Bien entendu, votre total d'ENDURANCE ne peut excéder son total de départ."},
-            {usableInFight: true, level: 4, name: "Météore", descr: "Ce sortilège d'attaque provoque la perte de 2 dés + 2 points d'ENDURANCE chez tous les adversaires (moins leur valeur de Protection)."},
-            {usableInFight: true, level: 4, name: "Main du Diable", descr: "Ce sortilège mental opère par imposition de la main. Il est donc nécessaire d'être en contact avec l'adversaire, qui perd 7 dés d'ENDURANCE s'il ne peut résister. S'il résiste, il ne perd que 2 dés d'ENDURANCE."},
-            {usableInFight: true, level: 5, name: "Foudre Noire", descr: "Ce sortilège d'attaque puissant frappe un seul adversaire et provoque la perte de 7 dés + 7 d'ENDURANCE (moins la valeur de Protection)."},
-            {usableInFight: true, level: 5, name: "Asservissement", descr: "Ce sortilège mental permet de contrôler l'esprit d'un seul adversaire qui, s'il ne peut y résister, demeure immobile et, si vous n'êtes pas en combat, doit répondre à vos questions. Le magicien peut lui ordonner de combattre ses anciens compagnons d'armes. Jetez alors un dé : avec un résultat de 6, l'adversaire reprend ses esprits et attaque à nouveau. Ce sortilège opère tant que vous demeurez à proximité. Lorsque vous quittez la pièce où se trouve la victime, la malheureuse meurt aussitôt."},
-            {usableInFight: false, name: "L'Appel du Faltyn", descr: "Une petite créature surnaturelle apparaît pour vous servir pendant un temps."},
-            {usableInFight: false, name: "Oracle", descr: "Ce sortilège permet d'avoir un aperçu du futur."},
-            {usableInFight: false, name: "Détection de la magie", descr: "Elle permet d'avoir conscience des forces surnaturelles mises en oeuvre alentour."},
+            {skillID: 1, usableInFight: true, level: 1},
+            {skillID: 2, usableInFight: true, level: 1},
+            {skillID: 3, usableInFight: true, level: 1},
+            {skillID: 4, usableInFight: true, level: 2},
+            {skillID: 5, usableInFight: true, level: 2},
+            {skillID: 6, usableInFight: true, level: 2},
+            {skillID: 7, usableInFight: true, level: 2},
+            {skillID: 8, usableInFight: true, level: 3},
+            {skillID: 9, usableInFight: true, level: 4},
+            {skillID: 10, usableInFight: true, level: 4},
+            {skillID: 11, usableInFight: true, level: 5},
+            {skillID: 12, usableInFight: true, level: 5},
+            {skillID: 13, usableInFight: false},
+            {skillID: 14, usableInFight: false},
+            {skillID: 15, usableInFight: false},
         ]
     },    
     {
+        id: 4,
         classe: "Voleur",
         name: "",
         level: "",
@@ -220,9 +206,9 @@ export const database = [
         actualCarac: {force: 0, pouvoir: 0, habilete: 0, endurance: 0, dommage: 0, bonus: 0},
         inventaire: [],
         skills: [
-            {usableInFight: true, name: "Esquive", descr: "Votre agilité et votre souplesse vous ont rendu maître dans l'art de l'esquive.Chaque fois qu\'un adversaire tente de vous frapper, il doit jeter 2 dés + 1 au lieu des deux dés habituels."},
-            {usableInFight: true, name: "Tir", descr: "Tant que vous possédez votre arc et vos flèches, vous pouvez choisir le tir lors des combats. Pour cela, vous n'avez pas besoin de vous trouver dans une case adjacente à celle de l'ennemi pour l'atteindre. Pour le toucher, vous devez obtenir un résultat inférieur ou égal à votre total d'HABILETÉ avec deux dés. Dommage de 1 dé (moins la Protection)."},
-            {usableInFight: true, name: "Vivacité", descr: "Lors d'un affrontement, vous pouvez tenter deux actions dans le même Assaut (mais une seule fois par combat). La première action est entreprise au début de l'Assaut, en fonction de votre total d'HABILETÉ. Vous pouvez agir une deuxième fois, en fin d'Assaut, lorsque votre adversaire a épuisé ses possibilités d'action (ce qui vous permet de fuir sans risques en cours d'affrontement)."},
+            {skillID: 1, usableInFight: true},
+            {skillID: 2, usableInFight: true},
+            {skillID: 3, usableInFight: true},
         ]
     },
 ]

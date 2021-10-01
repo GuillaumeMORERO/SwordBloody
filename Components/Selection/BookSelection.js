@@ -4,15 +4,20 @@ import { View, FlatList, StyleSheet, Image, Pressable } from 'react-native';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
+import {localize} from '../../Helpers/Lang'
+import { useDispatch } from 'react-redux';
+import { setBook } from '../../Store/Actions/InGameActions';
 
 export default (data) => {
 
-    console.log(data.route.params);
     const books = data.route.params.books;
-    const accept = data.route.params.accept;
+    const lang = data.route.params.lang;
+    const color = data.route.params.color;
 
-    const pressHandler = (title) => {
-        accept(title);
+    const dispatch = useDispatch();
+
+    const pressHandler = (bookId) => {
+        dispatch(setBook(bookId));
         data.navigation.navigate("Selection de base")
     };
 
@@ -33,7 +38,7 @@ export default (data) => {
 
             <View style={Styles.divider}>
                 <View style={Styles.hrLine} />
-                <TextCustom text={'Selection du Livre'} size={4} bold />
+                <TextCustom text={localize[lang].selection.bookSelect} size={4} bold />
                 <View style={Styles.hrLine} />
             </View>
 
@@ -47,10 +52,11 @@ export default (data) => {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <Gradiator
-                            label={item.title}
-                            fct={() => pressHandler(item.title)}
+                            label={localize[lang].books[item.id]}
+                            fct={() => pressHandler(item.id)}
                             styleObject={{}}
                             fSize={2}
+                            grCouleur={color}
                         />
                     )}
                 />

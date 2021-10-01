@@ -8,6 +8,7 @@ import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 import PersoList from './PersoList';
 import AllPurposeAlert from '../AllPurposeAlert';
+import {localize} from '../../Helpers/Lang'
 
 export default ({ navigation }) => {
 
@@ -18,37 +19,43 @@ export default ({ navigation }) => {
     const [display, setDisplay] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
 
-    const labelPara = () => { return (inGameState.paragraph !== '') ? `n° ${inGameState.paragraph}` : 'Paragraphe'; };
-    const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} notes` : 'Notes'; };
+    const {lang, color} = useSelector((state) => state.SetterRedux);
+    const dataSup = {'lang': lang, 'closeLabel': localize[lang].global.closeLabel, 'color': color.color, 'colorFull': color.colorFull}
+    const localizer = localize[lang].sheet;
+    const localizerSkills = localize[lang].skills;
+    const localizerItems = localize[lang].items;
+
+    const labelPara = () => { return (inGameState.paragraph !== '') ? `n° ${inGameState.paragraph}` : localizer.sectionLabel; };
+    const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} ${localizer.noteLabel}` : localizer.noteLabel; };
 
     const paraSetter = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Paragraphe', 'message': 'Notez le paragraphe en cours', 'closeAlert': closeAlert, 'fct': 'Paragrapher' });
+        setDataAlert({ 'title': localizer.paraTitle, 'message': localizer.paraMess, 'closeAlert': closeAlert, 'fct': 'Paragrapher', 'dataSup': dataSup });
     };
 
     const paraNotes = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Notes', 'message': 'Prenez des notes !', 'closeAlert': closeAlert, 'fct': 'Noter' });
+        setDataAlert({ 'title': localizer.noteTitle, 'message': localizer.noteMess, 'closeAlert': closeAlert, 'fct': 'Noter', 'dataSup': dataSup });
     };
 
     const dice = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Lancé de dés', 'message': '', 'closeAlert': closeAlert, 'fct': 'Dicer' });
+        setDataAlert({ 'title': localizer.diceTitle, 'message': localizer.diceMess, 'closeAlert': closeAlert, 'fct': 'Dicer', 'dataSup': dataSup });
     }; 
 
     const save = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Sauvegarde', 'message': 'Sauvegardez votre partie.', 'closeAlert': closeAlert, 'fct': 'Saver' });
+        setDataAlert({ 'title': localizer.saveTitle, 'message': localizer.saveMess, 'closeAlert': closeAlert, 'fct': 'Saver', 'dataSup': dataSup });
     }
 
     const changeBook = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': 'Changement de livre', 'message': '', 'closeAlert': closeAlert, 'fct': 'Booker', 'book': inGameState.book });
+        setDataAlert({ 'title': localizer.changeBookTitle, 'message': localizer.changeBookMess, 'closeAlert': closeAlert, 'fct': 'Booker', 'book': inGameState.book, 'dataSup': dataSup });
     };
 
     const fadeIn = () => {
@@ -111,29 +118,29 @@ export default ({ navigation }) => {
                 </Animated.View>
             }
             <View style={{ ...Styles.divider, margin: 10 }}>
-                <View style={Styles.hrLine} />
-                <TextCustom text={'Personnages'} size={4} bold />
-                <View style={Styles.hrLine} />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                <TextCustom text={localizer.characs} size={4} bold />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
             </View>
 
-            {!inGameState.set && <TextCustom text={'Aucune selection'} size={4} bold />}
+            {!inGameState.set && <TextCustom text={localizer.noSelection} size={4} bold />}
 
             {inGameState.set > 0 &&
                 <>
                     <View style={styles.zone_button}>
                         <FlatList
-                            data={inGameState.team}
+                            data={inGameState.finalTeam}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
-                                <PersoList perso={item} navigation={navigation} nbr={inGameState.team.length} />
+                                <PersoList persoID={item.id} perso={item} navigation={navigation} nbr={inGameState.team.length} dataSup={dataSup} localizerSkills={localizerSkills} localizerItems={localizerItems} />
                             )}
                         />
                     </View>
 
                     <View style={{ ...Styles.divider, width: '100%', margin: 10 }}>
-                        <View style={Styles.hrLine} />
-                        <TextCustom text={'Actions'} size={4} bold />
-                        <View style={Styles.hrLine} />
+                        <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                        <TextCustom text={localizer.actions} size={4} bold />
+                        <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
                     </View>
 
                     <View style={styles.zone_button_bas}>
@@ -165,7 +172,7 @@ export default ({ navigation }) => {
                             >
                                 <Image source={require('../../Helpers/IMG/save.png')} style={styles.icon} />
                             </TouchableHighlight>
-                            <TextCustom text={'Sauvegarde'} size={1} italic />
+                            <TextCustom text={localizer.save} size={1} italic />
                         </View>
 
                         <View style={styles.icon_container}>
@@ -175,15 +182,15 @@ export default ({ navigation }) => {
                             >
                                 <Image source={require('../../Helpers/IMG/die.png')} style={styles.icon} />
                             </TouchableHighlight>
-                            <TextCustom text={'Lancé de dé'} size={1} italic />
+                            <TextCustom text={localizer.launchDice} size={1} italic />
                         </View>
 
                     </View>
 
                     <View style={{ ...Styles.divider, margin: 10 }}>
-                        <View style={Styles.hrLine} />
-                        <TextCustom text='livre en cours' size={4} bold />
-                        <View style={Styles.hrLine} />
+                        <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                        <TextCustom text={localizer.currentBook} size={4} bold />
+                        <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
                     </View>
 
                     <View style={styles.zone_livre}>
@@ -192,10 +199,11 @@ export default ({ navigation }) => {
 
                         <View style={{ width: 100 }}>
                             <Gradiator
-                                label={'Changer'}
+                                label={localizer.changeBook}
                                 fct={() => changeBook()}
                                 styleObject={{ width: '100%', height: 30 }}
                                 fSize={2}
+                                grCouleur={color.color}
                             />
                         </View>
 

@@ -8,26 +8,25 @@ import { xpGain } from '../../Store/Actions/InGameActions';
 import { database } from '../../Helpers/Data'
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
+import {localize} from '../../Helpers/Lang'
 
-export default ({ fct, perso }) => {
+export default ({ dataSup, perso }) => {
 
     const dispatch = useDispatch();
     const [xpoints, setXpoints] = useState(0);
     const [displayed, setDisplayed] = useState(false);
+    const localizer = localize[dataSup.lang].characSheet;
 
-    //console.log(xpoints);
     let oldCarac;
     database.forEach(model => {
-        if (model.classe === perso.classe) {
+        if (model.id === perso.id) {
             oldCarac = model.carac.find(caracSet => caracSet.level === perso.oldLevel);
         }
     });
 
     const press = () => {
-        dispatch(xpGain(xpoints, perso));
+        dispatch(xpGain(xpoints, perso.id));
         setDisplayed(true);
-        // fct();
-
     };
 
     const listGenerator = () => {
@@ -50,14 +49,14 @@ export default ({ fct, perso }) => {
 
     const shower = () => {
         if (perso.oldLevel === perso.level) {
-            return <TextCustom text={'Vous navez pas changé de niveau'} size={3} italic />
+            return <TextCustom text={localizer.rankChange} size={3} italic />
         }
         else {
             return (
                 <View style={styles.carac}>
 
                     <View style={styles.carac_lvl}>
-                        <TextCustom text={'Niveau : '} size={4} />
+                        <TextCustom text={`${localizer.level} :`} size={4} />
                         <View style={{ flexDirection: 'row' }}>
                             <TextCustom text={`${perso.oldLevel}`} size={2} />
                             <TextCustom text={` >> ${perso.level}`} size={2} couleur={'green'} />
@@ -67,7 +66,7 @@ export default ({ fct, perso }) => {
                     <View style={styles.carac_list}>
 
                         <View style={styles.carac_list_sub}>
-                            <TextCustom text={'Force : '} size={2} />
+                            <TextCustom text={`${localizer.force} :`} size={2} />
                             <View style={{ flexDirection: 'row' }}>
                                 <TextCustom text={`${oldCarac.force}`} size={2} />
                                 <TextCustom text={` >> ${perso.carac.force}`} size={2} couleur={'green'} />
@@ -75,7 +74,7 @@ export default ({ fct, perso }) => {
 
                         </View>
                         <View style={styles.carac_list_sub}>
-                            <TextCustom text={'Pouvoir : '} size={2} />
+                            <TextCustom text={`${localizer.pouvoir} :`} size={2} />
                             <View style={{ flexDirection: 'row' }}>
                                 <TextCustom text={`${oldCarac.pouvoir}`} size={2} />
                                 <TextCustom text={` >> ${perso.carac.pouvoir}`} size={2} couleur={'green'} />
@@ -83,14 +82,14 @@ export default ({ fct, perso }) => {
                         </View>
 
                         <View style={styles.carac_list_sub}>
-                            <TextCustom text={'Habileté : '} size={2} />
+                            <TextCustom text={`${localizer.habilete} :`} size={2} />
                             <View style={{ flexDirection: 'row' }}>
                                 <TextCustom text={`${oldCarac.habilete}`} size={2} />
                                 <TextCustom text={` >> ${perso.carac.habilete}`} size={2} couleur={'green'} />
                             </View>
                         </View>
                         <View style={styles.carac_list_sub}>
-                            <TextCustom text={'Endurance : '} size={2} />
+                            <TextCustom text={`${localizer.endurance} :`} size={2} />
                             <View style={{ flexDirection: 'row' }}>
                                 <TextCustom text={`${oldCarac.endurance}`} size={2} />
                                 <TextCustom text={` >> ${perso.carac.endurance}`} size={2} couleur={'green'} />
@@ -100,7 +99,7 @@ export default ({ fct, perso }) => {
                     </View>
 
                     <View style={styles.carac_dommage}>
-                        <TextCustom text={'dommage : '} size={4} />
+                        <TextCustom text={`${localizer.dommage} :`} size={4} />
                         <View style={{ flexDirection: 'row' }}>
                             <TextCustom text={`${oldDamage()}`} size={2} />
                             <TextCustom text={` >> ${damage()}`} size={2} couleur={'green'} />
@@ -140,7 +139,7 @@ export default ({ fct, perso }) => {
             justifyContent: 'space-around',
             alignItems: 'center',
             borderWidth: 1,
-            borderColor: '#rgba(255, 0, 0, 0.5)',
+            borderColor: dataSup.colorFull,
             borderRadius: 5,
             //backgroundColor: 'blue'
         },
@@ -208,12 +207,15 @@ export default ({ fct, perso }) => {
                 </Picker>
             </View>
 
-            <Gradiator
-                label={'Valider'}
-                fct={() => press()}
-                styleObject={{ width: '50%', height: 30, marginBottom: 25, alignSelf: 'center' }}
-                fSize={2}
-            />
+            {!displayed &&
+                <Gradiator
+                    label={localize[dataSup.lang].global.validate}
+                    fct={() => press()}
+                    styleObject={{ width: '50%', height: 30, marginBottom: 25, alignSelf: 'center' }}
+                    fSize={2}
+                    grCouleur={dataSup.color}
+                />
+            }
 
             {displayed &&
                 shower()

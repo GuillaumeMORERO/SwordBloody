@@ -47,7 +47,7 @@ export default StyleSheet.create({
         width: '30%',
         
         alignSelf:'center',
-        backgroundColor: '#rgba(255, 0, 0, 0.5)',
+        // backgroundColor: '#rgba(255, 0, 0, 0.5)',
         height: 1,
         marginHorizontal: 15,
         marginTop: 7

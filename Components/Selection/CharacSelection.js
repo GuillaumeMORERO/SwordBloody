@@ -8,12 +8,25 @@ import Charac from './Charac';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 import { classes } from '../../Helpers/Data';
+import {localize} from '../../Helpers/Lang'
 
 export default (data) => {
-
+    const lang = data.route.params.lang;
+    const color = data.route.params.color;
+    const colorFull = data.route.params.colorFull;
+    
     const dispatch = useDispatch();
-
+    
     const valid = (act, perso) => { dispatch(manageHero(act, perso)); };
+
+    const propz = {
+        'lang': lang,
+        'color': color,
+        'colorFull': colorFull,
+        'validTxt': localize[lang].selection.gameValidate,
+        'delTxt': localize[lang].global.delete,
+        'characType': localize[lang].characs,
+    };
 
     const styles = StyleSheet.create({
         scrollview: {
@@ -41,9 +54,9 @@ export default (data) => {
             </Pressable>
 
             <View style={Styles.divider}>
-                <View style={Styles.hrLine} />
-                <TextCustom text={'Selection de personnage(s)'} size={4} bold />
-                <View style={Styles.hrLine} />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                <TextCustom text={localize[lang].selection.characSelect} size={4} bold />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
             </View>
 
             <View style={styles.scrollview}>
@@ -53,6 +66,7 @@ export default (data) => {
                     renderItem={({ item }) => (
                         <Charac
                             item={item}
+                            propz={propz}
                             valid={valid}
                         />
                     )}

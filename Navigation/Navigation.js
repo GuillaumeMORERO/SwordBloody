@@ -15,6 +15,8 @@ import Fiche from '../Components/Sheets/Fiche';
 import Skills from '../Components/Sheets/Skills';
 import Items from '../Components/Sheets/Items';
 
+import Settings from '../Components/Settings/Setter';
+
 export default () => {
 
     const AppStack = createStackNavigator();
@@ -43,7 +45,20 @@ export default () => {
     };
     const OptionStackNavigator = () => {
         return (
-            <AppStack.Navigator>
+            <AppStack.Navigator
+                screenOptions={{
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        textShadowColor: 'rgba(255, 255, 255, 0.5)',
+                        textShadowOffset: { width: -1, height: 1 },
+                        textShadowRadius: 10,
+                        color: '#FFD66F',
+                    },
+                    headerTintColor: '#FFD66F', headerStyle: { backgroundColor: 'black' },
+                }}
+            >
+                <AppStack.Screen name="Settings" component={Settings}  options={{headerShown: false }}/>
             </AppStack.Navigator>
         )
     };
@@ -90,6 +105,7 @@ export default () => {
             >
                 <Tab.Screen name="Selection" component={SelectStackNavigator} />
                 <Tab.Screen name="Fiches" component={SheetStackNavigator} />
+                <Tab.Screen name="Settings" component={OptionStackNavigator} />
 
             </Tab.Navigator>
         </NavigationContainer>

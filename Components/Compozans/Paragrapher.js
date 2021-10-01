@@ -6,7 +6,7 @@ import { setParagraph } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 
-export default ({fct}) => {
+export default ({fct, dataSup}) => {
 
     const dispatch = useDispatch();
     const {paragraph} = useSelector((state) => state.InGameRedux);

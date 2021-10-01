@@ -27,7 +27,7 @@ export default ({ carac, listGenerator, send }) => {
         <View style={{ flexDirection: 'row', height:40 }}>
 
             <View style={{ flexDirection: 'row', width: '50%', alignItems: 'center', justifyContent: 'space-around', }}>
-                <TextCustom text={`${carac.name} : `} size={2} italic />
+                <TextCustom text={`${carac.nameToDisplay} : `} size={2} italic />
                 <TextCustom text={`${carac.actualValue} /${carac.value}`} size={2} />
             </View>
 
@@ -35,7 +35,7 @@ export default ({ carac, listGenerator, send }) => {
                 <Picker
                     selectedValue={modif}
                     style={{ width: 100, color:'#FFD66F', }}
-                    onValueChange={(itemValue, itemIndex) => select(carac.name, itemValue)}
+                    onValueChange={(itemValue, itemIndex) => select(carac.nameToLogic, itemValue)}
                 >
                     {
                         listGenerator.map((nbr) => {

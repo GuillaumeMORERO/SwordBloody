@@ -6,30 +6,34 @@ import { modifCarac } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 import ModifierItem from './ModifierItem';
+import {localize} from '../../Helpers/Lang'
 
-export default ({ fct, perso }) => {
+export default ({ fct, perso, dataSup }) => {
 
     const { carac, actualCarac } = perso;
     const dispatch = useDispatch();
     const [arrayOfModif, setArrayOfModif] = useState([]);
+    const lang = dataSup.lang;
+    const localizer = localize[lang].characSheet;
 
     const list = () => {
         let caracList = [];
         Object.entries(carac).forEach(([caracName, value]) => {
-            const nameCapitalized = caracName.charAt(0).toUpperCase() + caracName.slice(1);
+            const nameToDisplay = localizer[caracName];
+            const nameToLogic = caracName;
             let actualValue = 0;
             for (let [actualCaracName, value] of Object.entries(actualCarac)) {
                 if (actualCaracName === caracName) { actualValue = value }
             }
-            caracName !== 'level' ? caracList.push({ 'name': nameCapitalized, 'value': value, 'actualValue': actualValue }) : null;
+            caracName !== 'level' ? caracList.push({ 'nameToLogic': nameToLogic, 'nameToDisplay': nameToDisplay, 'value': value, 'actualValue': actualValue }) : null;
         });
-        caracList.push({ 'name': 'Protection', 'value': perso.protection, 'actualValue': perso.protection })
+        caracList.push({ 'nameToLogic': 'protection', 'nameToDisplay': localizer.protection, 'value': perso.protection, 'actualValue': perso.protection })
         return caracList
     }
 
     const listGenerator = (carac) => {
         let list = []; let min = 0; let max = 0;
-        if (carac !== 'Endurance') { min = -10; max = 10; }
+        if (carac !== 'endurance') { min = -10; max = 10; }
         else { min = -50; max = 50; }
         for (let i = 0; i < (max * 2) + 1; i++) {
             list.push({ 'key': i, 'value': min++ });
@@ -50,7 +54,7 @@ export default ({ fct, perso }) => {
     }
 
     const press = () => {
-        dispatch(modifCarac(arrayOfModif, perso.classe));
+        dispatch(modifCarac(arrayOfModif, perso.id));
         fct();
     }
 
@@ -61,10 +65,10 @@ export default ({ fct, perso }) => {
 
                 <FlatList
                     data={list()}
-                    keyExtractor={(item) => item.name.toString()}
+                    keyExtractor={(item) => item.nameToDisplay.toString()}
                     renderItem={({ item }) => {
                         return (
-                            <ModifierItem carac={item} listGenerator={listGenerator(item.name)} send={send} />
+                            <ModifierItem carac={item} listGenerator={listGenerator(item.nameToLogic)} send={send} />
                         )
                     }}
                 />
@@ -72,10 +76,11 @@ export default ({ fct, perso }) => {
             </View>
 
             <Gradiator
-                label="Valider"
+                label={localize[lang].global.validate}
                 fct={() => press()}
                 styleObject={{ height: 40, width: '40%', margin: 10 }}
                 fSize={2}
+                grCouleur={dataSup.color}
             />
 
         </View>

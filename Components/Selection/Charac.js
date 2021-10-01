@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 
-export default ({ item, valid }) => {
+export default ({ item, valid, propz }) => {
 
     const inGameState = useSelector((state) => state.InGameRedux);
 
@@ -24,7 +24,7 @@ export default ({ item, valid }) => {
     const [disabled, setDisabled] = useState(false);
     const [checked, setChecked] = useState(false);
     const [displayed, setDisplayed] = useState(false);
-    const [name, setName] = useState(item.name);
+    const [name, setName] = useState(propz.characType[item.id]);
 
     const manage = (action) => {
         valid(action, { id: item.id, name: name, type: item.type });
@@ -48,11 +48,11 @@ export default ({ item, valid }) => {
                     />
                     {checked ?
                         <TouchableHighlight onPress={() => manage('suppr')} style={styles.select_validation} >
-                            {texter('Supprimer', name)}
+                            {texter(propz.delTxt, name)}
                         </TouchableHighlight>
                         :
                         <TouchableHighlight onPress={() => manage('accept')} style={styles.select_validation} >
-                            {texter('Valider', name)}
+                            {texter(propz.validTxt, name)}
                         </TouchableHighlight>
                     }
 
@@ -98,14 +98,14 @@ export default ({ item, valid }) => {
             <CheckBox
                 containerStyle={styles.checkBox}
                 inputContainerStyle={{ width: '100%' }}
-                title={<TextCustom text={item.type} size={2} couleur={fontColor} />}
+                title={<TextCustom text={propz.characType[item.id]} size={2} couleur={fontColor} />}
                 onPress={() => setDisplayed(!displayed)}
                 checked={checked}
                 checkedColor={'#FFD66F'}
                 uncheckedColor={'#rgba(255, 214, 111, 0.5)'}
             />
             {displayer()}
-            <View style={{ ...Styles.hrLine, width: '80%' }} />
+            <View style={{ ...Styles.hrLine, width: '80%', backgroundColor: propz.colorFull }} />
 
         </View>
     )

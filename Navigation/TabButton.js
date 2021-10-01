@@ -17,8 +17,6 @@ export default ({ state, descriptors, navigation }) => {
                 const opac = isFocused ? 1 : 0.6;
                 const height = isFocused ? '80%' : '70%';
 
-                const fontSize = isFocused ? 2 : 1;
-
                 const styles = StyleSheet.create({
                     img: {
                         resizeMode: 'contain',
@@ -47,12 +45,12 @@ export default ({ state, descriptors, navigation }) => {
                 const getIcon = () => {
                     if (label === 'Selection') { return <Image style={styles.img} source={require('../Helpers/IMG/select.png')} /> }
                     if (label === 'Fiches') { return <Image style={styles.img} source={require('../Helpers/IMG/fiches.png')} /> }
+                    if (label === 'Settings') { return <Image style={styles.img} source={require('../Helpers/IMG/settings.png')} /> }
                 }
                 
                 return (
                     <Pressable onPress={onPress} style={styles.pressable} key={index} id={index}>
                         {getIcon()}
-                        {/* <TextCustom text={label} size={fontSize} opacity={opac} /> */}
                         <View style={styles.barBot}></View>
                     </Pressable>
                     

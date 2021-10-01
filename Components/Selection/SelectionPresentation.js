@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Animated } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { validationChoices, setBook } from '../../Store/Actions/InGameActions';
+import { validationChoices } from '../../Store/Actions/InGameActions';
 
 import { books } from '../../Helpers/Data';
 import Gradiator from '../Gradiator';
@@ -10,6 +10,7 @@ import AllPurposeAlert from '../AllPurposeAlert';
 import Styles from '../Styles';
 import { BaseLvlCharac } from '../../Helpers/Logic';
 import TexteCustom from '../TexteCustom';
+import {localize} from '../../Helpers/Lang'
 
 export default ({ navigation }) => {
 
@@ -23,6 +24,9 @@ export default ({ navigation }) => {
     const [nameToDisplay, setNameToDisplay] = useState([]);
     const [dataAlert, setDataAlert] = useState({});
 
+    const {lang, color} = useSelector((state) => state.SetterRedux);
+    const dataSup = {'lang': lang, 'closeLabel': localize[lang].global.closeLabel, 'color': color.color, 'colorFull': color.colorFull}
+
     useEffect(() => {
         setNameToDisplay([]);
         inGameState.team.forEach(perso => {
@@ -30,12 +34,10 @@ export default ({ navigation }) => {
         });
     }, [inGameState.team]);
 
-    const accept = (book) => { dispatch(setBook(book)); };
-
     const resetFields = () => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Remise à zero', 'message': 'Supprimer la selection ?', 'closeAlert': closeAlert, 'fct': 'Reseter' })
+        setDataAlert({ 'title': localize[lang].selection.reSetTitle, 'message': localize[lang].selection.reSetMess, 'closeAlert': closeAlert, 'fct': 'Reseter', 'dataSup': dataSup})
     };
 
     const validationHandler = () => {
@@ -43,12 +45,12 @@ export default ({ navigation }) => {
         if (inGameState.book === '') {
             fadeIn();
             setDisplayAlert(true);
-            setDataAlert({ 'title': 'Choix du livre', 'message': 'Vous devez choisir un livre de départ.', 'closeAlert': closeAlert })
+            setDataAlert({ 'title': localize[lang].selection.bookChoiceTitle, 'message': localize[lang].selection.bookChoiceMess, 'closeAlert': closeAlert, 'dataSup': dataSup})
         }
         else if (inGameState.team.length === 0) {
             fadeIn();
             setDisplayAlert(true);
-            setDataAlert({ 'title': 'Choix de personnage', 'message': 'Vous devez choisir au moins un personnage.', 'closeAlert': closeAlert })
+            setDataAlert({ 'title': localize[lang].selection.characChoiceTitle, 'message': localize[lang].selection.characChoiceMess, 'closeAlert': closeAlert, 'dataSup': dataSup })
         }
         else {
             dispatch(validationChoices(inGameState.book, inGameState.team, BaseLvlCharac(inGameState.team.length, inGameState.book)));
@@ -57,18 +59,15 @@ export default ({ navigation }) => {
     };
 
     const choiceDisplayer = (category) => {
-        var label = '';
         switch (category) {
             case 'book': {
-                if (inGameState.set) { label = `Livre choisi : ${inGameState.book}`; }
-                else { inGameState.book === undefined || inGameState.book === '' ? label = 'Livre de départ' : label = inGameState.book }
-                return (label)
+                if (inGameState.set) { return `${localize[lang].selection.choosenBook} : ${localize[lang].books[inGameState.book]}`; }
+                else { return (inGameState.book === undefined || inGameState.book === '') ? localize[lang].selection.startingBook : localize[lang].books[inGameState.book]  }
             };
             case 'team': {
-                if (inGameState.set) { label = nameToDisplay.join(', '); }
-                else if (inGameState.team.length === 0) { label = 'Selection de Personnage(s)'; }
-                else { label = nameToDisplay.join(', '); }
-                return (label)
+                if (inGameState.set) { return nameToDisplay.join(', '); }
+                else if (inGameState.team.length === 0) { return localize[lang].selection.characSelect; }
+                else { return nameToDisplay.join(', '); }
             }
         }
     };
@@ -78,21 +77,21 @@ export default ({ navigation }) => {
         if (action === 'book') {
 
             if (!inGameState.set) {
-                navigation.navigate("Selection du Livre", { 'accept': accept, 'books': books })
+                navigation.navigate("Selection du Livre", { 'books': books, 'lang': lang, 'color': color.color })
             } else {
                 fadeIn();
                 setDisplayAlert(true);
-                setDataAlert({ 'title': 'Choix du livre', 'message': 'Vous ne pouvez plus changer de livre \n à moins de recommencer !!.', 'closeAlert': closeAlert })
+                setDataAlert({ 'title': localize[lang].selection.bookChoiceTitle, 'message': localize[lang].selection.cantChangeBook, 'closeAlert': closeAlert })
             }
         };
         if (action === 'team') {
 
             if (!inGameState.set) {
-                navigation.navigate("Selection de Personnage")
+                navigation.navigate("Selection de Personnage", {'lang': lang, 'color': color.color, 'colorFull': color.colorFull })
             } else {
                 fadeIn();
                 setDisplayAlert(true);
-                setDataAlert({ 'title': 'Choix de personnage', 'message': 'Vous ne pouvez plus changer d\'équipe \n à moins de recommencer !!', 'closeAlert': closeAlert })
+                setDataAlert({ 'title': localize[lang].selection.characChoiceTitle, 'message': localize[lang].selection.cantChangeTeam, 'closeAlert': closeAlert, 'dataSup': dataSup })
             }
         };
     }
@@ -116,25 +115,15 @@ export default ({ navigation }) => {
     };
 
     const configGradiator = (action, gradiator) => {
-        let colorFont = 'grey';
-        let colorGr = 'grey';
-        let fonction = null;
-        let check = ['Valider', 'book', 'team']
-
         if (action === 'fontColor') {
-            if (check.includes(gradiator)) { !inGameState.set ? colorFont = '#FFD66F' : colorFont }
-            else { inGameState.set ? colorFont = '#FFD66F' : colorFont }
-            return colorFont;
+            return !inGameState.set ? '#FFD66F' : 'grey'
         };
         if (action === 'gradientColor') {
-            if (check.includes(gradiator)) { !inGameState.set ? colorGr = '#rgba(255, 0, 0, 0.3)' : colorGr }
-            else { inGameState.set ? colorGr = '#rgba(255, 0, 0, 0.3)' : colorGr }
-            return colorGr;
+            return !inGameState.set ? color.color : 'grey'
         };
         if (action === 'fct') {
-            if (gradiator === 'Valider') { inGameState.set ? fonction : fonction = validationHandler() }
-            else if (gradiator === 'Reset') { !inGameState.set ? fonction : fonction = resetFields() }
-            return fonction;
+            if (gradiator === 'Valider') { return inGameState.set ? null : validationHandler() }
+            else if (gradiator === 'Reset') { return  resetFields() }
         };
     };
 
@@ -150,7 +139,7 @@ export default ({ navigation }) => {
     const load = (slot) => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Chargement de sauvegarde', 'message': `Charger la sauvegarde n° ${slot} ? \nLa partie en cours sera supprimée !`, 'closeAlert': closeAlert, 'fct': 'Loader', 'slot': slot })
+        setDataAlert({ 'title': 'Chargement de sauvegarde', 'message': `Charger la sauvegarde n° ${slot} ? \nLa partie en cours sera supprimée !`, 'closeAlert': closeAlert, 'fct': 'Loader', 'slot': slot, 'dataSup': dataSup })
     }
 
     const styles = StyleSheet.create({
@@ -216,7 +205,7 @@ export default ({ navigation }) => {
 
             <View style={styles.zone_validation}>
                 <Gradiator
-                    label="Valider"
+                    label={localize[lang].selection.gameValidate}
                     fct={() => configGradiator('fct', 'Valider')}
                     styleObject={{ height: 30, width: '40%', margin: 10 }}
                     fSize={2}
@@ -234,9 +223,9 @@ export default ({ navigation }) => {
             </View>
 
             <View style={Styles.divider}>
-                <View style={Styles.hrLine} />
-                <TexteCustom text={'charger une sauvegarde'} size={2} />
-                <View style={Styles.hrLine} />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                <TexteCustom text={localize[lang].selection.loadGame} size={2} />
+                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
             </View>
 
             <View style={styles.zone_load}>
@@ -248,7 +237,7 @@ export default ({ navigation }) => {
                         styleObject={{ height: 30, width: '25%', margin: 10 }}
                         fSize={2}
                         fCouleur={slot1.set ? '#FFD66F' : 'grey'}
-                        grCouleur={slot1.set ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
+                        grCouleur={slot1.set ? color.color : 'grey'}
                     />
                     <Gradiator
                         label="N° 2"
@@ -256,7 +245,7 @@ export default ({ navigation }) => {
                         styleObject={{ height: 30, width: '25%', margin: 10 }}
                         fSize={2}
                         fCouleur={slot2.set ? '#FFD66F' : 'grey'}
-                        grCouleur={slot2.set ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
+                        grCouleur={slot2.set ? color.color : 'grey'}
                     />
                     <Gradiator
                         label="N° 3"
@@ -264,7 +253,7 @@ export default ({ navigation }) => {
                         styleObject={{ height: 30, width: '25%', margin: 10 }}
                         fSize={2}
                         fCouleur={slot3.set ? '#FFD66F' : 'grey'}
-                        grCouleur={slot3.set ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
+                        grCouleur={slot3.set ? color.color : 'grey'}
                     />
                 </View>
             </View>

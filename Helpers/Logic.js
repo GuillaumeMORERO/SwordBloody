@@ -9,11 +9,11 @@ export const slugger = (number) => {
 
 export const BaseLvlCharac = (nbr, book) => {
     switch (book) {
-        case 'Les Treize Mages': {return Math.ceil(8 / nbr);};
-        case 'Le Maître des Rêves': {return Math.ceil(8 / nbr);};
-        case 'Le Port des Assassins': {return Math.floor(16 / nbr);};
-        case 'L\' Impossible Mission': {return Math.ceil(20 / nbr);};
-        case 'Les Murailles de Spyte': {
+        case 1: {return Math.ceil(8 / nbr);};
+        case 2: {return Math.ceil(8 / nbr);};
+        case 3: {return Math.floor(16 / nbr);};
+        case 4: {return Math.ceil(20 / nbr);};
+        case 5: {
             //return Math.floor((20 / nbr)+2);
             if (nbr === 1) {return 20;}
             else { return (24/nbr)} 
@@ -21,7 +21,7 @@ export const BaseLvlCharac = (nbr, book) => {
     }
 };
 
-export const baseEquip = (classe, lvl) => {
+export const baseEquip = (classId, lvl) => {
     
     var Epée = {type: "arme", name: "Epée", use: 0, usable: false, descr: "Une epée de base", id: `arme_${random(1, 10000)}`};
     var Bâton = {type: "arme", name: "Bâton", use: 0, usable: false, descr: "Un bâton de base", id: `arme_${random(1, 10000)}`};
@@ -34,10 +34,10 @@ export const baseEquip = (classe, lvl) => {
 
     var equip = [Bourse];
 
-    if (classe === 'Chevalier') {equip = [...equip, Epée, Côte]};
-    if (classe === 'Voleur') {equip = [...equip, Epée, Cuir, Arc, Carquois]};
-    if (classe === 'Prêtre') {equip = [...equip, Bâton, Annelée, Arc, Carquois]};
-    if (classe === 'Magicien') {equip = [...equip, Epée, Annelée]};
+    if (classId == 1) {equip = [...equip, Epée, Côte]};
+    if (classId == 4) {equip = [...equip, Epée, Cuir, Arc, Carquois]};
+    if (classId == 2) {equip = [...equip, Bâton, Annelée, Arc, Carquois]};
+    if (classId == 3) {equip = [...equip, Epée, Annelée]};
 
     return equip;
 };
@@ -54,4 +54,6 @@ export const listGenerator = (min, max) => {
         list.push({ 'key': i, 'value': min++ });
     }
     return list
-}
+};
+
+

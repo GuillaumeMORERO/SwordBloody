@@ -16,23 +16,29 @@ import Loader from './Compozans/Loader';
 import Dicer from './Compozans/Dicer';
 import Xper from './Compozans/Xper';
 
-export default ({title, message, closeAlert, fct = null, id=null, classe=null, book=null, perso=null, slot=null}) => {
+export default ({title, message, closeAlert, fct = null, id=null, persoId=null, book=null, perso=null, slot=null, dataSup=null}) => {
+    
+    const closeLabel = dataSup.closeLabel;
+    const color = dataSup.color;
 
     const compozan = () => {
         if ((fct !== null) || (fct !== '')) {
             switch(fct) { 
-                case 'Paragrapher' : {return <Paragrapher fct={closeAlert} />};
-                case 'Reseter' : {return <Reseter fct={closeAlert}  />};
-                case 'Noter' : {return <Noter fct={closeAlert}  />};
-                case 'Deleter' : {return <Deleter fct={closeAlert} id={id} classe={classe} />};
-                case 'Adder' : {return <Adder fct={closeAlert} classe={classe} book={book} />};
-                case 'Booker' : {return <Booker fct={closeAlert} book={book} />};
-                case 'Modifier' : {return <Modifier fct={closeAlert} perso={perso} />};
-                case 'Exchanger' : {return <Exchanger fct={closeAlert} classe={classe} objectId={id} />};
-                case 'Saver' : {return <Saver fct={closeAlert} />};
-                case 'Loader' : {return <Loader fct={closeAlert} slot={slot} />};
-                case 'Dicer' : {return <Dicer />};
-                case 'Xper' : {return <Xper perso={perso} />};
+                case 'Reseter' : {return <Reseter fct={closeAlert}  dataSup={dataSup}/>};
+
+                case 'Paragrapher' : {return <Paragrapher fct={closeAlert} dataSup={dataSup}/>};
+                case 'Noter' : {return <Noter fct={closeAlert}  dataSup={dataSup}/>};
+                case 'Booker' : {return <Booker fct={closeAlert} book={book} dataSup={dataSup}/>};
+                case 'Modifier' : {return <Modifier fct={closeAlert} perso={perso} dataSup={dataSup}/>};
+                case 'Saver' : {return <Saver fct={closeAlert} dataSup={dataSup}/>};
+                case 'Loader' : {return <Loader fct={closeAlert} slot={slot} dataSup={dataSup}/>};
+                case 'Dicer' : {return <Dicer dataSup={dataSup}/>};
+                case 'Xper' : {return <Xper perso={perso} dataSup={dataSup}/>};
+                
+                // inventory objects
+                case 'Deleter' : {return <Deleter fct={closeAlert} id={id} persoId={persoId} dataSup={dataSup}/>};
+                case 'Adder' : {return <Adder fct={closeAlert} persoId={persoId} book={book} dataSup={dataSup}/>};
+                case 'Exchanger' : {return <Exchanger fct={closeAlert} persoId={persoId} objectId={id} dataSup={dataSup}/>};
             }
         }
     }
@@ -61,10 +67,11 @@ export default ({title, message, closeAlert, fct = null, id=null, classe=null, b
         <View style={styles.alert_view}>
             <View style={styles.closer} >
                 <Gradiator
-                        label={'Fermer'}
+                        label={closeLabel}
                         fct={() => closeAlert()}
                         styleObject={{width: 100, alignSelf:'center'}}
                         fSize={2}
+                        grCouleur={color}
                     />
             </View>
             <View style={styles.zone}>

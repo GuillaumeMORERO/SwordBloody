@@ -41,30 +41,30 @@ export const suppNotes = (id) => {
   return { type: SUPP_NOTES, id};
 };
 
-export const suppObjet = (id, classe) => {
-  return { type: SUPP_OBJET, id, classe};
+export const suppObjet = (id, persoId) => {
+  return { type: SUPP_OBJET, id, persoId};
 };
 
-export const addObject = (objet, classe) => {
-  return { type: ADD_OBJET, objet, classe};
+export const addObject = (objet, persoId) => {
+  return { type: ADD_OBJET, objet, persoId};
 };
 
 export const replaceBook = (book) => {
   return { type: REPLACE_BOOK, book};
 };
 
-export const modifCarac = (modif, classe) => {
-  return { type: MODIF_CARAC, modif, classe};
+export const modifCarac = (modif, persoId) => {
+  return { type: MODIF_CARAC, modif, persoId};
 };
 
-export const qteUseObject = (value, idItem, classe) => {
-  return { type: QTE_USE_OBJECT, value, idItem, classe};
+export const qteUseObject = (value, idItem, persoId) => {
+  return { type: QTE_USE_OBJECT, value, idItem, persoId};
 };
 
 export const loadData = (data) => {
   return { type: LOAD_DATA, data};
 };
 
-export const xpGain = (gain, perso) => {
-  return { type: GAIN_XP, gain, perso};
+export const xpGain = (gain, persoId) => {
+  return { type: GAIN_XP, gain, persoId};
 };

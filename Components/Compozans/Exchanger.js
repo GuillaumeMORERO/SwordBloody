@@ -7,21 +7,21 @@ import { suppObjet, addObject } from '../../Store/Actions/InGameActions';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
-export default ({ fct, classe, objectId }) => {
+export default ({ fct, persoId, objectId }) => {
 
-    const classeDuPersoQuiDonne = classe
+    const idDuPersoQuiDonne = persoId;
     const { finalTeam } = useSelector((state) => state.InGameRedux);
     const dispatch = useDispatch();
 
-    const listTeam = finalTeam.filter(perso => perso.classe != classeDuPersoQuiDonne);
+    const listTeam = finalTeam.filter(perso => perso.id != idDuPersoQuiDonne);
 
-    const press = (length, classeChoisi) => {
+    const press = (length, idReceivingCharac) => {
         if (length < 10) {
-            let givingInventaire = finalTeam.find(perso => perso.classe === classeDuPersoQuiDonne).inventaire;
+            let givingInventaire = finalTeam.find(perso => perso.id === idDuPersoQuiDonne).inventaire;
             let obj = givingInventaire.find(item => item.id === objectId);
-            dispatch(addObject(obj, classeChoisi));
+            dispatch(addObject(obj, idReceivingCharac));
 
-            dispatch(suppObjet(objectId, classeDuPersoQuiDonne));
+            dispatch(suppObjet(objectId, idDuPersoQuiDonne));
 
             fct();
         }
@@ -45,7 +45,7 @@ export default ({ fct, classe, objectId }) => {
                         <View>
                             <Gradiator
                                 label={item.name}
-                                fct={() => press(item.inventaire.length, item.classe)}
+                                fct={() => press(item.inventaire.length, item.id)}
                                 fSize={2}
                                 fCouleur={item.inventaire.length < 10 ? '#FFD66F' : 'grey'}
                                 grCouleur={item.inventaire.length < 10 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}

@@ -7,7 +7,7 @@ import { setNotes } from '../../Store/Actions/InGameActions';
 import Gradiator from '../Gradiator';
 import NoteItem from './NoteItem';
 
-export default ({fct}) => {
+export default ({fct, dataSup}) => {
     
     const dispatch = useDispatch();
     const {inGameNotes} = useSelector((state) => state.InGameRedux);

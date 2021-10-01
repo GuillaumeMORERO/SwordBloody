@@ -53,10 +53,10 @@ function inGameRedux(state = initialState, action) {
 
       action.team.forEach(perso => {
 
-        var temporaryPerso = { classe: "", name: "", level: "", xp: 0, protection: 0, arme: true, skills: [], carac: [], actualCarac: [], inventaire: [] };
+        var temporaryPerso = {id: "", classe: "", name: "", level: "", xp: 0, protection: 0, arme: true, skills: [], carac: [], actualCarac: [], inventaire: [] };
 
         database.forEach(persoData => {
-          if (persoData.classe === perso.type) {
+          if (persoData.id === perso.id) {
 
             temporaryPerso.classe = perso.type;
             temporaryPerso.name = perso.name;
@@ -73,9 +73,10 @@ function inGameRedux(state = initialState, action) {
                 temporaryPerso.actualCarac = { force: dataByLvl.force, pouvoir: dataByLvl.pouvoir, habilete: dataByLvl.habilete, endurance: dataByLvl.endurance, dommage: dataByLvl.dommage, bonus: dataByLvl.bonus };
               }
             });
-            temporaryPerso.inventaire = baseEquip(perso.type, action.level);
+            temporaryPerso.inventaire = baseEquip(perso.id, action.level);
             let armure = temporaryPerso.inventaire.find(obj => obj.type === 'armure');
             temporaryPerso.protection = armure.use;
+            temporaryPerso.id = perso.id;
 
             temporaryTeam = [...temporaryTeam, temporaryPerso];
           }
@@ -138,14 +139,14 @@ function inGameRedux(state = initialState, action) {
     };
 
     case SUPP_OBJET: {
-      let perso = state.finalTeam.find(elm => elm.classe === action.classe);
+      let perso = state.finalTeam.find(elm => elm.id === action.persoId);
       let inventaire = perso.inventaire;
 
       let newInventaire = inventaire.filter(objet => objet.id !== action.id);
       //Array.isArray(newInventaire) ? perso.inventaire = newInventaire : newInventaire = [];
       perso.inventaire = newInventaire
 
-      let teamSupp = state.finalTeam.filter(charac => charac.classe !== action.classe);
+      let teamSupp = state.finalTeam.filter(charac => charac.id !== action.persoId);
       let newTeam = [...teamSupp, perso]
 
       return nextState = {
@@ -156,7 +157,7 @@ function inGameRedux(state = initialState, action) {
 
     case ADD_OBJET: {
       //console.log('action = ', action.objet)
-      let perso = state.finalTeam.find(elm => elm.classe === action.classe);
+      let perso = state.finalTeam.find(elm => elm.id === action.persoId);
       let { inventaire } = perso;
       //let inventaire = perso.inventaire;
       //console.log(inventaire)
@@ -164,7 +165,7 @@ function inGameRedux(state = initialState, action) {
       //console.log('newInventaire = ',newInventaire)
       // perso.inventaire = newInventaire;
       // console.log(perso.inventaire)
-      let teamSupp = state.finalTeam.filter(charac => charac.classe !== action.classe);
+      let teamSupp = state.finalTeam.filter(charac => charac.id !== action.persoId);
       let newTeam = [...teamSupp, perso]
 
       return nextState = {
@@ -192,7 +193,7 @@ function inGameRedux(state = initialState, action) {
 
     case MODIF_CARAC: {
 
-      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+      let perso = state.finalTeam.find(perso => perso.id === action.persoId);
       let { actualCarac } = perso;
       let arrayOfModif = action.modif;
 
@@ -205,7 +206,7 @@ function inGameRedux(state = initialState, action) {
         }
       });
 
-      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+      let newTeam = state.finalTeam.filter(hero => hero.id !== action.persoId);
       newTeam.push(perso);
 
       return nextState = {
@@ -216,7 +217,7 @@ function inGameRedux(state = initialState, action) {
 
     case QTE_USE_OBJECT: {
 
-      let perso = state.finalTeam.find(perso => perso.classe === action.classe);
+      let perso = state.finalTeam.find(perso => perso.id === action.persoId);
       let { inventaire } = perso;
 
       let objectToModif = inventaire.find(object => object.id === action.idItem);
@@ -226,7 +227,7 @@ function inGameRedux(state = initialState, action) {
       newInventaire.push(objectToModif);
       perso.inventaire = newInventaire
 
-      let newTeam = state.finalTeam.filter(hero => hero.classe !== action.classe);
+      let newTeam = state.finalTeam.filter(hero => hero.id !== action.persoId);
       newTeam.push(perso);
 
       return nextState = {
@@ -236,7 +237,6 @@ function inGameRedux(state = initialState, action) {
     };
 
     case LOAD_DATA: {
-      //console.log('reçu dans le reducer = ',action.data)
       return nextState = {
         team: action.data.team,
         book: action.data.book,
@@ -248,7 +248,7 @@ function inGameRedux(state = initialState, action) {
     };
 
     case GAIN_XP: {
-      let currentPerso = state.finalTeam.find(perso => perso.classe === action.perso.classe);
+      let currentPerso = state.finalTeam.find(perso => perso.id === action.persoId);
       currentPerso.xp += action.gain;
 
       let rankArray = [];
@@ -263,7 +263,7 @@ function inGameRedux(state = initialState, action) {
       currentPerso.level = newRank[0].level;
 
       database.forEach(dataByClass => {
-        if (dataByClass.classe === currentPerso.classe) {
+        if (dataByClass.id === currentPerso.id) {
           let newSetOfCarac = dataByClass.carac.find(set => set.level === currentPerso.level)
 
           currentPerso.carac = newSetOfCarac;
@@ -278,7 +278,7 @@ function inGameRedux(state = initialState, action) {
         }
       });
 
-      let newTeam = state.finalTeam.filter(hero => hero.classe !== currentPerso.classe);
+      let newTeam = state.finalTeam.filter(hero => hero.id !== currentPerso.id);
       newTeam.push(currentPerso);
 
       return nextState = {

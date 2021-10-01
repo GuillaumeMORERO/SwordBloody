@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { View, ScrollView, FlatList, ActivityIndicator, Pressable, Animated, Image, TouchableHighlight, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import ItemComponent from './ItemComponent';
 import AllPurposeAlert from '../AllPurposeAlert';
@@ -14,23 +13,14 @@ export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
-    const { finalTeam } = useSelector((state) => state.InGameRedux);
     const dispatch = useDispatch();
-
-    const typeReçu = data.route.params.type;
-    const [Perso, setPerso] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const Perso = data.route.params.perso;
+    const finalTeamLength = data.route.params.finalTeamLength;
+    const localizerItems = data.route.params.localizerItems;
+    const dataSup = {...data.route.params.dataSup, localizerItems, 'closeLabel': localizerItems.closeLabel};
+console.log(dataSup)
     const [displayAlert, setDisplayAlert] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
-
-    useEffect(() => {
-        finalTeam.forEach(dataSet => {
-            if (dataSet.classe === typeReçu) {
-                setPerso(dataSet);
-                setIsLoading(false);
-            }
-        })
-    }, []);
 
     const itemList = () => {
         var items = new Array();
@@ -41,16 +31,6 @@ export default (data) => {
         }
         return items;
     }
-
-    const spinner = () => {
-        if (isLoading) {
-            return (
-                <View>
-                    <ActivityIndicator size="large" color='#FFD66F' />
-                </View>
-            )
-        }
-    };
 
     const closeAlert = () => { fadeOut(); };
 
@@ -77,7 +57,7 @@ export default (data) => {
         type === 'armure' ? loss = 'Cela entraînera la perte \n de vos points de protection' :
             type === 'arme' ? loss = 'Cela entraînera la perte \n de 2 points de force, et 2 points de dégâts.' : loss;
 
-        setDataAlert({ 'title': 'Suppression', 'message': `Supprimer ${name} ? \n ${loss}`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, 'classe': Perso.classe });
+        setDataAlert({ 'title': localizer.items.itemDeleteTitle, 'message': `${localizer.items.itemDeleteMess} ${name} ? \n ${loss}`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, 'persoId': Perso.id, 'dataSup': dataSup });
     };
 
     const toAddItem = () => {
@@ -86,20 +66,20 @@ export default (data) => {
         nbrObject === 10 ? message = 'Vous avez dix objets, vous ne pouvez plus en ajouter.' : fct = 'Adder';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe });
+        setDataAlert({ 'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'dataSup': dataSup });
     };
 
     const exchangeItem = (item) => {
-        let nbrPerso = finalTeam.length;
+        let nbrPerso = finalTeamLength;
         let message = `Avec qui voulez-vous échanger\n '${item.name}'`; let fct = '';
         nbrPerso === 1 ? message = 'Vous n\' avez qu\' un seul Personnage dans l\'équipe !' : fct = 'Exchanger';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Echange d\' objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'classe': Perso.classe, 'id': item.id });
+        setDataAlert({ 'title': 'Echange d\' objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'id': item.id, 'dataSup': dataSup });
     };
 
     const modifQte = (value, id) => {
-        dispatch(qteUseObject(value, id, Perso.classe));
+        dispatch(qteUseObject(value, id, Perso.id));
     }
 
     const styles = StyleSheet.create({
@@ -121,41 +101,37 @@ export default (data) => {
                 </Animated.View>
             }
 
-            {isLoading && spinner()}
-
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
                 <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
-            {!isLoading &&
-                <View style={{ flex: 1, marginBottom: 20 }}>
+            <View style={{ flex: 1, marginBottom: 20 }}>
 
-                    <View>
+                <View>
 
-                        <View style={Styles.divider}>
-                            <View style={Styles.hrLine} />
-                            <TextCustom text={'Inventaire'} size={4} bold />
-                            <View style={Styles.hrLine} />
-                        </View>
-
-                        <TouchableHighlight
-                            style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
-                            onPress={() => toAddItem()}
-                        >
-                            <Image source={require('../../Helpers/IMG/add.png')} style={styles.icon} />
-                        </TouchableHighlight>
-
-                        <FlatList
-                            data={itemList()}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} teamLength={finalTeam.length} exchangeItem={exchangeItem} />)
-                            }}
-                        />
-
+                    <View style={Styles.divider}>
+                        <View style={Styles.hrLine} />
+                        <TextCustom text={localizerItems.itemsTitle} size={4} bold />
+                        <View style={Styles.hrLine} />
                     </View>
+
+                    <TouchableHighlight
+                        style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
+                        onPress={() => toAddItem()}
+                    >
+                        <Image source={require('../../Helpers/IMG/add.png')} style={styles.icon} />
+                    </TouchableHighlight>
+
+                    <FlatList
+                        data={itemList()}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => {
+                            return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} teamLength={finalTeamLength} exchangeItem={exchangeItem} />)
+                        }}
+                    />
+
                 </View>
-            }
+            </View>
 
         </View>
     )

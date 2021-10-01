@@ -8,71 +8,46 @@ import Styles from '../Styles';
 
 export default (data) => {
 
-    const { finalTeam } = useSelector((state) => state.InGameRedux);
-
-    const typeReçu = data.route.params.type;
-    const [Perso, setPerso] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        finalTeam.forEach(dataSet => {
-            if (dataSet.classe === typeReçu) {
-                setPerso(dataSet);
-                setIsLoading(false);
-            }
-        })
-    }, []);
+    const Perso = data.route.params.perso;
+    const localizer = data.route.params.localizerSkills[Perso.id];
+    const title = data.route.params.localizerSkills.skills;
+    const color = data.route.params.dataSup.color;
 
     const capa = () => {
         var items = new Array();
         Perso.skills.forEach((item, key) => {
-            items.push({ id: key + 1, name: item.name, descr: item.descr });
+            items.push({ id: item.skillID, name: localizer[item.skillID].name, descr: localizer[item.skillID].description });
         });
         return items;
     }
-
-    const spinner = () => {
-        if (isLoading) {
-            return (
-                <View>
-                    <ActivityIndicator size="large" color='#FFD66F' />
-                </View>
-            )
-        }
-    }
-
     return (
         <View style={Styles.select_container}>
-
-            {isLoading && spinner()}
 
             <Pressable style={Styles.back_arrow_pressable} onPress={() => data.navigation.goBack()}>
                 <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
-            {!isLoading &&
-                <View style={{ flex: 1, marginBottom: 20 }}>
+            <View style={{ flex: 1, marginBottom: 20 }}>
 
-                    <View>
+                <View>
 
-                        <View style={Styles.divider}>
-                            <View style={Styles.hrLine} />
-                            <TextCustom text={'Capacités'} size={4} bold />
-                            <View style={Styles.hrLine} />
-                        </View>
-
-                        <FlatList
-                            data={capa()}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (<CapaComponent data={item} />)
-                            }}
-                        />
-
+                    <View style={Styles.divider}>
+                        <View style={{...Styles.hrLine, backgroundColor: color}} />
+                        <TextCustom text={title} size={4} bold />
+                        <View style={{...Styles.hrLine, backgroundColor: color}} />
                     </View>
 
+                    <FlatList
+                        data={capa()}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => {
+                            return (<CapaComponent data={item} />)
+                        }}
+                    />
+
                 </View>
-            }
+
+            </View>
 
         </View>
     )

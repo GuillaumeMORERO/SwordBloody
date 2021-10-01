@@ -3,10 +3,8 @@ import { View, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 import Gradiator from '../Gradiator';
 
-export default ({perso, navigation, nbr}) => {
+export default ({perso, persoID,  navigation, nbr, dataSup, localizerSkills, localizerItems}) => {
 
-    const item = perso;
-    const type = perso.type;
     const marge = nbr === 1 ? 40 : nbr === 2 ? 20 : nbr === 3 ? 8 : nbr === 4 ? 4 : null;
 
     const styles = StyleSheet.create({
@@ -28,14 +26,15 @@ export default ({perso, navigation, nbr}) => {
         <View style={styles.container}>
             <Gradiator
                 label={perso.name}
-                fct={() => navigation.navigate("fiche", {item})}
+                fct={() => navigation.navigate("fiche", {'persoID': persoID, 'dataSup': dataSup, 'finalTeamLength': nbr})}
                 styleObject={{width: '60%', marginVertical:10}}
                 fSize={2}
+                grCouleur={dataSup.color}
             />
-            <TouchableHighlight onPress={() => navigation.navigate("Skills", {type})}>
+            <TouchableHighlight onPress={() => navigation.navigate("Skills", {perso, localizerSkills, dataSup})}>
                 <Image source={require('../../Helpers/IMG/capacite.png')} style={styles.icon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => navigation.navigate("Items", {type})} >
+            <TouchableHighlight onPress={() => navigation.navigate("Items", {'perso': perso, 'finalTeamLength': nbr, 'dataSup': dataSup, 'localizerItems': localizerItems})} >
                 <Image source={require('../../Helpers/IMG/inventaire.png')} style={styles.icon} />
             </TouchableHighlight>
         </View>

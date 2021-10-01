@@ -7,28 +7,32 @@ import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 import Styles from '../Styles';
 import AllPurposeAlert from '../AllPurposeAlert';
-import { descrCarac } from '../../Helpers/Data'
+import {localize} from '../../Helpers/Lang'
 
 export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
-    const { finalTeam } = useSelector((state) => state.InGameRedux);
-    const typeReçu = data.route.params.item.type;
-
-    useEffect(() => {
-        finalTeam.forEach(dataSet => {
-            if (dataSet.classe === typeReçu) {
-                setPerso(dataSet);
-                setIsLoading(false);
-            }
-        })
-    }, []);
+    const PersoID = data.route.params.persoID;
+    const finalTeamLength = data.route.params.nbr
+    const dataSup = {...data.route.params.dataSup, 'closeLabel': localize[data.route.params.dataSup.lang].global.closeLabel}
+    const localizer = localize[dataSup.lang].characSheet
+    const localizerSkills = localize[dataSup.lang].skills
+    const localizerItems = localize[dataSup.lang].items
 
     const [Perso, setPerso] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [dataAlert, setDataAlert] = useState({});
     const [displayAlert, setDisplayAlert] = useState(false);
 
+    const { finalTeam } = useSelector((state) => state.InGameRedux);
+    useEffect(() => {
+        finalTeam.forEach(dataSet => {
+            if (dataSet.id === PersoID) {
+                setPerso(dataSet);
+                setIsLoading(false);
+            }
+        })
+    }, []);
     const spinner = () => {
         if (isLoading) {
             return (
@@ -39,30 +43,30 @@ export default (data) => {
         }
     }
 
-    const getImg = (type) => {
-        switch (type) {
-            case 'Chevalier': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Chevalier.png')}></Image>)
-            case 'Prêtre': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Prêtre.png')}></Image>)
-            case 'Magicien': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Magicien.png')}></Image>)
-            case 'Voleur': return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/Voleur.png')}></Image>)
+    const getImg = (id) => {
+        switch (id) {
+            case 1: return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/1.png')}></Image>)
+            case 2: return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/2.png')}></Image>)
+            case 3: return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/3.png')}></Image>)
+            case 4: return (<Image style={styles.avatar_image} source={require('../../Helpers/IMG/4.png')}></Image>)
         }
     }
 
     const modifCarac = () => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Modification des caractéristiques', 'message': '', 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso })
+        setDataAlert({ 'title': localizer.setAttributesTitle, 'message': localizer.setAttributesMess, 'closeAlert': closeAlert, 'fct': 'Modifier', 'perso': Perso, 'dataSup': dataSup })
     }
 
     const modifXp = () => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Ajout de points d\'expérience', 'message': '', 'closeAlert': closeAlert, 'fct': 'Xper', 'perso': Perso })
+        setDataAlert({ 'title': localizer.setXpTitle, 'message': localizer.setXpMess, 'closeAlert': closeAlert, 'fct': 'Xper', 'perso': Perso, 'dataSup': dataSup })
     }
 
     const damage = () => {
-        const bonus = Perso.carac.bonus === 0 ? '' : Perso.carac.bonus > 0 ? ` +${Perso.carac.bonus}` : `${Perso.carac.bonus}`;
-        return `${Perso.carac.dommage}d${bonus}`;
+        const bonus = Perso.actualCarac.bonus === 0 ? '' : Perso.actualCarac.bonus > 0 ? ` +${Perso.actualCarac.bonus}` : `${Perso.actualCarac.bonus}`;
+        return `${Perso.actualCarac.dommage}d${bonus}`;
     }
 
     const closeAlert = () => { fadeOut(); };
@@ -89,9 +93,8 @@ export default (data) => {
 
         for (const [name, value] of Object.entries(Perso.carac)) {
             if (filtre.includes(name)) {
-                let descr = descrCarac.find(elm => elm.name === name).descr;
-                const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
-                object = { 'name': nameCapitalized, 'value': value, 'descr': descr, 'actualValue': caractual[name] };
+                let descr = localizer[`${name}_descr`];
+                object = { 'name': localizer[name], 'value': value, 'descr': descr, 'actualValue': caractual[name] };
                 tab.push(object);
             }
         }
@@ -115,7 +118,7 @@ export default (data) => {
             height: '95%',
 
             borderWidth: 1,
-            borderColor: '#rgba(255, 0, 0, 0.5)',
+            borderColor: dataSup.colorFull,
             borderRadius: 5,
 
         },
@@ -130,7 +133,7 @@ export default (data) => {
             justifyContent: 'space-around',
             alignItems: 'center',
             borderWidth: 1,
-            borderColor: '#rgba(255, 0, 0, 0.5)',
+            borderColor: dataSup.colorFull,
             borderRadius: 5,
             padding: 10,
             marginTop: 10,
@@ -147,7 +150,7 @@ export default (data) => {
             justifyContent: 'space-around',
             alignItems: 'center',
             borderWidth: 1,
-            borderColor: '#rgba(255, 0, 0, 0.5)',
+            borderColor: dataSup.colorFull,
             borderRadius: 5,
             padding: 10,
             marginTop: 10,
@@ -187,26 +190,36 @@ export default (data) => {
                     <View style={styles.main}>
 
                         <View style={styles.avatar}>
-                            {getImg(Perso.classe)}
+                            {getImg(Perso.id)}
                         </View>
                         
                         <View style={styles.main_right}>
 
                             <View style={styles.name_container}>
                                 <View style={styles.rowTxt}>
-                                    <TextCustom text='Classe : ' size={1} />
-                                    <TextCustom text={Perso.classe} size={2} />
+                                    <TextCustom text={`${localizer.type} :`} size={1} />
+                                    <Tooltip
+                                        popover={<TextCustom text={localizerSkills[Perso.id].descr} size={2} italic />}
+                                        backgroundColor={'#rgba(255, 214, 111, 0.0)'}
+                                        containerStyle={{ padding: 10 }}
+                                        height={150}
+                                        width={300}
+                                        overlayColor={'#rgba(0, 0, 0, 0.9)'}
+                                        skipAndroidStatusBar={true}
+                                    >
+                                        <TextCustom text={Perso.classe} size={2} />
+                                    </Tooltip>
                                 </View>
                                 <View style={styles.rowTxt}>
-                                    <TextCustom text='Nom : ' size={1} />
+                                    <TextCustom text={`${localizer.givenName} :`} size={1} />
                                     <TextCustom text={Perso.name} size={2} />
                                 </View>
                                 <View style={styles.rowTxt}>
-                                    <TextCustom text='Niveau : ' size={1} />
+                                    <TextCustom text={`${localizer.level} :`} size={1} />
                                     <TextCustom text={Perso.level} size={3} />
                                 </View>
                                 <View style={styles.rowTxt}>
-                                    <TextCustom text='XP : ' size={1} />
+                                    <TextCustom text={`${localizer.xp} :`} size={1} />
                                     <Icon name='pencil' type='evilicon' color='#FFD66F' size={20} onPress={() => modifXp()} />
                                     <TextCustom text={Perso.xp} size={3} />
                                 </View>
@@ -217,9 +230,9 @@ export default (data) => {
                                 <View style={styles.carac_container_lateral}>
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                                        <View style={Styles.hrLine} />
+                                        <View style={{...Styles.hrLine, backgroundColor: dataSup.colorFull}} />
                                         <Icon name='pencil' type='evilicon' color='#FFD66F' size={20} onPress={() => modifCarac()} />
-                                        <View style={Styles.hrLine} />
+                                        <View style={{...Styles.hrLine, backgroundColor: dataSup.colorFull}} />
                                     </View>
 
                                     <FlatList
@@ -252,16 +265,16 @@ export default (data) => {
 
                                 </View>
 
-                                <View style={{...Styles.hrLine, width:'80%'}} />
+                                <View style={{...Styles.hrLine, width:'80%', backgroundColor: dataSup.colorFull}} />
 
                                 <View style={{ ...styles.carac_container_lateral, height: '25%' }}>
 
                                     <View style={styles.rowTxt}>
-                                        <TextCustom text='Protection : ' size={1} />
+                                        <TextCustom text={`${localizer.protection} :`} size={1} />
                                         <TextCustom text={Perso.protection} size={3} />
                                     </View>
                                     <View style={styles.rowTxt}>
-                                        <TextCustom text='Dommage : ' size={1} />
+                                        <TextCustom text={`${localizer.dommage} :`} size={1} />
                                         <TextCustom text={damage()} size={3} />
                                     </View>
 
@@ -276,23 +289,25 @@ export default (data) => {
                     <View style={styles.capacity_container}>
 
                         <Gradiator
-                            label='Capacités'
-                            fct={() => data.navigation.navigate("Skills", { type: typeReçu })}
+                            label={localizer.skills}
+                            fct={() => data.navigation.navigate("Skills", { 'perso': Perso, 'localizerSkills': localizerSkills, 'dataSup': dataSup })}
                             styleObject={{ width: '40%' }}
                             fSize={2}
+                            grCouleur={dataSup.color}
                         />
                         <Gradiator
-                            label='Inventaire'
-                            fct={() => data.navigation.navigate("Items", { type: typeReçu })}
+                            label={localizer.items}
+                            fct={() => data.navigation.navigate("Items", { 'perso': Perso, 'finalTeamLength': finalTeamLength, 'localizerItems': localizerItems, 'dataSup': dataSup })}
                             styleObject={{ width: '40%' }}
                             fSize={2}
+                            grCouleur={dataSup.color}
                         />
 
                     </View>
 
                 </View>
             }
-
+            
         </View>
     )
 }

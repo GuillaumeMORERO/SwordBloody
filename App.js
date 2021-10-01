@@ -3,28 +3,13 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { StyleSheet, View, BackHandler, Alert } from 'react-native';
 
-import { Provider } from 'react-redux';
-import rootReducer from './Store/configureStore';
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import { createLogger } from 'redux-logger';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import storage from 'redux-persist/lib/storage';
 import SplashScreen from 'react-native-splash-screen'
 
 import Navigation from './Navigation/Navigation';
-import { applyMiddleware, createStore } from 'redux';
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  //whitelist: ['']
-};
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const storeToSend = createStore(persistedReducer, applyMiddleware());
-
-const persistedStore = persistStore(storeToSend);
+import { Provider } from 'react-redux';
+import { store, persistor } from './Store/configureStore';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
 
@@ -51,7 +36,6 @@ export default function App() {
     return () => backHandler.remove();
   }, []);
 
-  //const persistor = persistStore(Store);
 
   const styles = StyleSheet.create({
     container: {
@@ -60,8 +44,8 @@ export default function App() {
   });
 
   return (
-    <Provider store={storeToSend}>
-      <PersistGate loading={null} persistor={persistedStore}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <View style={styles.container}>
           <Navigation />
         </View>

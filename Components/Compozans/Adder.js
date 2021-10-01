@@ -10,7 +10,7 @@ import TextCustom from '../TexteCustom';
 import { random } from '../../Helpers/Logic';
 import Styles from '../Styles';
 
-export default ({ fct, classe }) => {
+export default ({ fct, persoId }) => {
 
     const dispatch = useDispatch();
     const [newObject, setNewObject] = useState({
@@ -41,7 +41,7 @@ export default ({ fct, classe }) => {
     }
     useEffect(() => {
         if (newObject.id !== '') {
-            dispatch(addObject(newObject, classe));
+            dispatch(addObject(newObject, persoId));
             fct();
         }
     }, [newObject])

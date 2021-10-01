@@ -6,12 +6,12 @@ import { suppObjet } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 
-export default ({ fct, id, classe }) => {
+export default ({ fct, id, persoId, dataSupp }) => {
 
     const dispatch = useDispatch();
 
     const press = () => {
-        dispatch(suppObjet(id, classe))
+        dispatch(suppObjet(id, persoId))
         fct();
     }
 
