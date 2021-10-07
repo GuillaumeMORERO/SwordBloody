@@ -128,10 +128,10 @@ export default ({ navigation }) => {
     };
 
     const loadSave = (slot) => {
-        let currentSlot;
-        slot === 1 ? currentSlot = slot1 :
-            slot === 2 ? currentSlot = slot2 :
-                slot === 3 ? currentSlot = slot3 : null;
+        let currentSlot = 
+        slot === 1 ? slot1 :
+            slot === 2 ? slot2 :
+                slot === 3 ? slot3 : null;
 
         currentSlot.set ? load(slot) : null;
     }
@@ -139,7 +139,7 @@ export default ({ navigation }) => {
     const load = (slot) => {
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Chargement de sauvegarde', 'message': `Charger la sauvegarde n° ${slot} ? \nLa partie en cours sera supprimée !`, 'closeAlert': closeAlert, 'fct': 'Loader', 'slot': slot, 'dataSup': dataSup })
+        setDataAlert({ 'title': localize[lang].forAlert.loadingTitle, 'message': `${localize[lang].forAlert.loadingMess} ${slot} ${localize[lang].forAlert.loadingWarning}`, 'closeAlert': closeAlert, 'fct': 'Loader', 'slot': slot, 'dataSup': {...dataSup, 'localizer': localize[lang]} })
     }
 
     const styles = StyleSheet.create({

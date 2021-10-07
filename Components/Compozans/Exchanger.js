@@ -7,7 +7,7 @@ import { suppObjet, addObject } from '../../Store/Actions/InGameActions';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
-export default ({ fct, persoId, objectId }) => {
+export default ({ fct, persoId, objectId, dataSup }) => {
 
     const idDuPersoQuiDonne = persoId;
     const { finalTeam } = useSelector((state) => state.InGameRedux);
@@ -26,10 +26,10 @@ export default ({ fct, persoId, objectId }) => {
             fct();
         }
     }
-
+console.log('exchanger : ', dataSup)
     const showMessage = (length) => {
         if (length >= 10) {
-            return <TextCustom text={'Ce personnage a déjà dix objets dans son inventaire'} size={1} italic />
+            return <TextCustom text={dataSup.localizerItems.heHasTooMuch} size={1} italic />
         }
     }
 
@@ -48,7 +48,7 @@ export default ({ fct, persoId, objectId }) => {
                                 fct={() => press(item.inventaire.length, item.id)}
                                 fSize={2}
                                 fCouleur={item.inventaire.length < 10 ? '#FFD66F' : 'grey'}
-                                grCouleur={item.inventaire.length < 10 ? '#rgba(255, 0, 0, 0.3)' : 'grey'}
+                                grCouleur={item.inventaire.length < 10 ? dataSup.color : 'grey'}
                             />
                             {showMessage(item.inventaire.length)}
                         </View>

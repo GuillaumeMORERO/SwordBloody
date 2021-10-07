@@ -13,14 +13,37 @@ export default (data) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
+    const { finalTeam } = useSelector((state) => state.InGameRedux);
+    const persoID = data.route.params.persoID
+
     const dispatch = useDispatch();
-    const Perso = data.route.params.perso;
+
     const finalTeamLength = data.route.params.finalTeamLength;
     const localizerItems = data.route.params.localizerItems;
     const dataSup = {...data.route.params.dataSup, localizerItems, 'closeLabel': localizerItems.closeLabel};
-console.log(dataSup)
+
     const [displayAlert, setDisplayAlert] = useState(false);
     const [dataAlert, setDataAlert] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [Perso, setPerso] = useState({});
+
+    useEffect(() => {
+        finalTeam.forEach(dataSet => {
+            if (dataSet.id === persoID) {
+                setPerso(dataSet);
+                setIsLoading(false);
+            }
+        })
+    }, []);
+    const spinner = () => {
+        if (isLoading) {
+            return (
+                <View>
+                    <ActivityIndicator size="large" color='#FFD66F' />
+                </View>
+            )
+        }
+    }
 
     const itemList = () => {
         var items = new Array();
@@ -50,32 +73,37 @@ console.log(dataSup)
         }).start(() => setDisplayAlert(false));
     };
 
+    const tooltiper = (descr) => {
+        fadeIn();
+        setDisplayAlert(true);
+        setDataAlert({ 'title': '', 'message': '', 'closeAlert': closeAlert, 'fct': 'Tooltiper', 'dataSup': {...dataSup, descr} });
+    };
+
     const suppItem = (name, id, type) => {
         fadeIn();
         setDisplayAlert(true);
         let loss = '';
-        type === 'armure' ? loss = 'Cela entraînera la perte \n de vos points de protection' :
-            type === 'arme' ? loss = 'Cela entraînera la perte \n de 2 points de force, et 2 points de dégâts.' : loss;
+        type === 'armure' ? loss = localizerItems.lossArmour : type === 'arme' ? loss = localizerItems.lossWeapon : loss;
 
-        setDataAlert({ 'title': localizer.items.itemDeleteTitle, 'message': `${localizer.items.itemDeleteMess} ${name} ? \n ${loss}`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, 'persoId': Perso.id, 'dataSup': dataSup });
+        setDataAlert({ 'title': localizerItems.itemDeleteTitle, 'message': `${localizerItems.itemDeleteMess} ${name} ? \n ${loss}`, 'closeAlert': closeAlert, 'fct': 'Deleter', 'id': id, 'persoId': Perso.id, 'dataSup': dataSup });
     };
 
     const toAddItem = () => {
         let nbrObject = Perso.inventaire.length;
         let message = ''; let fct = '';
-        nbrObject === 10 ? message = 'Vous avez dix objets, vous ne pouvez plus en ajouter.' : fct = 'Adder';
+        nbrObject === 10 ? message = localizerItems.tooMuchObjects : fct = 'Adder';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Ajout d\'un objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'dataSup': dataSup });
+        setDataAlert({ 'title': localizerItems.addItem, 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'dataSup': dataSup });
     };
 
     const exchangeItem = (item) => {
         let nbrPerso = finalTeamLength;
-        let message = `Avec qui voulez-vous échanger\n '${item.name}'`; let fct = '';
-        nbrPerso === 1 ? message = 'Vous n\' avez qu\' un seul Personnage dans l\'équipe !' : fct = 'Exchanger';
+        let message = `${localizerItems.withWhomToChange} \n ${item.name} ?`; let fct = '';
+        nbrPerso === 1 ? message = localizerItems.justOneCharac : fct = 'Exchanger';
         fadeIn();
         setDisplayAlert(true);
-        setDataAlert({ 'title': 'Echange d\' objet', 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'id': item.id, 'dataSup': dataSup });
+        setDataAlert({ 'title': localizerItems.tradingTitle, 'message': message, 'closeAlert': closeAlert, 'fct': fct, 'persoId': Perso.id, 'id': item.id, 'dataSup': dataSup });
     };
 
     const modifQte = (value, id) => {
@@ -105,33 +133,36 @@ console.log(dataSup)
                 <Image source={require('../../Helpers/IMG/backIcon.png')} style={Styles.back} />
             </Pressable>
 
-            <View style={{ flex: 1, marginBottom: 20 }}>
+            {isLoading && spinner()}
 
-                <View>
+            {!isLoading &&
+                <View style={{ flex: 1, marginBottom: 20 }}>
 
-                    <View style={Styles.divider}>
-                        <View style={Styles.hrLine} />
-                        <TextCustom text={localizerItems.itemsTitle} size={4} bold />
-                        <View style={Styles.hrLine} />
+                    <View>
+                        <View style={Styles.divider}>
+                            <View style={Styles.hrLine} />
+                            <TextCustom text={localizerItems.itemsTitle} size={4} bold />
+                            <View style={Styles.hrLine} />
+                        </View>
+
+                        <TouchableHighlight
+                            style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
+                            onPress={() => toAddItem()}
+                        >
+                            <Image source={require('../../Helpers/IMG/add.png')} style={styles.icon} />
+                        </TouchableHighlight>
+
+                        <FlatList
+                            data={itemList()}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => {
+                                return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} tooltiper={tooltiper} teamLength={finalTeamLength} exchangeItem={exchangeItem} dataSup={dataSup} />)
+                            }}
+                        />
+
                     </View>
-
-                    <TouchableHighlight
-                        style={{ width: '50%', alignSelf: 'center', opacity: Perso.inventaire.length < 10 ? 1 : 0.5}}
-                        onPress={() => toAddItem()}
-                    >
-                        <Image source={require('../../Helpers/IMG/add.png')} style={styles.icon} />
-                    </TouchableHighlight>
-
-                    <FlatList
-                        data={itemList()}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => {
-                            return (<ItemComponent data={item} suppItem={suppItem} modifQte={modifQte} teamLength={finalTeamLength} exchangeItem={exchangeItem} />)
-                        }}
-                    />
-
                 </View>
-            </View>
+            }
 
         </View>
     )

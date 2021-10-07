@@ -24,6 +24,7 @@ export default ({ navigation }) => {
     const localizer = localize[lang].sheet;
     const localizerSkills = localize[lang].skills;
     const localizerItems = localize[lang].items;
+    const localizerAlert = localize[lang].forAlert;
 
     const labelPara = () => { return (inGameState.paragraph !== '') ? `n° ${inGameState.paragraph}` : localizer.sectionLabel; };
     const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} ${localizer.noteLabel}` : localizer.noteLabel; };
@@ -31,25 +32,25 @@ export default ({ navigation }) => {
     const paraSetter = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': localizer.paraTitle, 'message': localizer.paraMess, 'closeAlert': closeAlert, 'fct': 'Paragrapher', 'dataSup': dataSup });
+        setDataAlert({ 'title': localizer.paraTitle, 'message': localizer.paraMess, 'closeAlert': closeAlert, 'fct': 'Paragrapher', 'dataSup': {...dataSup, localizerAlert} });
     };
 
     const paraNotes = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': localizer.noteTitle, 'message': localizer.noteMess, 'closeAlert': closeAlert, 'fct': 'Noter', 'dataSup': dataSup });
+        setDataAlert({ 'title': localizer.noteTitle, 'message': localizer.noteMess, 'closeAlert': closeAlert, 'fct': 'Noter', 'dataSup': {...dataSup, localizerAlert} });
     };
 
     const dice = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': localizer.diceTitle, 'message': localizer.diceMess, 'closeAlert': closeAlert, 'fct': 'Dicer', 'dataSup': dataSup });
+        setDataAlert({ 'title': localizer.diceTitle, 'message': localizer.diceMess, 'closeAlert': closeAlert, 'fct': 'Dicer', 'dataSup': {...dataSup, localizerAlert} });
     }; 
 
     const save = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': localizer.saveTitle, 'message': localizer.saveMess, 'closeAlert': closeAlert, 'fct': 'Saver', 'dataSup': dataSup });
+        setDataAlert({ 'title': localizer.saveTitle, 'message': localizer.saveMess, 'closeAlert': closeAlert, 'fct': 'Saver', 'dataSup': {...dataSup, localizerAlert} });
     }
 
     const changeBook = () => {
@@ -195,14 +196,14 @@ export default ({ navigation }) => {
 
                     <View style={styles.zone_livre}>
 
-                        <TextCustom text={` - ${inGameState.book} - `} size={2} italic />
+                        <TextCustom text={` - ${localize[lang].books[inGameState.book]} - `} size={2} italic />
 
                         <View style={{ width: 100 }}>
                             <Gradiator
                                 label={localizer.changeBook}
                                 fct={() => changeBook()}
                                 styleObject={{ width: '100%', height: 30 }}
-                                fSize={2}
+                                fSize={1}
                                 grCouleur={color.color}
                             />
                         </View>

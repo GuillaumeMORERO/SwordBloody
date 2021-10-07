@@ -10,7 +10,10 @@ import Styles from '../Styles';
 
 import Gradiator from '../Gradiator';
 
-export default ({ fct, slot }) => {
+export default ({ fct, slot, dataSup }) => {
+
+    const localizer = dataSup.localizer.forAlert;
+    const localizerBook = dataSup.localizer.books;
 
     const dispatch = useDispatch();
     const { slot1, slot2, slot3 } = useSelector((state) => state.SaveRedux);
@@ -57,7 +60,7 @@ export default ({ fct, slot }) => {
 
                 <View style={{ ...Styles.divider, marginVertical: 5 }}>
                     <View style={Styles.hrLine} />
-                    <TextCustom text='Equipe' size={3} bold />
+                    <TextCustom text={localizer.team} size={3} bold />
                     <View style={Styles.hrLine} />
                 </View>
 
@@ -77,7 +80,7 @@ export default ({ fct, slot }) => {
                                 }}>
                                     <TextCustom text={item.name} size={3} bold />
                                     <TextCustom text={item.classe} size={1} italic />
-                                    <TextCustom text={`niveau : ${item.level}`} size={1} bold />
+                                    <TextCustom text={`${localizer.level} : ${item.level}`} size={1} bold />
                                 </View>
                             )
 
@@ -87,31 +90,33 @@ export default ({ fct, slot }) => {
 
                 <View style={{ ...Styles.divider, marginVertical: 5 }}>
                     <View style={Styles.hrLine} />
-                    <TextCustom text='Livre' size={3} bold />
+                    <TextCustom text={localizer.book} size={3} bold />
                     <View style={Styles.hrLine} />
                 </View>
 
-                <TextCustom text={`"${currentSlot.book}",  paragraphe : ${currentSlot.paragraph}.`} size={1} italic />
+                <TextCustom text={`"${localizerBook[currentSlot.book]}",  ${localizer.section} : ${currentSlot.paragraph}.`} size={1} italic />
 
             </View>
 
             <View style={styles.choice}>
                 <Gradiator
-                    label="oui"
+                    label={dataSup.localizer.global.yes}
                     fct={() => load()}
                     styleObject={{ height: 40, width: '40%', margin: 10 }}
                     fSize={2}
+                    grCouleur={dataSup.color}
                 />
                 <Gradiator
-                    label="Non"
+                    label={dataSup.localizer.global.no}
                     fct={() => fct()}
                     styleObject={{ height: 40, width: '40%', margin: 10 }}
                     fSize={2}
+                    grCouleur={dataSup.color}
                 />
             </View>
 
             <View style={styles.choice}>
-                <TextCustom text={'Effacer cette sauvegarde ?'} size={1} italic />
+                <TextCustom text={localizer.deleteSlot} size={1} italic />
                 <TouchableHighlight
                     style={{ width: '25%'}}
                     onPress={() => supp()}

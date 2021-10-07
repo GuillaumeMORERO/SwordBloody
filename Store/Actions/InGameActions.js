@@ -49,8 +49,8 @@ export const addObject = (objet, persoId) => {
   return { type: ADD_OBJET, objet, persoId};
 };
 
-export const replaceBook = (book) => {
-  return { type: REPLACE_BOOK, book};
+export const replaceBook = (bookId) => {
+  return { type: REPLACE_BOOK, bookId};
 };
 
 export const modifCarac = (modif, persoId) => {

@@ -8,7 +8,7 @@ import Gradiator from '../Gradiator';
 import NoteItem from './NoteItem';
 
 export default ({fct, dataSup}) => {
-    
+
     const dispatch = useDispatch();
     const {inGameNotes} = useSelector((state) => state.InGameRedux);
 
@@ -37,7 +37,7 @@ export default ({fct, dataSup}) => {
             <View>
                 <TextInput
                     onChangeText={ e => setNote(e) }
-                    placeholder={'Ecrivez votre note ici'}
+                    placeholder={dataSup.localizerAlert.writeNote}
                     placeholderTextColor={"#FFD66F" }
                     textAlign={'center'}
                     style={{color: '#FFD66F'}}
@@ -45,10 +45,11 @@ export default ({fct, dataSup}) => {
             </View>
             <View>
                 <Gradiator
-                    label={'Valider'}
+                    label={dataSup.localizerAlert.validate}
                     fct={() => press()}
                     styleObject={{width: '80%', alignSelf:'center'}}
                     fSize={2}
+                    grCouleur={dataSup.color}
                 />
             </View>
         </View>

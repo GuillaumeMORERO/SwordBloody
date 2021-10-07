@@ -176,18 +176,9 @@ function inGameRedux(state = initialState, action) {
     }
 
     case REPLACE_BOOK: {
-      // let newteam = [];
-
-      // state.finalTeam.map(perso => {
-      //   let newPerso = perso;
-      //   perso.xp = Math.floor((1000 + parseInt(action.modif)) / state.finalTeam.length); //doit être divisé entre les perso vivants !!!
-      //   newteam.push(...newteam, newPerso);
-      // });
-
       return nextState = {
         ...state,
-        //finalTeam: newteam,
-        book: action.book.title
+        book: action.bookId
       }
     };
 

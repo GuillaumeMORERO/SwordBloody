@@ -24,7 +24,7 @@ export default ({fct, dataSup}) => {
                 <TextInput
                     onChangeText={ e => setPara(e) }
                     value={para}
-                    placeholder={'n° de paragraphe'}
+                    placeholder={dataSup.localizerAlert.numSection}
                     placeholderTextColor={"#FFD66F" }
                     keyboardType={'numeric'}
                     autoFocus={true}
@@ -34,10 +34,11 @@ export default ({fct, dataSup}) => {
             </View>
             <View>
                 <Gradiator
-                    label={'Valider'}
+                    label={dataSup.localizerAlert.validate}
                     fct={() => press()}
                     styleObject={{width: '100%'}}
                     fSize={2}
+                    grCouleur={dataSup.color}
                 />
             </View>
         </View>

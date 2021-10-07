@@ -34,7 +34,7 @@ export default ({perso, persoID,  navigation, nbr, dataSup, localizerSkills, loc
             <TouchableHighlight onPress={() => navigation.navigate("Skills", {perso, localizerSkills, dataSup})}>
                 <Image source={require('../../Helpers/IMG/capacite.png')} style={styles.icon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => navigation.navigate("Items", {'perso': perso, 'finalTeamLength': nbr, 'dataSup': dataSup, 'localizerItems': localizerItems})} >
+            <TouchableHighlight onPress={() => navigation.navigate("Items", {'perso': perso, 'persoID': perso.id, 'finalTeamLength': nbr, 'dataSup': dataSup, 'localizerItems': localizerItems})} >
                 <Image source={require('../../Helpers/IMG/inventaire.png')} style={styles.icon} />
             </TouchableHighlight>
         </View>

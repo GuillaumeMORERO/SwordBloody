@@ -297,7 +297,7 @@ export default (data) => {
                         />
                         <Gradiator
                             label={localizer.items}
-                            fct={() => data.navigation.navigate("Items", { 'perso': Perso, 'finalTeamLength': finalTeamLength, 'localizerItems': localizerItems, 'dataSup': dataSup })}
+                            fct={() => data.navigation.navigate("Items", { 'perso': Perso, 'persoID': Perso.id, 'finalTeamLength': finalTeamLength, 'localizerItems': localizerItems, 'dataSup': dataSup })}
                             styleObject={{ width: '40%' }}
                             fSize={2}
                             grCouleur={dataSup.color}

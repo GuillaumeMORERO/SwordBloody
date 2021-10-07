@@ -6,21 +6,11 @@ import { Picker } from '@react-native-picker/picker';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
-export default () => {
+export default ({dataSup}) => {
 
-    const [dice, setDice] = useState(2);
+    const [resultingLaunch, SetResultingLaunch] = useState([]);
     const [arrayOfDice, setArrayOfDice] = useState();
     const [displayed, setDisplayed] = useState(false);
-
-    const generateArray = () => {
-        let nbrs = []; let lance = 0;
-        while (lance < dice) {
-            lance++;
-            nbrs.push({ 'id': lance, 'value': Math.floor((Math.random() * 6) + 1) });
-        }
-        return nbrs
-
-    }
 
     const listGenerator = () => {
         let list = []; let min = 1; let max = 10;
@@ -30,26 +20,26 @@ export default () => {
         return list
     }
 
-    const launch = () => {
-        setArrayOfDice(generateArray());
+    const launch = (value) => {
+        let count = 0; let result = 0; let nbrs = [];
+        while (count < value) {
+            count++;
+            let dieResult = Math.floor((Math.random() * 6) + 1);
+            result = result + dieResult;
+            nbrs.push({ 'id': count, 'value': dieResult });
+        }
+        setArrayOfDice(nbrs);
+        SetResultingLaunch([value, result]);
         setDisplayed(true);
     }
 
-    const dieImg = item => {
-        if (item.value === 1) { return <Image style={styles.die} source={require('../../Helpers/IMG/die1.png')} /> };
-        if (item.value === 2) { return <Image style={styles.die} source={require('../../Helpers/IMG/die2.png')} /> };
-        if (item.value === 3) { return <Image style={styles.die} source={require('../../Helpers/IMG/die3.png')} /> };
-        if (item.value === 4) { return <Image style={styles.die} source={require('../../Helpers/IMG/die4.png')} /> };
-        if (item.value === 5) { return <Image style={styles.die} source={require('../../Helpers/IMG/die5.png')} /> };
-        if (item.value === 6) { return <Image style={styles.die} source={require('../../Helpers/IMG/die6.png')} /> };
-    }
-
-    const result = () => {
-        let total = 0;
-        arrayOfDice.forEach(element => {
-            total = total + element.value;
-        });
-        return total
+    const dieImg = value => {
+        if (value === 1) { return <Image style={styles.die} source={require('../../Helpers/IMG/die1.png')} /> };
+        if (value === 2) { return <Image style={styles.die} source={require('../../Helpers/IMG/die2.png')} /> };
+        if (value === 3) { return <Image style={styles.die} source={require('../../Helpers/IMG/die3.png')} /> };
+        if (value === 4) { return <Image style={styles.die} source={require('../../Helpers/IMG/die4.png')} /> };
+        if (value === 5) { return <Image style={styles.die} source={require('../../Helpers/IMG/die5.png')} /> };
+        if (value === 6) { return <Image style={styles.die} source={require('../../Helpers/IMG/die6.png')} /> };
     }
 
     const styles = StyleSheet.create({
@@ -61,7 +51,7 @@ export default () => {
         config: {
             flex: 1,
             width: '100%',
-            flexDirection: 'row',
+            // flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -71,18 +61,27 @@ export default () => {
         },
         one_die: {
             marginVertical: 2,
-            width: dice > 6 ? 30 : 50,
+            width:  30,
             justifyContent: 'center',
         },
         die: {
             resizeMode:'center',
-            width: dice > 6 ? 30 : 50,
+            width: 30,
         },
         result: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+        },
+        dice_btn: {
+            marginTop: 15,
+            // flex: 1,
+            width: '100%',
+            flexDirection: "row",
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: "wrap",
         },
     });
 
@@ -91,24 +90,24 @@ export default () => {
 
             <View style={styles.config}>
 
-                <TextCustom text={'Nombre de dé à lancer : '} size={2} />
-                <Picker
-                    selectedValue={dice}
-                    style={{ width: 80, height: 20, color: '#FFD66F' }}
-                    onValueChange={(itemValue, itemIndex) => setDice(itemValue)}
-                >
+                <TextCustom text={dataSup.localizerAlert.diceNumber} size={2} />
+
+                <View style={styles.dice_btn}>
                     {
                         listGenerator().map((nbr) => {
-                            return (<Picker.Item key={nbr.key} label={nbr.value.toString()} value={nbr.value} />)
+                            return (
+                                <Gradiator
+                                    key={nbr.key}
+                                    label={nbr.value}
+                                    fct={() => launch(nbr.value)}
+                                    styleObject={{ width: '18%', height: 30, marginLeft: 2, marginRight: 2 }}
+                                    fSize={2}
+                                    grCouleur={dataSup.color}
+                                />
+                            )
                         })
                     }
-                </Picker>
-                <Gradiator
-                    label={'Lancer'}
-                    fct={() => launch()}
-                    styleObject={{ width: '20%', height: 30 }}
-                    fSize={2}
-                />
+                </View>
 
             </View>
 
@@ -121,7 +120,7 @@ export default () => {
                         renderItem={({ item }) => {
                             return (
                                 <View style={styles.one_die}>
-                                    {dieImg(item)}
+                                    {dieImg(item.value)}
                                 </View>
                             )
                         }}
@@ -131,7 +130,7 @@ export default () => {
 
             <View style={styles.result}>
                 {displayed &&
-                    <TextCustom text={result()} size={40} bold />
+                    <TextCustom text={`${resultingLaunch[0]} ${dataSup.localizerAlert.diceLaunchResult} ${resultingLaunch[1]}`} size={3} bold />
                 }
 
             </View>

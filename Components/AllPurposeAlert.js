@@ -15,6 +15,7 @@ import Saver from './Compozans/Saver';
 import Loader from './Compozans/Loader';
 import Dicer from './Compozans/Dicer';
 import Xper from './Compozans/Xper';
+import Tooltiper from './Compozans/Tooltiper';
 
 export default ({title, message, closeAlert, fct = null, id=null, persoId=null, book=null, perso=null, slot=null, dataSup=null}) => {
     
@@ -25,7 +26,7 @@ export default ({title, message, closeAlert, fct = null, id=null, persoId=null, 
         if ((fct !== null) || (fct !== '')) {
             switch(fct) { 
                 case 'Reseter' : {return <Reseter fct={closeAlert}  dataSup={dataSup}/>};
-
+                case 'Tooltiper' : {return <Tooltiper fct={closeAlert}  dataSup={dataSup}/>};
                 case 'Paragrapher' : {return <Paragrapher fct={closeAlert} dataSup={dataSup}/>};
                 case 'Noter' : {return <Noter fct={closeAlert}  dataSup={dataSup}/>};
                 case 'Booker' : {return <Booker fct={closeAlert} book={book} dataSup={dataSup}/>};

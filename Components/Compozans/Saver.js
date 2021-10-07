@@ -7,7 +7,7 @@ import { manageState } from '../../Store/Actions/SaveActions';
 import Gradiator from '../Gradiator';
 import TextCustom from '../TexteCustom';
 
-export default ({ fct }) => {
+export default ({ fct, dataSup }) => {
 
     const dispatch = useDispatch();
     const gameState = useSelector((state) => state.InGameRedux);
@@ -48,12 +48,12 @@ export default ({ fct }) => {
 
             <View style={styles.container_sub}>
                 <Gradiator
-                    label={'Sauvegarde 1'}
+                    label={dataSup.localizerAlert.slotOne}
                     fct={() => manage('save', 1)}
                     styleObject={{ width: '50%', margin: 10 }}
                     fSize={2}
                     fCouleur={slot1.set ? 'grey' : '#FFD66F'}
-                    grCouleur={slot1.set ? 'grey' : '#rgba(255, 0, 0, 0.3)'}
+                    grCouleur={slot1.set ? 'grey' : dataSup.color}
                 />
                 <TouchableHighlight
                     style={{ width: '25%', opacity: opaciter(1) }}
@@ -66,12 +66,12 @@ export default ({ fct }) => {
 
             <View style={styles.container_sub}>
                 <Gradiator
-                    label={'Sauvegarde 2'}
+                    label={dataSup.localizerAlert.slotTwo}
                     fct={() => manage('save', 2)}
                     styleObject={{ width: '50%', margin: 10 }}
                     fSize={2}
                     fCouleur={slot2.set ? 'grey' : '#FFD66F'}
-                    grCouleur={slot2.set ? 'grey' : '#rgba(255, 0, 0, 0.3)'}
+                    grCouleur={slot2.set ? 'grey' : dataSup.color}
                 />
                 <TouchableHighlight
                     style={{ width: '25%', opacity: opaciter(2) }}
@@ -84,12 +84,12 @@ export default ({ fct }) => {
 
             <View style={styles.container_sub}>
                 <Gradiator
-                    label={'Sauvegarde 3'}
+                    label={dataSup.localizerAlert.slotThree}
                     fct={() => manage('save', 3)}
                     styleObject={{ width: '50%', margin: 10 }}
                     fSize={2}
                     fCouleur={slot3.set ? 'grey' : '#FFD66F'}
-                    grCouleur={slot3.set ? 'grey' : '#rgba(255, 0, 0, 0.3)'}
+                    grCouleur={slot3.set ? 'grey' : dataSup.color}
                 />
                 <TouchableHighlight
                     style={{ width: '25%', opacity: opaciter(3) }}

@@ -6,7 +6,7 @@ import { suppObjet } from '../../Store/Actions/InGameActions';
 
 import Gradiator from '../Gradiator';
 
-export default ({ fct, id, persoId, dataSupp }) => {
+export default ({ fct, id, persoId, dataSup }) => {
 
     const dispatch = useDispatch();
 
@@ -18,16 +18,18 @@ export default ({ fct, id, persoId, dataSupp }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Gradiator
-                label={'Oui'}
+                label={dataSup.localizerItems.yes}
                 fct={() => press()}
                 styleObject={{ width: '50%', marginHorizontal: 10 }}
                 fSize={2}
+                grCouleur={dataSup.color}
             />
             <Gradiator
-                label={'Non'}
+                label={dataSup.localizerItems.no}
                 fct={() => fct()}
                 styleObject={{ width: '50%', marginHorizontal: 10 }}
                 fSize={2}
+                grCouleur={dataSup.color}
             />
         </View>
     )

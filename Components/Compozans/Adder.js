@@ -10,7 +10,7 @@ import TextCustom from '../TexteCustom';
 import { random } from '../../Helpers/Logic';
 import Styles from '../Styles';
 
-export default ({ fct, persoId }) => {
+export default ({ fct, persoId, dataSup }) => {
 
     const dispatch = useDispatch();
     const [newObject, setNewObject] = useState({
@@ -58,7 +58,7 @@ export default ({ fct, persoId }) => {
         if (isEnabled) {
             return (
                 <View>
-                    <TextCustom text={'Choisissez une quantité'} size={1} />
+                    <TextCustom text={dataSup.localizerItems.chooseQty} size={1} />
                     <Picker
                         selectedValue={use}
                         style={{ width: 150, color: '#FFD66F', }}
@@ -97,7 +97,7 @@ export default ({ fct, persoId }) => {
 
             <View style={styles.ligne}>
                 <View style={styles.txt}>
-                    <TextCustom text={'Choisissez un type d\'objet :'} size={2} italic />
+                    <TextCustom text={dataSup.localizerItems.chooseType} size={2} italic />
                 </View>
 
                 <View style={{ width: '50%', alignSelf: 'center' }}>
@@ -106,9 +106,9 @@ export default ({ fct, persoId }) => {
                         style={{ width: 100, color: '#FFD66F', }}
                         onValueChange={(itemValue, itemIndex) => press('type', itemValue)}
                     >
-                        <Picker.Item label={'Objet'} value={'objet'} />
-                        <Picker.Item label={'Arme'} value={'arme'} />
-                        <Picker.Item label={'Armure'} value={'armure'} />
+                        <Picker.Item label={dataSup.localizerItems.type1} value={'objet'} />
+                        <Picker.Item label={dataSup.localizerItems.type2} value={'arme'} />
+                        <Picker.Item label={dataSup.localizerItems.type3} value={'armure'} />
                     </Picker>
                 </View>
             </View>
@@ -117,12 +117,12 @@ export default ({ fct, persoId }) => {
 
             <View style={styles.ligne}>
                 <View style={styles.txt}>
-                    <TextCustom text={'Saisissez un nom'} size={2} italic />
+                    <TextCustom text={dataSup.localizerItems.typeName} size={2} italic />
                 </View>
                 <TextInput
                     onChangeText={e => press('name', e)}
                     value={name}
-                    placeholder={'nom'}
+                    placeholder={dataSup.localizerItems.namePlaceholder}
                     placeholderTextColor="#FFD66F"
                     maxLength={20}
                     textAlign={'center'}
@@ -134,12 +134,12 @@ export default ({ fct, persoId }) => {
 
             <View style={styles.ligne}>
                 <View style={styles.txt}>
-                    <TextCustom text={'Saisissez une descritption (facultatif)'} size={2} italic />
+                    <TextCustom text={dataSup.localizerItems.typeDescr} size={2} italic />
                 </View>
                 <TextInput
                     onChangeText={e => press('descr', e)}
                     value={descr}
-                    placeholder={'descritption'}
+                    placeholder={dataSup.localizerItems.descrPlaceholder}
                     placeholderTextColor="#FFD66F"
                     textAlign={'center'}
                     style={{ color: '#FFD66F' }}
@@ -149,9 +149,9 @@ export default ({ fct, persoId }) => {
             <View style={Styles.hrLine} />
 
             <View style={{ ...styles.ligne, flexDirection: 'row', justifyContent: 'space-between' }}>
-                <TextCustom text={'Quantité utilisable ?'} size={2} italic />
+                <TextCustom text={dataSup.localizerItems.usingQty} size={2} italic />
                 <Switch
-                    trackColor={{ false: "#rgba(255, 0, 0, 0.3)", true: "#rgba(255, 0, 0, 0.6)" }}
+                    trackColor={{ false: dataSup.color, true: dataSup.colorFull }}
                     thumbColor={'#FFD66F'}
                     onValueChange={() => setIsEnabled(!isEnabled)}
                     value={isEnabled}
@@ -160,10 +160,11 @@ export default ({ fct, persoId }) => {
             {displayer()}
 
             <Gradiator
-                label={'Valider'}
+                label={dataSup.localizerItems.validate}
                 fct={() => validation()}
                 styleObject={{ width: '80%', alignSelf: 'center' }}
                 fSize={2}
+                grCouleur={dataSup.color}
             />
 
         </ScrollView>
