@@ -177,6 +177,7 @@ export const localize = {
             book: 'Livre',
             section: 'Paragraphe',
             deleteSlot: 'Effacer cette sauvgarde ?',
+            characters: 'Personnage(s)'
         }
     },
     en: {
@@ -357,6 +358,7 @@ export const localize = {
             book: 'Book',
             section: 'Section',
             deleteSlot: 'Delete this slot ?',
+            characters: 'Character(s)'
         }
     }
     

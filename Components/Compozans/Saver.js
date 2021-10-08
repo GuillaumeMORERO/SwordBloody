@@ -19,7 +19,6 @@ export default ({ fct, dataSup }) => {
     }
 
     const opaciter = (slot) => {
-       
         if (slot === 1) { return slot1.set ? 1 : 0.3; };
         if (slot === 2) { return slot2.set ? 1 : 0.3; };
         if (slot === 3) { return slot3.set ? 1 : 0.3; };
@@ -62,7 +61,7 @@ export default ({ fct, dataSup }) => {
                     <Image source={require('../../Helpers/IMG/supp.png')} style={styles.icon} />
                 </TouchableHighlight>
             </View>
-            { slot1.set && <TextCustom text={`${slot1.team.length} personnage(s), "${slot1.book}", paragraphe : ${slot1.paragraph}.`} size={1} italic /> }
+            { slot1.set && <TextCustom text={`${slot1.team.length} ${dataSup.localizerAlert.characters}, "${dataSup.localizeBook[slot1.book]}", ${dataSup.localizerAlert.section} : ${slot1.paragraph}.`} size={1} italic /> }
 
             <View style={styles.container_sub}>
                 <Gradiator
@@ -80,7 +79,7 @@ export default ({ fct, dataSup }) => {
                     <Image source={require('../../Helpers/IMG/supp.png')} style={styles.icon} />
                 </TouchableHighlight>
             </View>
-            { slot2.set && <TextCustom text={`${slot2.team.length} personnage(s), "${slot2.book}", paragraphe : ${slot2.paragraph}.`} size={1} italic /> }
+            { slot2.set && <TextCustom text={`${slot2.team.length} ${dataSup.localizerAlert.characters}, "${dataSup.localizeBook[slot2.book]}", ${dataSup.localizerAlert.section} : ${slot2.paragraph}.`} size={1} italic /> }
 
             <View style={styles.container_sub}>
                 <Gradiator
@@ -98,7 +97,7 @@ export default ({ fct, dataSup }) => {
                     <Image source={require('../../Helpers/IMG/supp.png')} style={styles.icon} />
                 </TouchableHighlight>
             </View>
-            { slot3.set && <TextCustom text={`${slot3.team.length} personnage(s), "${slot3.book}", paragraphe : ${slot3.paragraph}.`} size={1} italic /> }
+            { slot3.set && <TextCustom text={`${slot3.team.length} ${dataSup.localizerAlert.characters}, "${dataSup.localizeBook[slot2.book]}", ${dataSup.localizerAlert.section} : ${slot3.paragraph}.`} size={1} italic /> }
 
         </View>
 

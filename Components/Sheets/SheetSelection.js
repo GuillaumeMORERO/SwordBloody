@@ -25,6 +25,7 @@ export default ({ navigation }) => {
     const localizerSkills = localize[lang].skills;
     const localizerItems = localize[lang].items;
     const localizerAlert = localize[lang].forAlert;
+    const localizeBook = localize[lang].books;
 
     const labelPara = () => { return (inGameState.paragraph !== '') ? `n° ${inGameState.paragraph}` : localizer.sectionLabel; };
     const labelNote = () => { return (inGameState.inGameNotes.length > 0) ? `${inGameState.inGameNotes.filter(elm => elm.show).length} ${localizer.noteLabel}` : localizer.noteLabel; };
@@ -50,7 +51,7 @@ export default ({ navigation }) => {
     const save = () => {
         fadeIn();
         setDisplay(true);
-        setDataAlert({ 'title': localizer.saveTitle, 'message': localizer.saveMess, 'closeAlert': closeAlert, 'fct': 'Saver', 'dataSup': {...dataSup, localizerAlert} });
+        setDataAlert({ 'title': localizer.saveTitle, 'message': localizer.saveMess, 'closeAlert': closeAlert, 'fct': 'Saver', 'dataSup': {...dataSup, localizerAlert, localizeBook} });
     }
 
     const changeBook = () => {
