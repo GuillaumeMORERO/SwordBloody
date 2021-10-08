@@ -177,7 +177,9 @@ export const localize = {
             book: 'Livre',
             section: 'Paragraphe',
             deleteSlot: 'Effacer cette sauvgarde ?',
-            characters: 'Personnage(s)'
+            characters: 'Personnage(s)',
+            closingApp: 'Fermeture de l\'application',
+            closingAppMess: 'Voulez-vous partir des Terres de Legendes ?',
         }
     },
     en: {
@@ -358,7 +360,9 @@ export const localize = {
             book: 'Book',
             section: 'Section',
             deleteSlot: 'Delete this slot ?',
-            characters: 'Character(s)'
+            characters: 'Character(s)',
+            closingApp: 'Close application ?',
+            closingAppMess: 'Do you want to leave Blood Sword ?',
         }
     }
     
