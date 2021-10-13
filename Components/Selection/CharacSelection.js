@@ -54,9 +54,9 @@ export default (data) => {
             </Pressable>
 
             <View style={Styles.divider}>
-                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                <View style={{...Styles.hrLine, backgroundColor: colorFull}} />
                 <TextCustom text={localize[lang].selection.characSelect} size={4} bold />
-                <View style={{...Styles.hrLine, backgroundColor: color.colorFull}} />
+                <View style={{...Styles.hrLine, backgroundColor: colorFull}} />
             </View>
 
             <View style={styles.scrollview}>
